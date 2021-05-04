@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <!--
+        <link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/CSS/base.css"/>
+        <link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/CSS/login.css" />
+        <link rel="shortcut icon" type="image/x-icon" href="#{facesContext.externalContext.requestContextPath}/resources/Images/error_icon.ico"/>
+        -->
+        <title>Error 404</title>
+    </h:head>
+    <h:body>
+
+            <span style="text-align: center;">
+                <h:messages id="msjLogin" class="error" />
+            </span>            
+            <div id="linea" class="fondo-azul">
+                <div id="titulo" class="fondo-azul">
+                    <img height="80px" src="#{facesContext.externalContext.requestContextPath}/resources/images/error.png"/><br/>
+                    <b>Pagina No Encontrada</b>
+                </div>
+                <div id="contenedor" >
+                    <h:outputText class="output" value="Error 404" />
+                    <h:outputText class="output" value="La pagina a la que intenta acceder no esta disponible." /> 
+                </div>
+            </div>
+        <meta http-equiv="refresh" content="10;url=#{facesContext.externalContext.requestContextPath}/index.xhtml"></meta>
+    </h:body>
+</html>
+

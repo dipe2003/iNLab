@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../index.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="page_content">
+
+        <h:form id="form-lista-usuarios">
+
+            <h:outputText value="Lista de Usuarios" /> 
+            <hr/>  
+
+            <h:panelGrid id="panel-mensajes">
+                <h:message for="botonEliminar" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="botonDarBajaUsuario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="botonDarAltaUsuario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </h:panelGrid>
+
+            <fieldset class="panel-superior-botones">
+                <legend>Filtros: </legend>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Buscar:</th>
+                            <th>Permiso:</th>
+                            <th>Vigencia: </th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span><h:inputText value="#{listaDeUsuarios.nombreBuscar}" id="nombre-usuario-buscar"/></span>
+                                <span><h:commandButton value="Buscar" action="#{listaDeUsuarios.botonBuscarNombre(listaDeUsuarios.nombreBuscar)}" class="boton-generico" >
+                                        <f:ajax execute="@this nombre-usuario-buscar" render="panel-lista-usuarios paginator panel-tipo-usuario-mostrar panel-vigencia-mostrar" 
+                                                onevent="indicador"  />
+                                    </h:commandButton>
+                                </span>
+                            </td>
+
+                            <td>
+                                <span>
+                                    <h:panelGroup  id="panel-tipo-usuario-mostrar">
+                                        <h:selectOneRadio value="#{listaDeUsuarios.tipoUsuarioSeleccionado}" title="Tipo" >
+                                            <f:selectItems value="#{listaDeUsuarios.permisos}" var="permiso" itemValue="#{permiso}" />
+                                            <f:ajax execute="@this" render="panel-lista-usuarios paginator panel-tipo-usuario-mostrar panel-vigencia-mostrar" 
+                                                    listener="#{listaDeUsuarios.botonFiltrarTipo(listaDeUsuarios.tipoUsuarioSeleccionado)}" onevent="indicador" />
+                                        </h:selectOneRadio>
+                                    </h:panelGroup>
+                                </span>
+                            </td>
+
+                            <td>
+                                <h:panelGroup  id="panel-vigencia-mostrar">
+                                    <h:selectOneRadio value="#{listaDeUsuarios.vigenciaSeleccionada}" title="Tipo" >                          
+                                        <f:selectItem itemValue="Todas" itemLabel="Todas" />
+                                        <f:selectItem itemValue="Vigentes"  itemLabel="Vigente"/>
+                                        <f:selectItem itemValue="No_Vigentes" itemLabel="No Vigente" />
+                                        <f:ajax execute="@this" render="panel-lista-usuarios paginator panel-tipo-usuario-mostrar panel-vigencia-mostrar" 
+                                                listener="#{listaDeUsuarios.botonFiltrarVigencia(listaDeUsuarios.vigenciaSeleccionada)}" onevent="indicador" />
+                                    </h:selectOneRadio>
+                                </h:panelGroup>
+                            </td>
+                            <td>
+                                <span><h:commandButton value="Reset" action="#{listaDeUsuarios.botonResetTodo()}" class="boton-generico boton-cancelar">
+                                        <f:ajax execute="@this" render="paginator nombre-usuario-buscar panel-tipo-usuario-mostrar panel-lista-usuarios panel-vigencia-mostrar" />
+                                    </h:commandButton>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>                
+            </fieldset>
+
+            <h:panelGroup id="panel-lista-usuarios">
+
+                <h:dataTable var="usuario" value="#{listaDeUsuarios.dicPaginas.get(listaDeUsuarios.paginaActual)}" border="1" class="tabla-principal encabezado-listados contenido-listados">
+
+                    <h:column >                
+                        <f:facet name="header">Nombre</f:facet>
+                        <h:outputText value="${usuario.nombre}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Permiso</f:facet>
+                        <h:outputText value="${usuario.tipo}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Vigencia</f:facet>
+                        <h:outputText value="Activo" rendered="${usuario.fechaObsoleto == null}" />
+                        <h:outputText value="Dado de Baja (${usuario.fechaObsoleto})" rendered="${usuario.fechaObsoleto != null}" />
+                    </h:column>
+
+                    <h:column rendered="${sesionDeUsuario.usuarioLogueado!=null and sesionDeUsuario.tipoUsuario !='Monitor'}">
+                        <f:facet name="header">Acciones</f:facet>
+                        <div class="dropdown">
+                            <button class="dropdown-toggle boton-generico" data-toggle="dropdown" ><span>...</span>
+                                <span class="caret"></span></button>
+                            <ul class="dropdown-menu custom-menu">
+                                <li>
+                                    <h:link value="Editar" outcome="editarusuario.xhtml?iduser=${usuario.id}" />
+                                </li>
+                                <li>
+                                    <h:commandLink  onclick="if (!confirm('Esta seguro que quiere dar de baja este Usuario?'))
+                                                return false"
+                                                    action="${listaDeUsuarios.darBaja(usuario.id)}" 
+                                                    rendered="${usuario.vigente == 'true' and
+                                                                sesionDeUsuario.tipoUsuario == 'Administrador' || 
+                                                                sesionDeUsuario.tipoUsuario == 'Verificador'}"
+                                                    id="botonDarBajaUsuario"
+                                                    value="Dar de Baja">
+                                        <f:ajax  delay="100" onevent="indicador" />
+                                    </h:commandLink> 
+                                    <h:commandLink  onclick="if (!confirm('Esta seguro que quiere dar de alta este Usuario?'))
+                                                return false"
+                                                    action="${listaDeUsuarios.restaurar(usuario.id)}" 
+                                                    rendered="${usuario.vigente == 'false' and
+                                                                sesionDeUsuario.tipoUsuario == 'Administrador' || 
+                                                                sesionDeUsuario.tipoUsuario == 'Verificador'}"
+                                                    id="botonDarAltaUsuario"
+                                                    value="Restaurar">
+                                        <f:ajax  delay="100" onevent="indicador" />
+                                    </h:commandLink> 
+                                </li>
+                            </ul>
+                        </div> 
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+
+            <h:panelGroup id="paginator">
+                <div class="panel-inferior-botones">
+                    <span>Pagina:</span>
+                    <span>
+                        <h:selectOneMenu value="#{listaDeUsuarios.paginaActual}" >
+                            <f:selectItems value="#{listaDeUsuarios.listaPaginas}" />
+                            <f:ajax execute="@this" render="panel-lista-usuarios" onevent="indicador" />
+                        </h:selectOneMenu>
+                    </span><span> / ${listaDeUsuarios.totalPaginas}</span>
+                </div>
+            </h:panelGroup>
+            <div class="panel-inferior-botones">
+                <h:commandButton value="Imprimir Listado" action="#" onclick="indicador()"
+                                 class="boton-generico boton-aceptar"/>
+            </div>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

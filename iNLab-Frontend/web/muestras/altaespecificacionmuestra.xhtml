@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../index.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="page_content">           
+        <h:outputLabel value="Alta de Especificacion de Muestra" />
+        <h:form id="frm-main">
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Tipo de Muestra" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:selectOneRadio id="select-tipomuestra" value="#{altaDeEspecificacionMuestra.tipoMuestraSeleccionada}" >
+                            <f:selectItems value="#{altaDeEspecificacionMuestra.tiposMuestra}" var="tipo"  itemValue="#{tipo}"  />
+                            <f:ajax execute="@this" onevent="indicador" /> 
+                        </h:selectOneRadio>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Denominacion" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:inputText id="denominacion" value="#{altaDeEspecificacionMuestra.denominacion}" >
+                            <f:ajax execute="@this" /> 
+                        </h:inputText>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Identificacion" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:inputText id="identificacion" value="#{altaDeEspecificacionMuestra.identificacion}" >
+                            <f:ajax execute="@this" />
+                        </h:inputText>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Area" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:selectOneMenu id="select-area" value="#{altaDeEspecificacionMuestra.areaSeleccionada}">
+                            <f:selectItems value="#{altaDeEspecificacionMuestra.areas}" var="area" itemLabel="#{area.nombre}" itemValue="#{area.id}" />                            
+                            <f:ajax execute="@this" event="change" onevent="indicador" />
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Destino" />
+                    </div>
+                </div>             
+                <div class="p-col">
+                    <div class="box">
+                        <h:selectOneMenu id="select-destino" value="#{altaDeEspecificacionMuestra.destinoSeleccionado}">
+                            <f:selectItems value="#{altaDeEspecificacionMuestra.destinos}" var="destino" itemLabel="#{destino.denominacion}" itemValue="#{destino.id}" />                            
+                            <f:ajax execute="@this" />
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+
+            <h:commandButton action="#{altaDeEspecificacionMuestra.darAltaMuestra}" value="Dar Alta" class="boton-generico boton-aceptar">
+                <f:ajax  delay="100" />
+            </h:commandButton>
+        </h:form>
+    </ui:define>
+</ui:composition>

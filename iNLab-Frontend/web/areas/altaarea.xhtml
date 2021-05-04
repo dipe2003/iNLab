@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../index.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="page_content">      
+        <h:outputLabel value="Alta de Area" />
+        <h:form id="frm-alta-area" >
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Nombre"/>                        
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:inputText id="nombreArea" value="#{altaDeArea.nombre}"/>                        
+                    </div>
+                    <h:message for="nombreArea" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                </div>
+
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Es Productiva" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:selectBooleanCheckbox value="#{altaDeArea.productiva}"/>
+                    </div>
+                </div>
+            </div>  
+            <div>
+                <h:commandButton id="botonAltaArea" value="Dar de Alta" action="#{altaDeArea.darAltaArea()}" class="boton-generico boton-aceptar" />
+            </div>
+            <div>
+                <h:message for="botonAltaArea" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </div>            
+        </h:form>
+    </ui:define>
+</ui:composition>
+

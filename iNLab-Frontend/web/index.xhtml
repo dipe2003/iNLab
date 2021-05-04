@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>iNLab - Principal</title>
+        <link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/css/headerstyle.css"/>
+        <link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/css/estilo.css"/>
+        <link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/scripts/bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/css/cargando.css"/>
+        <link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/scripts/jquery-ui-1.12.1.custom/jquery-ui.css"/>
+        <link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/css/mensajes.css"/>
+        <script src="#{facesContext.externalContext.requestContextPath}/resources/scripts/jquery/jquery-1.11.3.min.js"/>
+        <script src="#{facesContext.externalContext.requestContextPath}/resources/scripts/jquery-ui-1.12.1.custom/jquery-ui.min.js"/>
+        <script src="#{facesContext.externalContext.requestContextPath}/resources/scripts/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>        
+        <script src="#{facesContext.externalContext.requestContextPath}/resources/scripts/indicadorCarga.js"/>
+        <script src="#{facesContext.externalContext.requestContextPath}/resources/scripts/chartsjs/chart.js"/>
+        <script src="#{facesContext.externalContext.requestContextPath}/resources/scripts/chartsjs/chart.min.js"/>
+        <script src="#{facesContext.externalContext.requestContextPath}/resources/scripts/datepicker/datepicker.js"/>
+
+    </h:head>
+    <h:body>
+        <div id="loading-container" class="contenedor-carga" >
+            <div class="carga">
+                <img height="100px" src="#{facesContext.externalContext.requestContextPath}/resources/images/loading-wheel.gif"/>
+                <div>Cargando...</div>
+            </div>
+        </div>
+        <div id="loading" class="carga" style="display: none;">
+            <img height="100px" src="#{facesContext.externalContext.requestContextPath}/resources/images/loading-wheel.gif"/>
+            <div>Cargando...</div>
+        </div>
+
+        <div style="position: fixed;z-index: 999; width: 100%">
+            <ui:include src="header.xhtml"/>
+        </div>
+        <div style="position: relative; top: 130px; left: 1%">
+            <ui:insert name="page_content">
+                <div >   
+                    <span>
+                        <fieldset title="Por Tipo">
+
+                        </fieldset>
+                    </span>
+                    <span>
+                        <fieldset title="Por Area">
+
+                        </fieldset>
+                    </span>
+                    <span>
+                        <fieldset title="Por Destino">
+
+                        </fieldset>
+
+                    </span>
+                </div>
+            </ui:insert>
+        </div>
+    </h:body>
+</html>
+

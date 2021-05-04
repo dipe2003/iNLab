@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../index.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="page_content">       
+        <h:outputLabel value="Alta de Usuario" />
+        <h:form id="form-alta-usuario">
+            <h:panelGrid id="panel-mensajes">
+                <h:message for="select-tipo" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="nombre-usuario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="input-password" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="input-repeticion-password" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="botonAltaUsuario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+             </h:panelGrid>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel>Nombre</h:outputLabel> 
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:inputText id="nombre-usuario" value="#{altaDeUsuario.nombre}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel>Permiso</h:outputLabel> 
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:selectOneMenu id="select-tipo" value="#{altaDeUsuario.permisoSeleccionado}">
+                            <f:selectItem noSelectionOption="true" itemLabel="--- Seleccionar Persmiso ---" itemValue="#{null}" />
+                            <f:selectItems value="#{altaDeUsuario.permisos}" />
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel>Password</h:outputLabel> 
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:inputSecret id="input-password" value="#{altaDeUsuario.password}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel>Repetir Password</h:outputLabel> 
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:inputSecret id="input-repeticion-password" value="#{altaDeUsuario.repeticionPassword}"/>
+                    </div>
+                </div>
+            </div>
+            <h:commandButton id="botonAltaUsuario" value="Dar de Alta" action="#{altaDeUsuario.darAltaUsuario}" class="boton-generico boton-aceptar" >
+                <f:ajax execute="@all" render="panel-mensajes" onevent="indicador" />
+            </h:commandButton>
+        </h:form>
+    </ui:define>
+</ui:composition>

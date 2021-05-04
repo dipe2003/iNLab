@@ -1,0 +1,312 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../index.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="page_content">    
+        <h:form id="form-lista-especificaciones">
+            <h:outputText value="Lista de Muestras" />
+            <hr/>
+            <h:panelGrid id="panel-mensajes">
+                <h:message for="botonEliminar" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="botonDarBajaMuestra" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="botonDarAltaMuestra" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </h:panelGrid>
+            <fieldset class="panel-superior-botones">
+                <legend>Filtros: </legend>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Nombre:</th>
+                            <th>Destino:</th>
+                            <th>Area:</th>
+                            <th>Identificacion:</th>
+                            <th>Vigencia: </th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span><h:inputText value="#{listaDeEspecificacionesMuestras.nombreBuscar}" id="nombre-muestra-buscar"/></span>
+                                <span><h:commandButton value="Buscar" action="#{listaDeEspecificacionesMuestras.botonBuscarNombre(listaDeEspecificacionesMuestras.nombreBuscar)}" class="boton-generico" >
+                                        <f:ajax execute="@this nombre-muestra-buscar" render="panel-lista-especificaciones paginator panel-vigencia-mostrar panel-filtrar-destinos panel-filtrar-areas" onevent="indicador"  />
+                                    </h:commandButton>
+                                </span>
+                            </td>
+
+                            <td> 
+                                <span>
+                                    <h:panelGroup  id="panel-filtrar-destino">
+                                        <div class="dropdown">
+                                            <button type="button" class="dropdown-toggle boton-generico" data-toggle="dropdown">Destinos</button> 
+                                            <div class="dropdown-menu custom-menu">
+                                                <h:panelGroup id="panel-check-destinos">
+                                                    <h:selectManyCheckbox value="#{listaDeEspecificacionesMuestras.destinosSeleccionados}"  layout="pageDirection"  >
+                                                        <f:selectItems value="#{listaDeEspecificacionesMuestras.destinosDispobibles}" var="destino" 
+                                                                       itemValue="#{destino.id}" itemLabel="#{destino.denominacion}" /> 
+                                                        <f:ajax execute="@this" />
+                                                    </h:selectManyCheckbox>
+                                                </h:panelGroup>
+                                                <div class="dropdown-item" style="text-align: center">
+                                                    <span>
+                                                        <h:commandButton class="boton-generico" value="Todas" action="#{listaDeEspecificacionesMuestras.resetDestinos()}">
+                                                            <f:ajax execute="@this" onevent="indicador"
+                                                                    render="panel-check-destinos"/>
+                                                        </h:commandButton>           
+                                                    </span>
+                                                    <span>
+                                                        <h:commandButton class="boton-generico" value="Ninguno" action="#{listaDeEspecificacionesMuestras.vaciarDestinos()}">
+                                                            <f:ajax execute="@this" onevent="indicador"
+                                                                    render="panel-check-destinos"/>
+                                                        </h:commandButton>           
+                                                    </span>
+                                                    <span>
+                                                        <h:commandButton class="boton-generico" value="filtrar" action="#{listaDeEspecificacionesMuestras.botonFiltrarDestinos()}">
+                                                            <f:ajax execute="@this panel-filtrar-destino" onevent="indicador"
+                                                                    render="panel-lista-especificaciones paginator panel-vigencia-mostrar panel-filtrar-destino panel-filtrar-areas"/>
+                                                        </h:commandButton>   
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </h:panelGroup>
+                                </span>
+                            </td>
+                            <td><span>
+                                    <h:panelGroup  id="panel-filtrar-areas">
+                                        <div class="dropdown">
+                                            <button type="button" class="dropdown-toggle boton-generico" data-toggle="dropdown">Areas</button> 
+                                            <div class="dropdown-menu custom-menu">
+                                                <h:panelGroup id="panel-check-areas">
+                                                    <h:selectManyCheckbox value="#{listaDeEspecificacionesMuestras.areasSeleccionadas}"  layout="pageDirection"  >
+                                                        <f:selectItems value="#{listaDeEspecificacionesMuestras.areasDisponibles}" var="area" 
+                                                                       itemValue="#{area.id}" itemLabel="#{area.nombre}" />                                                        
+                                                        <f:ajax execute="@this" />
+                                                    </h:selectManyCheckbox>
+                                                </h:panelGroup>
+                                                <div class="dropdown-item" style="text-align: center">
+                                                    <span>
+                                                        <h:commandButton class="boton-generico" value="Todas" action="#{listaDeEspecificacionesMuestras.resetAreas()}">
+                                                            <f:ajax execute="@this" onevent="indicador"
+                                                                    render="panel-check-areas"/>
+                                                        </h:commandButton>           
+                                                    </span>
+                                                    <span>
+                                                        <h:commandButton class="boton-generico" value="Ninguna" action="#{listaDeEspecificacionesMuestras.vaciarAreas()}">
+                                                            <f:ajax execute="@this" onevent="indicador"
+                                                                    render="panel-check-areas"/>
+                                                        </h:commandButton>           
+                                                    </span>
+                                                    <span>
+                                                        <h:commandButton class="boton-generico" value="Filtrar" action="#{listaDeEspecificacionesMuestras.botonFiltrarAreas()}">
+                                                            <f:ajax execute="@this panel-filtrar-areas" onevent="indicador"
+                                                                    render="panel-lista-especificaciones paginator panel-vigencia-mostrar panel-filtrar-destino  panel-filtrar-areas"/>
+                                                        </h:commandButton>           
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </h:panelGroup>
+                                </span>
+                            </td>
+
+                            <td><span><h:inputText value="#{listaDeEspecificacionesMuestras.nombreBuscar}" id="identificacion-muestra-buscar"/></span>
+                                <span><h:commandButton value="Buscar" action="#{listaDeEspecificacionesMuestras.botonBuscarNombre(listaDeEspecificacionesMuestras.nombreBuscar)}" 
+                                                       class="boton-generico" >
+                                        <f:ajax execute="@this identificacion-muestra-buscar" render="panel-lista-especificaciones paginator panel-vigencia-mostrar" onevent="indicador"  />
+                                    </h:commandButton>
+                                </span>
+                            </td>
+
+                            <td>
+                                <h:panelGroup  id="panel-vigencia-mostrar">
+                                    <h:selectOneRadio value="#{listaDeEspecificacionesMuestras.vigenciaSeleccionada}" title="Tipo" >                          
+                                        <f:selectItem itemValue="Todas" itemLabel="Todas" />
+                                        <f:selectItem itemValue="Vigentes"  itemLabel="Vigente"/>
+                                        <f:selectItem itemValue="No_Vigentes" itemLabel="No Vigente" />
+                                        <f:ajax execute="@this" render="panel-lista-especificaciones paginator panel-vigencia-mostrar" 
+                                                listener="#{listaDeEspecificacionesMuestras.botonFiltrarVigencia(listaDeEspecificacionesMuestras.vigenciaSeleccionada)}"
+                                                onevent="indicador" />
+                                    </h:selectOneRadio>
+                                </h:panelGroup>
+                            </td>
+                            <td>
+                                <span><h:commandButton value="Reset" action="#{listaDeEspecificacionesMuestras.botonResetTodo()}" class="boton-generico boton-cancelar">
+                                        <f:ajax execute="@this" render="paginator nombre-muestra-buscar panel-lista-especificaciones panel-vigencia-mostrar 
+                                                panel-filtrar-destino panel-filtrar-areas" />
+                                    </h:commandButton>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>                
+            </fieldset>
+
+            <h:panelGroup id="panel-lista-especificaciones">
+                <div>
+                    <h:outputText value="No Hay Registros." rendered="${listaDeEspecificacionesMuestras.dicPaginas.keySet().size() == 0}" />
+                </div>
+                <h:dataTable var="muestra" value="${listaDeEspecificacionesMuestras.dicPaginas.get(listaDeEspecificacionesMuestras.paginaActual)}" border="1" 
+                             class="tabla-principal  encabezado-listados contenido-listados" rendered="${listaDeEspecificacionesMuestras.dicPaginas.keySet().size() > 0}">                
+
+                    <h:column>
+                        <f:facet name="header">Nombre</f:facet>
+                        <h:outputText value="${muestra.denominacion}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Destino</f:facet>
+                        <h:outputText value="${muestra.destino.denominacion}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Area</f:facet>
+                        <h:outputText value="${muestra.area.nombre}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Identificacion</f:facet>
+                        <h:outputText value="${muestra.identificacion}" />
+                    </h:column>
+
+                    <h:column rendered="#{listaDeEspecificacionesMuestras.tipoSeleccionado == 'Todas'}">
+                        <f:facet name="header">Tipo</f:facet>
+                        <h:outputText value="${muestra.tipoMuestra}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Vigencia</f:facet>
+                        <h:outputText value="Activa" rendered="${muestra.fechaObsoleto == null}" />
+                        <h:outputText value="Dada de Baja (${muestra.fechaObsoleto})" rendered="${muestra.fechaObsoleto != null}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Requisitos</f:facet>
+                        <h:outputText value="Sin Definir" rendered="${muestra.destino.requisitos.size() le 0}"/>
+                        <h:dataTable var="requisito" value="${muestra.destino.requisitos}" border="1" rendered="${muestra.destino.requisitos.size() gt 0}" 
+                                     class="subtabla">
+
+                            <h:column rendered="${sesionDeUsuario.usuarioLogueado == null}">
+                                <f:facet name="header">Ensayo</f:facet>
+                                <h:outputText value="${requisito.ensayo.denominacion}"/>
+                            </h:column>
+                            <h:column rendered="${sesionDeUsuario.usuarioLogueado != null}">
+                                <f:facet name="header">Ensayo</f:facet>
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" ><span>${requisito.ensayo.denominacion}</span>
+                                        <span class="caret"></span></a>
+                                    <ul class="dropdown-menu custom-menu">
+                                        <li>
+                                            <h:link value="Editar" outcome="/microbiologia/requisitos/editarlimitedestino.xhtml?idens=${requisito.ensayo.id}&amp;idreq=${requisito.id}"
+                                                    rendered="${sesionDeUsuario.tipoUsuario == 'Administrador' || 
+                                                                sesionDeUsuario.tipoUsuario == 'Verificador'}"   
+                                                    />
+                                        </li> 
+                                        <li>
+                                            <h:commandLink  value="Nuevo Limite" 
+                                                            rendered="${sesionDeUsuario.tipoUsuario == 'Administrador' || sesionDeUsuario.tipoUsuario == 'Verificador'}">
+                                                <f:ajax event="click" delay="100" listener="#{listaDeEspecificacionesMuestras.AgregarLimite(requisito.id, requisito.ensayo.id)}"  />
+                                            </h:commandLink>
+                                        </li>
+                                    </ul>
+                                </div> 
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Marginal</f:facet>
+                                <h:outputText value="${requisito.limiteVigente.valorRecuentoMarginal}" rendered="${requisito.limiteVigente != null and requisito.limiteVigente.tipoLimite == 'Recuento'}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Inaceptable</f:facet>
+                                <h:outputText value="${requisito.limiteVigente.valorRecuentoInaceptable}" rendered="${requisito.limiteVigente != null and  requisito.limiteVigente.tipoLimite == 'Recuento'}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Inaceptable</f:facet>
+                                <h:outputText value="${requisito.limiteVigente.valorBusquedaInaceptable}" rendered="${requisito.limiteVigente != null and  requisito.limiteVigente.tipoLimite == 'Busqueda'}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Aceptable</f:facet>
+                                <h:outputText value="${requisito.limiteVigente.valorBusquedaAceptable}" rendered="${requisito.limiteVigente != null and  requisito.limiteVigente.tipoLimite == 'Busqueda'}"/>
+                            </h:column>
+                        </h:dataTable>
+                    </h:column>
+                    <!-- SECCION ACCIONES -->
+                    <h:column rendered="${sesionDeUsuario.usuarioLogueado != null}">
+                        <f:facet name="header">Acciones</f:facet>
+                        <div class="dropdown">
+                            <button class="boton-generico dropdown-toggle" type="button" data-toggle="dropdown">...
+                                <span class="caret"></span></button>
+                            <ul class="dropdown-menu custom-menu">
+                                <li>
+                                    <h:link value="Editar" outcome="editarespecificacionmuestra.xhtml?idespec=${muestra.id}"
+                                            rendered="${sesionDeUsuario.tipoUsuario == 'Administrador' || 
+                                                        sesionDeUsuario.tipoUsuario == 'Verificador'}"     />
+                                </li> 
+                                <li>
+                                    <h:commandLink  value="Agregar Requisito" 
+                                                    rendered="${sesionDeUsuario.tipoUsuario == 'Administrador' || 
+                                                                sesionDeUsuario.tipoUsuario == 'Verificador'}" >
+                                        <f:ajax event="click" listener="#{listaDeEspecificacionesMuestras.AgregarRequisito(muestra.id)}" delay="100" />
+                                    </h:commandLink>
+                                </li>
+                                <li>
+                                    <h:commandLink  onclick="if (!confirm('Esta seguro que quiere dar de baja esta Muestra?'))
+                                                return false"
+                                                    action="${listaEspecificacionesMuestras.darBaja(muestra.id)}" 
+                                                    rendered="${muestra.vigente == 'true' and
+                                                                sesionDeUsuario.tipoUsuario == 'Administrador' || 
+                                                                sesionDeUsuario.tipoUsuario == 'Verificador'}"
+                                                    id="botonDarBajaMuestra"
+                                                    value="Dar de Baja">
+                                        <f:ajax  delay="100" onevent="indicador" />
+                                    </h:commandLink> 
+                                    <h:commandLink  onclick="if (!confirm('Esta seguro que quiere dar de alta esta Muestra?'))
+                                                return false"
+                                                    action="${listaEspecificacionesMuestra.restaurar(muestra.id)}" 
+                                                    rendered="${muestra.vigente == 'false' and
+                                                                sesionDeUsuario.tipoUsuario == 'Administrador' || 
+                                                                sesionDeUsuario.tipoUsuario == 'Verificador'}"
+                                                    id="botonDarAltaMuestra"
+                                                    value="Restaurar">
+                                        <f:ajax  delay="100" onevent="indicador" />
+                                    </h:commandLink> 
+                                </li>
+                                <li>
+                                    <h:commandLink  onclick="if (!confirm('Esta seguro que quiere eliminar esta Especificacion de Muestra?'))
+                                                return false"
+                                                    action="${listaDeEspecificacionesMuestras.eliminarEspecificacionMuestra(muestra.id)}" 
+                                                    rendered="${muestra.muestras.size() == 0 and
+                                                                sesionDeUsuario.tipoUsuario == 'Administrador' || 
+                                                                sesionDeUsuario.tipoUsuario == 'Verificador'}"
+                                                    id="botonEliminarEnsayo"
+                                                    value="Eliminar">
+                                        <f:ajax  delay="100" onevent="indicador" />
+                                    </h:commandLink> 
+                                </li>
+                            </ul>
+                        </div> 
+                    </h:column>
+                    <!-- FIN DE SECCION ACCIONES -->
+                </h:dataTable>
+            </h:panelGroup>
+
+            <h:panelGroup id="paginator">
+                <div class="panel-inferior-botones">
+                    <span>Pagina:</span>
+                    <span>
+                        <h:selectOneMenu value="#{listaDeEspecificacionesMuestras.paginaActual}" >
+                            <f:selectItems value="#{listaDeEspecificacionesMuestras.listaPaginas}" />
+                            <f:ajax execute="@this" render="panel-lista-especificaciones" onevent="indicador" />
+                        </h:selectOneMenu>
+                    </span><span>/${listaDeEspecificacionesMuestras.totalPaginas}</span>
+                </div>
+            </h:panelGroup>
+            <div class="panel-inferior-botones">
+                <h:commandButton value="Imprimir Listado" action="#" onclick="indicador()"
+                                 class="boton-generico boton-aceptar"/>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>

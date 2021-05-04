@@ -1,0 +1,524 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../index.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="page_content">    
+        <h:form id="form-lista-muestreos">
+            <h:outputText value="Lista de Muestreos con Resultados" /> 
+            <hr/>
+            <h:panelGrid id="panel-mensajes">
+                <h:message for="botonEliminar" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </h:panelGrid>
+            <fieldset class="panel-superior-botones">
+                <legend>Filtros: </legend>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Fecha Muestreo:</th>
+                            <h:panelGroup rendered="${listaDeMuestreoConResultados.tipoMuestra == 'Producto'}">
+                                <th>Fecha Origen:</th>
+                                <th>Fecha Produccion:</th>
+                            </h:panelGroup>
+                            <th>Area:</th>
+                            <th>Muestra:</th>
+                            <th>Destino:</th>
+                            <th>Monitor</th>
+                            <th>Repeticion: </th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <span>
+                                        <h:outputLabel value="Desde" />
+                                    </span>
+                                    <span>
+                                        <h:inputText value="#{listaDeMuestreoConResultados.fechaMuestreoDesde}" class="calendario" 
+                                                     converterMessage="La fecha debe tener formato dd/mm/yyyy" >
+                                            <f:convertDateTime pattern = "dd/MM/yyyy"  />
+                                            <f:ajax execute="@this" event="valueChange" />
+                                        </h:inputText>   
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>
+                                        <h:outputLabel value="Hasta" />
+                                    </span>
+                                    <span>
+                                        <h:inputText value="#{listaDeMuestreoConResultados.fechaMuestreoHasta}" class="calendario"  
+                                                     converterMessage="La fecha debe tener formato dd/mm/yyyy" >
+                                            <f:convertDateTime pattern = "dd/MM/yyyy"  />
+                                            <f:ajax execute="@this" event="valueChange"/>
+                                        </h:inputText>   
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>
+                                        <h:commandButton value="Reset" action="#{listaDeMuestreoConResultados.resetFechaMuestreo()}" class="boton-generico boton-cancelar">
+                                            <f:ajax execute="@this" render="paginator nombre-muestra-buscar panel-lista-muestreos-resultados panel-repeticion-mostrar 
+                                                    panel-filtrar-destino panel-filtrar-areas panel-filtrar-monitores" onevent="indicador" />
+                                        </h:commandButton>
+                                    </span>
+                                    <span>
+                                        <h:commandButton class="boton-generico" value="Filtrar" action="#{listaDeMuestreoConResultados.botonFiltrarFechaMuestreo()}">
+                                            <f:ajax execute="@this panel-filtrar-areas" onevent="indicador"
+                                                    render="panel-lista-muestreos-resultados paginator panel-repeticion-mostrar panel-filtrar-destino 
+                                                    panel-filtrar-areas panel-filtrar-monitores"/>
+                                        </h:commandButton>
+                                    </span>
+                                </div>
+                            </td>
+                            <h:panelGroup rendered="${listaDeMuestreoConResultados.tipoMuestra == 'Producto'}"> 
+                                <td >
+                                    <div>
+                                        <span>
+                                            <h:outputLabel value="Desde" />
+                                        </span>
+                                        <span>
+                                            <h:inputText value="#{listaDeMuestreoConResultados.fechaOrigenDesde}" class="calendario"  
+                                                         converterMessage="La fecha debe tener formato dd/mm/yyyy" >
+                                                <f:convertDateTime pattern = "dd/MM/yyyy"  />
+                                                <f:ajax execute="@this" />
+                                            </h:inputText>   
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            <h:outputLabel value="Hasta" />
+                                        </span>
+                                        <span>
+                                            <h:inputText value="#{listaDeMuestreoConResultados.fechaOrigenHasta}" class="calendario" 
+                                                         converterMessage="La fecha debe tener formato dd/mm/yyyy" >
+                                                <f:convertDateTime pattern = "dd/MM/yyyy"  />
+                                                <f:ajax execute="@this" />
+                                            </h:inputText>   
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            <h:commandButton value="Reset" action="#{listaDeMuestreoConResultados.resetFechaOrigen()}" class="boton-generico boton-cancelar">
+                                                <f:ajax execute="@this"  onevent="indicador"
+                                                        render="panel-lista-muestreos-resultados paginator panel-repeticion-mostrar panel-filtrar-destino 
+                                                        panel-filtrar-areas panel-filtrar-monitores" />
+                                            </h:commandButton>
+                                        </span>
+                                        <span>
+                                            <h:commandButton class="boton-generico" value="Filtrar" action="#{listaDeMuestreoConResultados.botonFiltrarFechaOrigen()}">
+                                                <f:ajax execute="@this panel-filtrar-areas" onevent="indicador"
+                                                        render="panel-lista-muestreos-resultados paginator panel-repeticion-mostrar panel-filtrar-destino 
+                                                        panel-filtrar-areas panel-filtrar-monitores"/>
+                                            </h:commandButton>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <span>
+                                            <h:outputLabel value="Desde" />
+                                        </span>
+                                        <span>
+                                            <h:inputText value="#{listaDeMuestreoConResultados.fechaProduccionDesde}" class="calendario" 
+                                                         converterMessage="La fecha debe tener formato dd/mm/yyyy" >
+                                                <f:convertDateTime pattern = "dd/MM/yyyy"  />
+                                                <f:ajax execute="@this" />
+                                            </h:inputText>   
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            <h:outputLabel value="Hasta" />
+                                        </span>
+                                        <span>
+                                            <h:inputText value="#{listaDeMuestreoConResultados.fechaProduccionHasta}" class="calendario"  
+                                                         converterMessage="La fecha debe tener formato dd/mm/yyyy" >
+                                                <f:convertDateTime pattern = "dd/MM/yyyy"  />
+                                                <f:ajax execute="@this" />
+                                            </h:inputText>   
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            <h:commandButton value="Reset" action="#{listaDeMuestreoConResultados.resetFechaProduccion()}" class="boton-generico boton-cancelar">
+                                                <f:ajax execute="@this" render="paginator nombre-muestra-buscar panel-lista-muestreos-resultados panel-repeticion-mostrar 
+                                                        panel-filtrar-destino panel-filtrar-areas panel-filtrar-monitores" onevent="indicador" />
+                                            </h:commandButton>
+                                        </span>
+                                        <span>
+                                            <h:commandButton class="boton-generico" value="Filtrar" action="#{listaDeMuestreoConResultados.botonFiltrarFechaProduccion()}">
+                                                <f:ajax execute="@this panel-filtrar-areas" onevent="indicador"
+                                                        render="panel-lista-muestreos-resultados paginator panel-repeticion-mostrar panel-filtrar-destino 
+                                                        panel-filtrar-areas panel-filtrar-monitores"/>
+                                            </h:commandButton>
+                                        </span>
+                                    </div>
+                                </td>
+                            </h:panelGroup>
+                            <td>
+                                <span>
+                                    <h:panelGroup  id="panel-filtrar-areas">
+                                        <div class="dropdown">
+                                            <button type="button" class="dropdown-toggle boton-generico" data-toggle="dropdown">Areas</button> 
+                                            <div class="dropdown-menu custom-menu">
+                                                <h:panelGroup id="panel-check-areas">
+                                                    <h:selectManyCheckbox value="#{listaDeMuestreoConResultados.areasSeleccionadas}"  layout="pageDirection"  >
+                                                        <f:selectItems value="#{listaDeMuestreoConResultados.areasDisponibles}" var="area" 
+                                                                       itemValue="#{area.id}" itemLabel="#{area.nombre}" />                                                        
+                                                        <f:ajax execute="@this"  />
+                                                    </h:selectManyCheckbox>
+                                                </h:panelGroup>
+                                                <div class="dropdown-item" style="text-align: center">
+                                                    <span>
+                                                        <h:commandButton class="boton-generico" value="Todas" action="#{listaDeMuestreoConResultados.resetAreas()}">
+                                                            <f:ajax execute="@this" render="panel-check-areas"/>
+                                                        </h:commandButton>           
+                                                    </span>
+                                                    <span>
+                                                        <h:commandButton class="boton-generico" value="Ninguna" action="#{listaDeMuestreoConResultados.vaciarAreas()}">
+                                                            <f:ajax execute="@this" render="panel-check-areas"/>
+                                                        </h:commandButton>           
+                                                    </span>
+                                                    <span>
+                                                        <h:commandButton class="boton-generico" value="Filtrar" action="#{listaDeMuestreoConResultados.botonFiltrarAreas()}">
+                                                            <f:ajax execute="@this panel-filtrar-areas" onevent="indicador"
+                                                                    render="panel-lista-muestreos-resultados paginator panel-repeticion-mostrar panel-filtrar-destino 
+                                                                    panel-filtrar-areas panel-filtrar-monitores"/>
+                                                        </h:commandButton>           
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </h:panelGroup>
+                                </span>
+                            </td>
+
+                            <td>
+                                <span><h:inputText value="#{listaDeMuestreoConResultados.nombreBuscar}" id="nombre-muestra-buscar"/></span>
+                                <span><h:commandButton value="Buscar" action="#{listaDeMuestreoConResultados.botonBuscarNombre(listaDeMuestreoConResultados.nombreBuscar)}" 
+                                                       class="boton-generico" >
+                                        <f:ajax execute="@this nombre-muestra-buscar" render="panel-lista-muestreos-resultados paginator panel-repeticion-mostrar 
+                                                panel-filtrar-destinos 
+                                                panel-filtrar-areas panel-filtrar-monitores" onevent="indicador"  />
+                                    </h:commandButton>
+                                </span>
+                            </td>
+
+                            <td> 
+                                <span>
+                                    <h:panelGroup  id="panel-filtrar-destino">
+                                        <div class="dropdown">
+                                            <button type="button" class="dropdown-toggle boton-generico" data-toggle="dropdown">Destinos</button> 
+                                            <div class="dropdown-menu custom-menu">
+                                                <h:panelGroup id="panel-check-destinos">
+                                                    <h:selectManyCheckbox value="#{listaDeMuestreoConResultados.destinosSeleccionados}"  layout="pageDirection"  >
+                                                        <f:selectItems value="#{listaDeMuestreoConResultados.destinosDispobibles}" var="destino" 
+                                                                       itemValue="#{destino.id}" itemLabel="#{destino.denominacion}" /> 
+                                                        <f:ajax execute="@this"  />
+                                                    </h:selectManyCheckbox>
+                                                </h:panelGroup>
+                                                <div class="dropdown-item" style="text-align: center">
+                                                    <span>
+                                                        <h:commandButton class="boton-generico" value="Todas" action="#{listaDeMuestreoConResultados.resetDestinos()}">
+                                                            <f:ajax execute="@this" render="panel-check-destinos"/>
+                                                        </h:commandButton>           
+                                                    </span>
+                                                    <span>
+                                                        <h:commandButton class="boton-generico" value="Ninguno" action="#{listaDeMuestreoConResultados.vaciarDestinos()}">
+                                                            <f:ajax execute="@this" render="panel-check-destinos"/>
+                                                        </h:commandButton>           
+                                                    </span>
+                                                    <span>
+                                                        <h:commandButton class="boton-generico" value="filtrar" action="#{listaDeMuestreoConResultados.botonFiltrarDestinos()}">
+                                                            <f:ajax execute="@this panel-filtrar-destino" onevent="indicador"
+                                                                    render="panel-lista-muestreos-resultados paginator panel-repeticion-mostrar panel-filtrar-destino 
+                                                                    panel-filtrar-areas panel-filtrar-monitores"/>
+                                                        </h:commandButton>   
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </h:panelGroup>
+                                </span>
+                            </td>
+
+                            <td><span>
+                                    <h:panelGroup  id="panel-filtrar-monitores">
+                                        <div class="dropdown">
+                                            <button type="button" class="dropdown-toggle boton-generico" data-toggle="dropdown">Monitores</button> 
+                                            <div class="dropdown-menu custom-menu">
+                                                <h:panelGroup id="panel-check-monitores">
+                                                    <h:selectManyCheckbox value="#{listaDeMuestreoConResultados.monitoresSeleccionados}"  layout="pageDirection"  >
+                                                        <f:selectItems value="#{listaDeMuestreoConResultados.monitoresDisponibles}" var="monitor" 
+                                                                       itemValue="#{monitor.id}" itemLabel="#{monitor.nombre}" />                                                        
+                                                        <f:ajax execute="@this"  />
+                                                    </h:selectManyCheckbox>
+                                                </h:panelGroup>
+                                                <div class="dropdown-item" style="text-align: center">
+                                                    <span>
+                                                        <h:commandButton class="boton-generico" value="Todos" action="#{listaDeMuestreoConResultados.resetMonitores()}">
+                                                            <f:ajax execute="@this" render="panel-check-monitores"/>
+                                                        </h:commandButton>           
+                                                    </span>
+                                                    <span>
+                                                        <h:commandButton class="boton-generico" value="Ninguno" action="#{listaDeMuestreoConResultados.vaciarMonitores()}">
+                                                            <f:ajax execute="@this" render="panel-check-monitores"/>
+                                                        </h:commandButton>           
+                                                    </span>
+                                                    <span>
+                                                        <h:commandButton class="boton-generico" value="Filtrar" action="#{listaDeMuestreoConResultados.botonFiltrarMonitores()}">
+                                                            <f:ajax execute="@this panel-filtrar-monitores" onevent="indicador"
+                                                                    render="panel-lista-muestreos-resultados paginator panel-repeticion-mostrar panel-filtrar-destino  
+                                                                    panel-filtrar-areas panel-filtrar-monitores"/>
+                                                        </h:commandButton>           
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </h:panelGroup>
+                                </span>
+                            </td>
+
+                            <td>
+                                <h:panelGroup  id="panel-repeticion-mostrar">
+                                    <h:selectOneRadio value="#{listaDeMuestreoConResultados.repeticionSeleccionada}" title="Tipo" >                          
+                                        <f:selectItem itemValue="Todas" itemLabel="Todas" />
+                                        <f:selectItem itemValue="Si"  itemLabel="Si"/>
+                                        <f:selectItem itemValue="No" itemLabel="No" />
+                                        <f:ajax execute="@this" render="panel-lista-muestreos-resultados paginator panel-repeticion-mostrar" 
+                                                listener="#{listaDeMuestreoConResultados.botonFiltrarRepeticion(listaDeMuestreoConResultados.repeticionSeleccionada)}"
+                                                onevent="indicador" />
+                                    </h:selectOneRadio>
+                                </h:panelGroup>
+                            </td>
+                            <td>
+                                <span><h:commandButton value="Reset" action="#{listaDeMuestreoConResultados.botonResetTodo()}" class="boton-generico boton-cancelar">
+                                        <f:ajax execute="@this" render="paginator nombre-muestra-buscar panel-lista-muestreos-resultados panel-repeticion-mostrar 
+                                                panel-filtrar-destino panel-filtrar-areas panel-filtrar-monitores" onevent="indicador" />
+                                    </h:commandButton>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>                
+            </fieldset>
+
+            <c:choose>
+                <c:when test="${listaDeMuestreoConResultados.dicPaginas.keySet().size() == 0}">
+                    <h:outputText value="No hay registros." />
+                </c:when>
+                <c:otherwise>
+                    <h:panelGroup id="panel-lista-muestreos-resultados">
+                        <h:dataTable var="muestreo" value="#{listaDeMuestreoConResultados.dicPaginas.get(listaDeMuestreoConResultados.paginaActual)}" border="1" 
+                                     class="tabla-principal encabezado-listados contenido-listados">
+
+                            <h:column>
+                                <f:facet name="header">Fecha Muestreo</f:facet>
+                                <h:outputText value="${muestreo.fechaMuestreo}" >
+                                    <f:convertDateTime pattern="dd/MM/yy" />
+                                </h:outputText>
+                            </h:column>
+
+                            <h:column rendered="${listaDeMuestreoConResultados.tipoMuestra == 'Producto'}">
+                                <f:facet name="header">Fecha Origen</f:facet>
+                                <h:outputText value="${muestreo.muestra.fechaOrigen}" >
+                                    <f:convertDateTime pattern="dd/MM/yy" />
+                                </h:outputText>
+                            </h:column>
+
+                            <h:column rendered="${listaDeMuestreoConResultados.tipoMuestra == 'Producto'}">
+                                <f:facet name="header">Fecha Produccion</f:facet>
+                                <h:outputText value="${muestreo.muestra.fechaProduccion}" >
+                                    <f:convertDateTime pattern="dd/MM/yy"/>
+                                </h:outputText>
+                            </h:column>
+
+                            <h:column rendered="${listaDeMuestreoConResultados.tipoMuestra == 'Producto'}">
+                                <f:facet name="header">Lote</f:facet>
+                                <h:outputText value="${muestreo.muestra.lote}" />
+                            </h:column>            
+
+                            <h:column>
+                                <f:facet name="header">Area</f:facet>
+                                <h:outputText value="${muestreo.muestra.especificacionMuestra.area.nombre}" />
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Muestra</f:facet>
+                                <h:outputText value="${muestreo.muestra.especificacionMuestra.denominacion}" />
+                            </h:column>
+
+                            <h:column rendered="${listaDeMuestreoConResultados.tipoMuestra == 'Producto'}">
+                                <f:facet name="header">Destino</f:facet>
+                                <h:outputText value="${muestreo.muestra.especificacionMuestra.destino.denominacion}" />
+                            </h:column> 
+
+                            <h:column rendered="${listaDeMuestreoConResultados.tipoMuestra == 'Operario'}">
+                                <f:facet name="header">Padron</f:facet>
+                                <h:outputText value="${muestreo.muestra.padron}" />
+                            </h:column>    
+
+                            <h:column rendered="${listaDeMuestreoConResultados.tipoMuestra == 'Operario'}">
+                                <f:facet name="header">Nombre</f:facet>
+                                <h:outputText value="${muestreo.muestra.nombre}" />
+                            </h:column>    
+
+                            <h:column>
+                                <f:facet name="header">Observaciones</f:facet>
+                                <h:outputText value="${muestreo.observaciones}" />
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Monitor</f:facet>
+                                <h:outputText value="${muestreo.usuarioMonitor.nombre}" />
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Almacenamiento</f:facet>
+                                <h:outputText value="${muestreo.almacenamiento}" />
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Repeticion</f:facet>
+                                <h:outputText value="${muestreo.esRepeticion?'Si':'No'}" />
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Analisis y Resultados</f:facet>
+                                <h:panelGroup rendered="${muestreo.analisis.size() le 0}">
+                                    <h:outputText value="No Hay Analisis / Resultados"/>
+                                </h:panelGroup>
+                                <h:panelGroup rendered="${muestreo.analisis.size() gt 0}">
+                                    <h:dataTable var="ensayo" value="${muestreo.analisis}" border="1" class="subtabla">
+                                        <h:column rendered="${sesionDeUsuario.usuarioLogueado == null}">
+                                            <f:facet name="header">Fecha</f:facet>
+                                            <h:outputText value="${ensayo.fechaAnalisis}">
+                                                <f:convertDateTime pattern="dd/MM/yy" />
+                                            </h:outputText>
+                                        </h:column>
+                                        <h:column rendered="${sesionDeUsuario.usuarioLogueado != null}">
+                                            <f:facet name="header">Fecha</f:facet>
+                                            <div class="dropdown">
+                                                <a class="dropdown-toggle" data-toggle="dropdown" ><span>${ensayo.fechaAnalisis}</span>
+                                                    <span class="caret"></span></a>
+                                                <ul class="dropdown-menu custom-menu">
+                                                    <li>
+                                                        <h:link value="Editar" outcome="/microbiologia/analisis/editarresultado.xhtml?idmuestreo=${muestreo.id}&amp;idensayo=${ensayo.id}"
+                                                                rendered="${muestreo.verificacion == null}" />
+                                                    </li> 
+                                                    <li>
+                                                        <h:commandLink  action="${listaDeMuestreoConResultados.enviarRevision(muestreo.id, ensayo.id)}" 
+                                                                        rendered="${sesionDeUsuario.tipoUsuario == 'Administrador' || 
+                                                                                    sesionDeUsuario.tipoUsuario == 'Verificador'}"                                                                      
+                                                                        value="Enviar a Revision">
+                                                            <f:ajax  delay="100" />
+                                                        </h:commandLink> 
+                                                    </li>
+                                                    <li>
+                                                        <h:commandLink  onclick="if (!confirm('Esta seguro que quiere eliminar este resultado?')) return false"
+                                                                        action="${listaDeMuestreoConResultados.eliminarResultado(ensayo.id)}" 
+                                                                        rendered="${muestreo.verificacion == null and
+                                                                                    sesionDeUsuario.tipoUsuario == 'Administrador' || 
+                                                                                    sesionDeUsuario.tipoUsuario == 'Verificador'}"
+                                                                        id="botonEliminarEnsayo"
+                                                                        value="Eliminar">
+                                                            <f:ajax  delay="100" onevent="indicador" />
+                                                        </h:commandLink> 
+                                                    </li>
+                                                </ul>
+                                            </div> 
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Ensayo</f:facet>
+                                            <h:outputText value="${ensayo.requisito.ensayo.denominacion}"/>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Resultado</f:facet>
+                                            <h:outputText value="${ensayo.resultado.valor}"/>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Evaluacion</f:facet>
+                                            <h:outputText value="${ensayo.resultado.aceptable?'Aceptable':'No Aceptable'}"/>
+                                        </h:column>
+
+
+                                    </h:dataTable>
+                                </h:panelGroup>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Verificacion</f:facet>
+                                <h:outputText value="${muestreo.verificacion.resultado}" style="background-color: green; color: white; font-weight: bold" 
+                                              rendered="${muestreo.verificacion != null}" />
+                                <h:outputText value="${muestreo.verificacion.usuarioVerificador.nombre}" style="background-color: green; color: white; font-weight: bold"
+                                              rendered="${muestreo.verificacion != null}" />
+                                <h:outputText value="No Verificado" style="background-color: #ff9999; color: crimson; font-weight: bold"
+                                              rendered="${muestreo.verificacion == null}" />    
+
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Liberado</f:facet>
+                                <h:outputText value="${muestreo.habilitado?'Liberado':'No Liberado'}" style="background-color: crimson; color: white; font-weight: bold" rendered="${muestreo.habilitado == false}" />
+                                <h:outputText value="${muestreo.habilitado?'Liberado':'No Liberado'}" style="background-color: green; color: white; font-weight: bold" rendered="${muestreo.habilitado == true}" />
+                            </h:column>
+
+                            <!-- SECCION DE ACCIONES -->
+                            <h:column rendered="${sesionDeUsuario.usuarioLogueado != null}">
+                                <f:facet name="header">Acciones</f:facet>
+                                <div class="dropdown">
+                                    <button class="boton-generico dropdown-toggle" type="button" data-toggle="dropdown">...
+                                        <span class="caret"></span></button>
+                                    <ul class="dropdown-menu custom-menu">
+                                        <li><h:commandLink  action="${listaDeMuestreoConResultados.redirigir(muestreo.id)}"
+                                                            rendered="${sesionDeUsuario.tipoUsuario == 'Administrador' || 
+                                                                        sesionDeUsuario.tipoUsuario == 'Verificador' || 
+                                                                        sesionDeUsuario.tipoUsuario == 'Analista'}"
+                                                            value="Agregar Resultado">
+                                                <f:ajax  delay="100" />
+                                            </h:commandLink>  </li>
+                                        <li><h:link rendered="${sesionDeUsuario.tipoUsuario == 'Administrador' || 
+                                                                sesionDeUsuario.tipoUsuario == 'Verificador'}" value="Editar" 
+                                                    outcome="editarmuestreo.xhtml?idmuestreo=${muestreo.id}"/>
+                                        </li>
+                                        <li>
+                                            <h:commandLink  action="${listaDeMuestreoConResultados.redirigirVerificar(muestreo.id)}" 
+                                                            rendered="${muestreo.verificacion == null and 
+                                                                        muestreo.analisis.size() > 0 and
+                                                                        sesionDeUsuario.usuarioLogueado.tipo != 'Monitor' and 
+                                                                        sesionDeUsuario.usuarioLogueado.tipo != 'Analista'}"
+
+                                                            value="Verificar">
+                                                <f:ajax  delay="100" />
+                                            </h:commandLink>
+                                        </li>
+                                    </ul>
+                                </div> 
+                            </h:column>
+                            <!-- FIN SECCION ACCIONES -->
+                        </h:dataTable>
+                    </h:panelGroup>
+                    <h:panelGroup id="paginator">
+                        <div class="panel-inferior-botones">
+                            <span>Pagina:</span>
+                            <span>
+                                <h:selectOneMenu value="#{listaDeMuestreoConResultados.paginaActual}" >
+                                    <f:selectItems value="#{listaDeMuestreoConResultados.listaPaginas}" />
+                                    <f:ajax execute="@this" render="panel-lista-muestreos-resultados" onevent="indicador" />
+                                </h:selectOneMenu>
+                            </span><span>/${listaDeMuestreoConResultados.totalPaginas}</span>
+                        </div>
+                    </h:panelGroup>
+                    <div class="panel-inferior-botones">
+                        <h:commandButton value="Imprimir Listado" action="#" onclick="indicador()"
+                                         class="boton-generico boton-aceptar"/>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+        </h:form>
+    </ui:define>
+</ui:composition>

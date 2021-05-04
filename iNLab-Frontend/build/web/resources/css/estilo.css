@@ -1,0 +1,182 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 12 mar. 2021, 22:31:44
+    Author     : dipe2
+*/
+
+.tabla-principal {
+    width: 95%;    
+}
+
+.dropdown .custom-menu{
+    font-size: smaller;
+    background-color:  #eaf4d6;
+}
+
+.panel-superior-botones{
+    width: 95%;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    border: #43669a 0.15em solid;
+    padding: 0.5em;
+    text-align: left;
+    display: inline-flex;
+}
+
+.panel-superior-botones legend{
+    color: #000;
+    font-size:  medium;
+    font-weight:  bold;
+    margin-bottom: 0;
+    border: 0;
+    width: unset;
+}
+
+.panel-superior-botones table{
+    width: 95%;
+    text-align: left;
+}
+
+.panel-superior-botones label{
+    color: #000;
+    /*font-family: monospace;*/
+    font-size:  medium;
+    font-weight:  bold;    
+}
+
+.panel-superior-botones th{
+    color: #000;
+    font-size:  medium;
+    font-weight:  bold;
+}
+
+.panel-superior-botones td{
+    padding:0 1em 0 1em;
+}
+
+.panel-inferior-botones{
+    width: 95%;
+    margin-top: 1.0em;
+    border: darkgreen 0.15em solid;
+    padding: 0.5em;
+    text-align: right;
+}
+
+.panel-inferior-botones-login{
+    width: 95%;
+    margin-top: 1.0em;
+    border: darkgreen 0.15em solid;
+    padding: 0.5em;
+    text-align: center;
+    margin-left: 4%;
+    margin-right: 5%;
+}
+
+.panel-centrado{
+    width: 95%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tabla-login{
+    text-align:center; 
+    width:98%
+}
+
+.boton-generico{
+    font-size: small;
+    color: #FFF;
+    background-color: darkgreen;
+    height: 3em;
+}
+
+.boton-generico:hover{
+    color: #FFF;
+    background-color: green;
+}
+
+.boton-aceptar{
+    background-color: #1ca327;
+    }
+
+.boton-aceptar:hover{
+    background-color: #c2faca;
+    background-image: linear-gradient(to top, #5e9e56,  #28701e);
+}
+
+.boton-cancelar{
+    background-color: #aebaaf;
+    color: #000;   
+}
+
+.boton-cancelar:hover{
+    background-color: #565c57;
+    color: #FFF;
+    background-image: linear-gradient(to top, #d7d7d7, #544d4d);
+}
+
+.boton-eliminar{
+    background-color: #c82424;
+   
+}
+
+.boton-eliminar:hover{
+    background-color: #f54b4b;
+    background-image: linear-gradient(to top, #ecb4b4,  #e22626);
+}
+
+.encabezado-listados th {
+    background-color: darkgreen;
+    color: #FFF;
+    font-size:  medium;
+    font-weight:  bold;
+    text-align: center;
+    height: 2.5em;
+}
+
+/*
+
+*/
+
+.subtabla {
+    width: 100%;
+    border:0;
+}
+.subtabla th {
+    background-color: #43669a;
+    color: #FFF;
+    font-size:  small;
+    font-weight:  bold;
+    text-align: center;
+}
+
+.subtabla tr td {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.encabezado-listados td{
+    color: #000;
+    font-family: sans-serif;
+    font-size:  small;
+    text-align: center;
+}
+
+.color-evaluacion{
+    color: #fff !important;
+}
+
+.color-correcto {    
+    background-color: green;
+    color: #fff !important;
+}
+
+.color-incorrecto {
+    background-color: #ac2925;
+    color: #fff !important;
+}

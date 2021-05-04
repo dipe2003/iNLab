@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../index.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="page_content">        
+        <h:outputLabel value="Alta de Especificacion de Muestra" />
+        <h:form id="form-editar-especificacion-muestra">
+               <h:panelGrid id="panel-mensajes">
+                <h:message for="botonEditarEspecificacion" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="botonDarBajaMuestra" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="botonDarAltaMuestra" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </h:panelGrid>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Tipo de Muestra"/>
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="${editarEspecificacionMuestra.tipoMuestraSeleccionada}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Denominacion" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:inputText id="denominacion" value="#{editarEspecificacionMuestra.denominacion}" >
+                            <f:ajax execute="@this" /> 
+                        </h:inputText>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Identificacion"/>
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:inputText id="identificacion" value="#{editarEspecificacionMuestra.identificacion}" >
+                            <f:ajax execute="@this" />
+                        </h:inputText>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Area"/>
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:selectOneMenu id="select-area" value="#{editarEspecificacionMuestra.areaSeleccionada}">
+                            <f:selectItems value="#{editarEspecificacionMuestra.areas}" var="area" itemLabel="#{area.nombre}" itemValue="#{area.id}" />                            
+                            <f:ajax execute="@this" event="change" />
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+            
+             <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Destino" />
+                    </div>
+                </div>             
+                <div class="p-col">
+                    <div class="box">
+                        <h:selectOneMenu id="select-destino" value="#{editarEspecificacionMuestra.destinoSeleccionado}" disabled="${editarEspecificacionMuestra.especificacionEditando.muestras.size() ==0}">
+                            <f:selectItems value="#{editarEspecificacionMuestra.destinos}" var="destino" itemLabel="#{destino.denominacion}" itemValue="#{destino.id}" />                            
+                            <f:ajax execute="@this" />
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+            
+            <h:outputLabel><b>NOTA 1: </b> No es posible cambiar el destino de una muestra con resultados.</h:outputLabel> <br/>
+            <h:outputLabel><b>NOTA 2: </b> Si se cambia el destino los requisitos cambiaran por el nuevo destino seleccionado.</h:outputLabel> 
+            
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:commandButton value="Dar de Baja" action="#{editarEspecificacionMuestra.darBaja()}" 
+                                         id="botonDarDeBajaMuestra" rendered="#{editarEspecificacionMuestra.especificacionEditando.vigente == 'true'}" />
+                        <h:commandButton value="Dar de Alta" action="#{editarEspecificacionMuestra.restaurar()}" 
+                                         id="botonDarDeAltaMuestra" rendered="#{editarEspecificacionMuestra.especificacionEditando.vigente== 'false'}"  />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-grid">
+                <div class="p-col">
+                    <h:commandButton value="Cancelar" action="#{facesContext.externalContext.redirect('/inlab/muestras/listaespecificacionesmuestras.xhtml?tipomuestra=Todas')}"
+                                     class="boton-generico boton-cancelar"/>
+                    <h:commandButton action="#{editarEspecificacionMuestra.guardar()}" value="Guardar" 
+                                     id="botonEditarEspecificacion" class="boton-generico boton-aceptar">
+                        <f:ajax  delay="100" />
+                    </h:commandButton> 
+                </div>                
+            </div>
+            
+        </h:form>
+    </ui:define>
+</ui:composition>

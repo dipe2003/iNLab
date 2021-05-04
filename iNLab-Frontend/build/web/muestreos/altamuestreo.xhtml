@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../index.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="page_content">         
+        <h:outputLabel value="Alta de Muestreo" />
+        <h:form id="form-alta-muestreo">            
+             <h:panelGrid id="panel-mensajes">
+                <h:message for="select-especificacion" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="select-usuario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="fecha-muestreo" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="fecha-origen" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="fecha-produccion" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="input-nombre-operario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="input-padron-operario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="botonAltaMuestreo" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+             </h:panelGrid>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Area" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:selectOneMenu id="select-area" value="#{altaDeMuestreo.idAreaSeleccionada}">
+                            <f:selectItem noSelectionOption="true" itemLabel="--- Seleccionar Area ---" itemValue="#{null}" />
+                            <f:selectItems value="#{altaDeMuestreo.areas}" var="area" itemLabel="#{area.nombre}" itemValue="#{area.id}" />                            
+                            <f:ajax execute="@this" event="valueChange" listener="#{altaDeMuestreo.filtrarMuestraArea}" 
+                                    render="panel-muestras select-especificacion" onevent="indicador"/>
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Muestra" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <h:panelGroup id="panel-muestras">
+                        <div class="box">
+                            <h:selectOneMenu id="select-especificacion" value="#{altaDeMuestreo.idEspecificacionMuestraSeleccionada}">
+                                <f:selectItem noSelectionOption="true" itemLabel="--- Seleccionar Muestra ---" itemValue="#{null}" />
+                                <f:selectItems value="#{altaDeMuestreo.especificacionesMuestra}" var="muestra" itemLabel="#{muestra.denominacion} - #{muestra.identificacion==null?'':muestra.identificacion} (#{muestra.destino.denominacion})" 
+                                               itemValue="#{muestra.id}" />                            
+                                <f:ajax execute="@this" event="valueChange" />
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Usuario" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:selectOneMenu id="select-usuario" value="#{altaDeMuestreo.idUsuarioSeleccionado}">
+                            <f:selectItem noSelectionOption="true" itemLabel="--- Seleccionar Monitor ---" itemValue="#{null}" />
+                            <f:selectItems value="#{altaDeMuestreo.usuarios}" var="usuario" itemLabel="#{usuario.nombre} - #{usuario.tipo}" itemValue="#{usuario.id}" />                            
+                            <f:ajax execute="@this" event="valueChange" />
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Fecha de Muestreo" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">                        
+                        <h:inputText id="fecha-muestreo" value="#{altaDeMuestreo.fechaMuestreo}" class="calendario" converterMessage="La fecha debe tener formato dd/mm/yyyy" >
+                            <f:convertDateTime pattern = "dd/MM/yyyy"  />
+                            <f:ajax execute="@this" event="valueChange"/>
+                        </h:inputText>                    
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Observaciones" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">                        
+                        <h:inputTextarea value="#{altaDeMuestreo.observaciones}" >
+                            <f:ajax execute="@this" event="valueChange" />
+                        </h:inputTextarea>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Es Repeticion" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:selectBooleanCheckbox label="Es Repeticion" value="#{altaDeMuestreo.esRepeticion}" >
+                            <f:ajax execute="@this" event="valueChange" />
+                        </h:selectBooleanCheckbox>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Almacenamiento" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:selectOneRadio value="#{altaDeMuestreo.almacenamientoSeleccionado}" >
+                            <f:selectItems value="#{altaDeMuestreo.almacenamientos}" />
+                            <f:ajax execute="@this" event="valueChange" />
+                        </h:selectOneRadio>
+                    </div>
+                </div>
+            </div>
+            <h:panelGroup id="panelProducto">
+                <h:panelGroup rendered="#{altaDeMuestreo.tipoMuestraSeleccionado == 'Producto'}" >
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:outputLabel value="Fecha Faena" />
+                            </div>
+                        </div>            
+                        <div class="p-col">
+                            <div class="box">
+                                <h:inputText id="fecha-origen" value="#{altaDeMuestreo.fechaOrigen}" class="calendario" 
+                                             converterMessage="La fecha debe tener formato dd/mm/yyyy" >
+                                    <f:convertDateTime pattern = "dd/MM/yyyy"  />
+                                    <f:ajax execute="@this" event="valueChange" />
+                                </h:inputText>       
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:outputLabel value="Fecha de Produccion" />
+                            </div>
+                        </div>            
+                        <div class="p-col">
+                            <div class="box">
+                                <h:inputText id="fecha-produccion" value="#{altaDeMuestreo.fechaProduccion}" class="calendario" 
+                                             converterMessage="La fecha debe tener formato dd/mm/yyyy" >
+                                    <f:convertDateTime pattern = "dd/MM/yyyy"  />
+                                    <f:ajax execute="@this" event="valueChange" />
+                                </h:inputText>       
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:outputLabel value="Lote"/>
+                            </div>
+                        </div>            
+                        <div class="p-col">
+                            <div class="box">
+                                <h:inputText value="#{altaDeMuestreo.lote}">
+                                    <f:ajax execute="@this" event="valueChange" />
+                                </h:inputText>
+                            </div>
+                        </div>
+                    </div>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup id="panelOperario" >
+                <h:panelGroup  rendered="#{altaDeMuestreo.tipoMuestraSeleccionado == 'Operario'}" >
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:outputLabel value="Nombre" />
+                            </div>
+                        </div>            
+                        <div class="p-col">
+                            <div class="box">
+                                <h:inputText id="input-nombre-operario" value="#{altaDeMuestreo.nombre}">
+                                    <f:ajax execute="@this" event="valueChange" />
+                                </h:inputText>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:outputLabel value="Padron" />
+                            </div>
+                        </div>            
+                        <div class="p-col">
+                            <div class="box">
+                                <h:inputText id="input-padron-operario" value="#{altaDeMuestreo.padron}">
+                                    <f:ajax execute="@this" event="valueChange" />
+                                </h:inputText>
+                            </div>
+                        </div>
+                    </div>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup id="panelAmbiente">
+                <h:panelGroup rendered="#{altaDeMuestreo.tipoMuestraSeleccionado == 'Ambiente'}" >
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:outputLabel value="En Contacto con Producto" />
+                            </div>
+                        </div>            
+                        <div class="p-col">
+                            <div class="box">
+                                <h:selectBooleanCheckbox value="#{altaDeMuestreo.enContactoProducto}" label="Contacta con Producto?" >
+                                    <f:ajax execute="@this" event="valueChange" />
+                                </h:selectBooleanCheckbox>
+                            </div>
+                        </div>
+                    </div>                   
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:commandButton id="botonAltaMuestreo" action="#{altaDeMuestreo.darAltaMuestreo()}" value="Dar Alta" class="boton-generico boton-aceptar">
+                <f:ajax  delay="100" execute="@all" render="panel-mensajes" onevent="indicador" />
+            </h:commandButton>
+        </h:form>
+    </ui:define>
+</ui:composition>

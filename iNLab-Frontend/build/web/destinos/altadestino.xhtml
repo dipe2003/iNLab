@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../index.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="page_content">        
+        <h:outputLabel value="Alta de Destino" />
+        <h:form id="form-alta-destino">
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Nombre" /> 
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:inputText id="nombreDestino" value="#{altaDeDestino.denominacion}"/>
+                    </div>
+                    <h:message for="nombreDestino" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                </div>
+            </div>
+            <div>
+                <h:commandButton id="botonAltaDestino" value="Dar de Alta" action="#{altaDeDestino.darAltaArea()}" class="boton-generico boton-aceptar" />
+            </div>
+            <div>
+                <h:message for="botonAltaDestino" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </div>   
+        </h:form>
+    </ui:define>
+</ui:composition>
+

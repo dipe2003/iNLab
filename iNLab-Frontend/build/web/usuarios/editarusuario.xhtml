@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../index.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="page_content">          
+        <h:outputLabel value="Edicion de Usuario" />
+        <h:form id="form-editar-usuario">
+             <h:panelGrid id="panel-mensajes">
+                <h:message for="inputNombreUsuario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="botonEditarUsuario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                 <h:message for="botonCambiarPassword" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="botonDarBajaUsuario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="botonDarAltaUsuario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </h:panelGrid>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel>Nombre</h:outputLabel> 
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:inputText id="inputNombreUsuario" value="#{editarUsuario.nombre}"/>
+                    </div>
+                </div>
+            </div>
+            <c:if test="#{editarUsuario.usuario.id == sesionDeUsuario.usuarioLogueado.id ||
+                          sesionDeUsuario.usuarioLogueado.tipo == 'Administrador'}">
+                <div>
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:outputLabel>Permiso</h:outputLabel> 
+                            </div>
+                        </div>            
+                        <div class="p-col">
+                            <div class="box">
+                                <h:selectOneMenu value="#{editarUsuario.permisoSeleccionado}">
+                                    <f:selectItems value="#{editarUsuario.permisos}" noSelectionValue="Seleccionar Permiso" />
+                                </h:selectOneMenu>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:outputLabel>Password Actual</h:outputLabel> 
+                            </div>
+                        </div>            
+                        <div class="p-col">
+                            <div class="box">
+                                <h:inputSecret value="#{editarUsuario.passwordActual}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:outputLabel>Nuevo Password</h:outputLabel> 
+                            </div>
+                        </div>            
+                        <div class="p-col">
+                            <div class="box">
+                                <h:inputSecret value="#{editarUsuario.password}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:outputLabel>Repetir Password</h:outputLabel> 
+                            </div>
+                        </div>            
+                        <div class="p-col">
+                            <div class="box">
+                                <h:inputSecret value="#{editarUsuario.repPassword}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:commandButton value="Cambiar Password" action="#{editarUsuario.cambiarPassword()}" 
+                                                id="botonCambiarPassword" class="boton-generico"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:commandButton value="Dar de Baja" action="#{editarUsuario.darBaja()}" rendered="#{editarUsuario.usuario.EsVigente() == 'true'}"
+                                                 id="botonDarDeBajaUsuario" class="boton-generico boton-eliminar"/>
+                                <h:commandButton value="Dar de Alta" action="#{editarUsuario.restaurar()}" rendered="#{editarUsuario.usuario.EsVigente() == 'false'}"
+                                                 id="botonDarDeAltaUsuario" class="boton-generico boton-aceptar"/>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </c:if>
+            <div class="p-grid">
+                <div class="p-col">
+                    <h:commandButton value="Cancelar" action="#{facesContext.externalContext.redirect('listausuarios.xhtml')}" 
+                                     class="boton-generico boton-cancelar"/>
+                    <h:commandButton value="Guardar" action="#{editarUsuario.guardar()}" class="boton-generico boton-aceptar" 
+                                     id="botonEditarUsuario"/>
+                </div>                
+            </div>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

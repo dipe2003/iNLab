@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../../index.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="page_content">    
+        <h:outputText value="Lista de Laboratorios" /> 
+        <hr/>
+        <h:form id="form-lista-laboratorios">
+            
+             <h:panelGrid id="panel-mensajes">
+                <h:message for="botonEliminar" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+             </h:panelGrid>
+            <fieldset class="panel-superior-botones">
+                <legend>Filtros: </legend>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Buscar:</th>
+                            <th>Tipo: </th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span><h:inputText value="#{listaDeLaboratorios.nombreBuscar}" id="nombre-laboratorio-buscar"/></span>
+                                <span><h:commandButton value="Buscar" action="#{listaDeLaboratorios.botonBuscarNombre(listaDeLaboratorios.nombreBuscar)}" class="boton-generico" >
+                                        <f:ajax execute="@this nombre-laboratorio-buscar" render="panel-lista-laboratorios paginator panel-tipo-laboratorios-mostrar " onevent="indicador"  />
+                                    </h:commandButton>
+                                </span>
+                            </td>
+
+                            <td>
+                                <span>
+                                    <h:panelGroup  id="panel-tipo-laboratorios-mostrar">
+                                        <h:selectOneRadio value="#{listaDeLaboratorios.tipoLaboratorioSeleccionado}" title="Tipo" >                          
+                                            <f:selectItems value="#{listaDeLaboratorios.tiposLaboratorios}" />
+                                            <f:ajax execute="@this" render="panel-lista-laboratorios paginator panel-tipo-laboratorios-mostrar" 
+                                                    listener="#{listaDeLaboratorios.botonFiltrarTipo(listaDeLaboratorios.tipoLaboratorioSeleccionado)}" onevent="indicador" />
+                                        </h:selectOneRadio>
+                                    </h:panelGroup>
+                                </span>
+                            </td>
+
+                            <td>
+                                <span><h:commandButton value="Reset" action="#{listaDeLaboratorios.botonResetTodo()}" class="boton-generico boton-cancelar">
+                                        <f:ajax execute="@this" render="paginator nombre-laboratorios-buscar panel-tipo-laboratorios-mostrar panel-lista-laboratorios" />
+                                    </h:commandButton>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>                
+            </fieldset>
+            
+            <h:panelGroup id="panel-lista-laboratorios">
+                 <h:outputLabel value="No hay registros." rendered="${listaDeLaboratorios.dicPaginas.keySet().size()==0}"/>
+                <h:dataTable var="laboratorio" value="${listaDeLaboratorios.dicPaginas.get(listaDeLaboratorios.paginaActual)}" border="1" rendered="${listaDeLaboratorios.dicPaginas.keySet().size()>0}"
+                             class="tabla-principal encabezado-listados contenido-listados">
+
+                    <h:column>
+                        <f:facet name="header">Nombre</f:facet>
+                        <h:outputText value="${laboratorio.nombre}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Detalles</f:facet>
+                        <h:outputText value="${laboratorio.detalles}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Tipo</f:facet>
+                        <h:outputText value="Externo" rendered="${laboratorio.esExterno == true}" />
+                        <h:outputText value="Interno" rendered="${laboratorio.esExterno == false}" />
+                    </h:column>
+                    
+                    <h:column rendered="${sesionDeUsuario.usuarioLogueado!=null and sesionDeUsuario.tipoUsuario !='Monitor'}">
+                        <f:facet name="header">Acciones</f:facet>
+                        <div class="dropdown">
+                            <button class="dropdown-toggle boton-generico" data-toggle="dropdown" ><span>...</span>
+                                <span class="caret"></span></button>
+                            <ul class="dropdown-menu custom-menu">
+                                <li>
+                                    <h:link value="Editar" outcome="editarlaboratorio.xhtml?idlab=${laboratorio.id}" />
+                                </li>
+                                <li>
+                                    <h:commandLink  onclick="if (!confirm('Esta seguro que quiere eliminar este Laboratorio?'))
+                                                 return false"
+                                                    action="${listaDeLaboratorios.eliminarLaboratorio(laboratorio.id)}" 
+                                                    rendered="${laboratorio.analisisLaboratorio.size() == 0 and
+                                                                sesionDeUsuario.tipoUsuario == 'Administrador' || 
+                                                                sesionDeUsuario.tipoUsuario == 'Verificador'}"
+                                                    id="botonEliminar"
+                                                    value="Eliminar">
+                                        <f:ajax  delay="100" onevent="indicador" />
+                                    </h:commandLink> 
+                                </li>
+                            </ul>
+                        </div> 
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+            <h:panelGroup id="paginator">
+                <div class="panel-inferior-botones">
+                    <span>Pagina:</span>
+                    <span>
+                        <h:selectOneMenu value="#{listaDeLaboratorios.paginaActual}" >
+                            <f:selectItems value="#{listaDeLaboratorios.listaPaginas}" />
+                            <f:ajax execute="@this" render="panel-lista-laboratorios" onevent="indicador" />
+                        </h:selectOneMenu>
+                    </span><span>/${listaDeLaboratorios.totalPaginas}</span>
+                </div>
+            </h:panelGroup>
+            <div class="panel-inferior-botones">
+                <h:commandButton value="Imprimir Listado" action="#" onclick="indicador()"
+                                 class="boton-generico boton-aceptar"/>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>

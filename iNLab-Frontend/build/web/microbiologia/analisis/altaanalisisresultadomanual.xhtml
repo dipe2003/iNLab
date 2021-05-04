@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../../index.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="page_content">           
+        <h:outputLabel value="Alta de Analisis y Resultado" />
+        <h:form id="form-analisis-resultados">     
+            <c:if test="#{sesionDeUsuario.usuarioLogueado.tipo != 'Administrador' and sesionDeUsuario.usuarioLogueado.tipo != 'Verificador' and
+                          sesionDeUsuario.usuarioLogueado.tipo != 'Analista'}" >
+                <meta http-equiv="refresh" content="0;url=#{facesContext.externalContext.requestContextPath}/errores/error_500.xhtml"></meta>
+            </c:if>
+            <h:panelGrid id="panel-mensajes">
+                <h:message for="boton-buscar-muestreo" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="select-requisito" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="select-laboratorio" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="botonAltaAnalisisResultado" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="panel-valores-recuento" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="fecha-analisis" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="panel-valores-busqueda" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="usuario-analista" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </h:panelGrid>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Id Muestreo" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:inputText value="#{altaDeAnalisisResultadoManual.idMuestreo}">                                                 
+                            <f:ajax execute="@this" event="change" />
+                        </h:inputText>
+                        <h:commandButton id="boton-buscar-muestreo" action="#{altaDeAnalisisResultadoManual.findMuestreo(altaDeAnalisisResultadoManual.idMuestreo)}" value="Buscar"
+                                         class="boton-generico">
+                            <f:ajax execute="@this" onevent="indicador" 
+                                    render="panel-muestreo panel-analisis panel-valores-recuento panel-valores-busqueda panel-mensajes fecha-analisis" />
+                        </h:commandButton>                      
+                    </div>
+                </div>
+            </div>
+            <h:panelGroup id="panel-muestreo">
+                <h:panelGroup rendered="${altaDeAnalisisResultadoManual.muestreo !=null}">
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:outputLabel value="Detalles" />
+                            </div>
+                        </div>   
+                        <div class="p-col">
+                            <div class="box">
+                                <h:dataTable var="muestreo" value="${altaDeAnalisisResultadoManual.muestreo}" border="1" class="encabezado-listados contenido-listados">
+                                    <h:column >
+                                        <f:facet name="header">Fecha Muestreo</f:facet>
+                                        <h:outputText value="${muestreo.fechaMuestreo}" >
+                                            <f:convertDateTime pattern="dd/MM/yy" />
+                                        </h:outputText>
+                                    </h:column>
+
+                                    <h:column rendered="${altaDeAnalisisResultadoManual.tipoMuestra == 'Producto'}">
+                                        <f:facet name="header">Fecha Origeno</f:facet>
+                                        <h:outputText value="${muestreo.muestra.fechaOrigen}" >
+                                            <f:convertDateTime pattern="dd/MM/yy" />
+                                        </h:outputText>
+                                    </h:column>
+
+                                    <h:column rendered="${altaDeAnalisisResultadoManual.tipoMuestra== 'Producto'}">
+                                        <f:facet name="header">Fecha Produccion</f:facet>
+                                        <h:outputText value="${muestreo.muestra.fechaProduccion}" >
+                                            <f:convertDateTime pattern="dd/MM/yy"/>
+                                        </h:outputText>
+                                    </h:column>
+
+                                    <h:column >
+                                        <f:facet name="header">Area</f:facet>
+                                        <h:outputText value="${muestreo.muestra.especificacionMuestra.area.nombre}" />
+                                    </h:column>
+
+                                    <h:column >
+                                        <f:facet name="header">Muestra</f:facet>
+                                        <h:outputText value="${muestreo.muestra.especificacionMuestra.denominacion}" />
+                                    </h:column>
+
+                                    <h:column rendered="${altaDeAnalisisResultadoManual.tipoMuestra == 'Producto'}">
+                                        <f:facet name="header">Destino</f:facet>
+                                        <h:outputText value="${muestreo.muestra.especificacionMuestra.destino.denominacion}" />
+                                    </h:column> 
+
+                                    <h:column rendered="${altaDeAnalisisResultadoManual.tipoMuestra == 'Operario'}">
+                                        <f:facet name="header">Padron</f:facet>
+                                        <h:outputText value="${muestreo.muestra.padron}" />
+                                    </h:column>    
+
+                                    <h:column rendered="${altaDeAnalisisResultadoManual.tipoMuestra == 'Operario'}">
+                                        <f:facet name="header">Nombre</f:facet>
+                                        <h:outputText value="${muestreo.muestra.nombre}" />
+                                    </h:column>    
+
+                                    <h:column >
+                                        <f:facet name="header">Observaciones</f:facet>
+                                        <h:outputText value="${muestreo.observaciones}" />
+                                    </h:column>
+
+                                    <h:column >
+                                        <f:facet name="header">Monitor</f:facet>
+                                        <h:outputText value="${muestreo.usuarioMonitor.nombre}" />
+                                    </h:column>
+
+                                    <h:column >
+                                        <f:facet name="header">Almacenamiento</f:facet>
+                                        <h:outputText value="${muestreo.almacenamiento}" />
+                                    </h:column>
+
+                                    <h:column >
+                                        <f:facet name="header">Repeticion</f:facet>
+                                        <h:outputText value="${muestreo.esRepeticion?'Si':'No'}"/>
+                                    </h:column>
+                                </h:dataTable>
+                            </div>
+                        </div>
+                    </div>
+                </h:panelGroup>
+
+                <h:panelGroup rendered="${altaDeAnalisisResultadoManual.muestreo ==null}">
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:outputLabel value="Detalles:" />
+                            </div>
+                        </div>   
+                        <div class="p-col">
+                            <div class="box">
+                                <h:outputLabel value="No se encontro muestreo seleccionado." />
+                            </div>
+                        </div>
+                    </div>
+                </h:panelGroup>
+
+            </h:panelGroup>
+            <h:panelGroup id="panel-analisis">
+                <div class="p-grid">
+                    <div class="p-col">
+                        <div class="box">
+                            <h:outputLabel value="Analisis" />
+                        </div>
+                    </div>            
+                    <div class="p-col">
+                        <div class="box">
+                            <h:selectOneMenu id="select-requisito" value="#{altaDeAnalisisResultadoManual.requisitoSeleccionado}">
+                                <f:selectItems value="#{altaDeAnalisisResultadoManual.requisitos.stream().sorted().toList()}" var="requisito" itemLabel="#{requisito.ensayo.denominacion}" itemValue="#{requisito.id}" />                            
+                                <f:ajax execute="@this" event="change" render="panel-valores-recuento panel-valores-busqueda" />
+                            </h:selectOneMenu>                           
+                        </div>
+                    </div>
+                </div>
+            </h:panelGroup>
+
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Laboratorio" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">                        
+                        <h:selectOneMenu id="select-laboratorio" value="#{altaDeAnalisisResultadoManual.laboratorioSeleccionado}">
+                            <f:selectItems value="#{altaDeAnalisisResultadoManual.laboratorios}" var="laboratorio" itemLabel="#{laboratorio.nombre} - #{laboratorio.esExterno?'Externo':'Interno'}" 
+                                           itemValue="#{laboratorio.id}" />                            
+                            <f:ajax execute="@this" />
+                        </h:selectOneMenu>
+
+                    </div>
+                </div>
+            </div>
+
+            <h:panelGroup id="panel-valores-recuento">
+                <h:panelGroup rendered="#{altaDeAnalisisResultadoManual.tipoSeleccionado eq 'Recuento'}">
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:outputLabel value="Resultado" />
+                            </div>
+                        </div>            
+                        <div class="p-col">
+                            <div class="box">
+                                <h:inputText value="#{altaDeAnalisisResultadoManual.valorResultadoRecuento}">
+                                    <f:ajax execute="@this" />
+                                </h:inputText>
+                            </div>
+                        </div>
+                    </div>
+                </h:panelGroup>               
+            </h:panelGroup>
+            <h:panelGroup id="panel-valores-busqueda">
+                <h:panelGroup rendered="#{altaDeAnalisisResultadoManual.tipoSeleccionado eq 'Busqueda'}">
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:outputLabel value="Resultado" />
+                            </div>
+                        </div>            
+                        <div class="p-col">
+                            <div class="box">
+                                <h:selectOneMenu id="select-busqueda-inaceptable" value="#{altaDeAnalisisResultadoManual.valorResultadoBusqueda}">
+                                    <f:selectItems value="#{altaDeAnalisisResultadoManual.valoresBusquedaDisponibles}" var="busqueda" itemLabel="#{busqueda}" itemValue="#{busqueda}" />                            
+                                    <f:ajax execute="@this" />
+                                </h:selectOneMenu>
+                            </div>
+                        </div>
+                    </div>
+                </h:panelGroup>                
+            </h:panelGroup>
+
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Fecha de Analisis" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">         
+                        <h:inputText id="fecha-analisis" value="#{altaDeAnalisisResultadoManual.fechaAnalisis}" class="calendario" converterMessage="La fecha debe tener formato dd/mm/yyyy" >
+                            <f:convertDateTime pattern = "dd/mm/yyyy"  />
+                            <f:ajax execute="@this" onevent="valueChange" />                        </h:inputText>      
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Observaciones" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:inputTextarea value="#{altaDeAnalisisResultadoManual.observacionesAnalisis}">
+                            <f:ajax execute="@this" />
+                        </h:inputTextarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Analista" /> 
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:selectOneMenu id="usuario-analista" value="#{altaDeAnalisisResultadoManual.idUsuarioSeleccionado}">
+                            <f:selectItems value="#{altaDeAnalisisResultadoManual.usuarios}" var="usuario" itemLabel="#{usuario.nombre} - #{usuario.tipo}" itemValue="#{usuario.id}" />                            
+                            <f:ajax execute="@this" />
+                        </h:selectOneMenu>                           
+                    </div>
+
+                </div>
+            </div>
+
+            <h:commandButton id="botonAltaAnalisisResultado" action="#{altaDeAnalisisResultadoManual.darAltaAnalisisResultado()}" value="Guardar Resultado"
+                             class="boton-generico boton-aceptar">
+                <f:ajax execute="@all" render="panel-mensajes" />
+            </h:commandButton>
+        </h:form>
+    </ui:define>
+</ui:composition>

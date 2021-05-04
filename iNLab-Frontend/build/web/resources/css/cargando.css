@@ -1,0 +1,30 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 17/02/2017, 11:38:09 PM
+    Author     : dipe2
+*/
+
+.contenedor-carga{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #F5F5F5;
+    color: #F5F5F5;
+    opacity: 0.5;
+    z-index: 999;
+}
+
+.carga{
+    position:absolute; 
+    left: 50%;
+    top: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+    padding: 1%;
+    text-align: center;
+    z-index: 9999999;
+}

@@ -1,0 +1,33 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 9 mar. 2021, 21:43:21
+    Author     : dipe2
+*/
+
+.tituloprincipal{
+    background-color: darkgreen;    
+}
+
+.tituloprincipal .fuente{
+    font-family: monospace;
+    color: #FFF;
+    font-weight:  bolder;     
+}
+
+.menuprincipal {
+    background-color: #318651 !important;
+    font-family: sans-serif;
+    text-align: center;
+    color: #FFF !important;
+    font-weight:  lighter;  
+}
+
+body{
+    background-color: #eaf4e6 !important;
+}
+
+

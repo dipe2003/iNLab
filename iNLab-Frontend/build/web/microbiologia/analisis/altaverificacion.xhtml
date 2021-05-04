@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../../index.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="page_content">           
+        <h:outputLabel value="Alta de Verificacion" />
+        <h:form id="form-alta-verificacion">     
+            <c:if test="#{sesionDeUsuario.usuarioLogueado.tipo != 'Administrador' and sesionDeUsuario.usuarioLogueado.tipo != 'Verificador'}" >
+                <meta http-equiv="refresh" content="0;url=#{facesContext.externalContext.requestContextPath}/errores/error_500.xhtml"></meta>
+            </c:if>
+             <h:panelGrid id="panel-mensajes">
+                <h:message for="select-resultado-verificacion" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="botonAltaVerificacion" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </h:panelGrid>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel>Muestreo</h:outputLabel> 
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel>${altaDeVerificacion.muestreo.muestra.especificacionMuestra.denominacion}</h:outputLabel> 
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel>Resultado</h:outputLabel> 
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:selectOneMenu id="select-resultado-verificacion" value="#{altaDeVerificacion.estadoVerificacion}">
+                            <f:selectItems value="#{altaDeVerificacion.estadosVerificacion}" var="estado" itemLabel="#{estado}" itemValue="#{estado}" />                            
+                            <f:ajax execute="@this" event="valueChange" />
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel>Observaciones</h:outputLabel> 
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:inputTextarea value="#{altaDeVerificacion.observaciones}">
+                            <f:ajax execute="@this" />
+                        </h:inputTextarea>
+                    </div>
+                </div>
+            </div>
+
+            <h:commandButton id="botonAltaVerificacion" action="#{altaDeVerificacion.darAltaVerificacion()}" 
+                             class="boton-generico boton-aceptar"
+                             value="Guardar Verificacion">
+                <f:ajax  execute="@all" delay="100" render="panel-mensajes" />
+            </h:commandButton>
+        </h:form>
+    </ui:define>
+</ui:composition>

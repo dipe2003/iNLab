@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../index.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="page_content">            
+        <h:outputLabel value="Edicion de Muestreo" />
+        <h:form id="form-editar-muestreo">    
+            <h:panelGrid id="panel-mensajes">
+                <h:message for="select-especificacion" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="select-usuario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="fecha-muestreo" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="fecha-origen" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="fecha-produccion" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="input-nombre-operario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="input-padron-operario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="botonEditarMuestreo" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+             </h:panelGrid>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Area"/>
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:selectOneMenu value="#{editarMuestreo.idAreaSeleccionada}">
+                            <f:selectItem noSelectionOption="true" itemLabel="--- Seleccionar Area ---" itemValue="#{null}" />
+                            <f:selectItems value="#{editarMuestreo.areas}" var="area" itemLabel="#{area.nombre}" itemValue="#{area.id}" />                            
+                            <f:ajax execute="@this" event="change" listener="#{editarMuestreo.filtrarMuestraArea}" render="frm-main panel-muestras select-especificacion" />
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Muestra" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <h:panelGroup id="panel-muestras">
+                        <div class="box">
+                            <h:selectOneMenu id="select-especificacion" value="#{editarMuestreo.idEspecificacionMuestraSeleccionada}">
+                                <f:selectItem noSelectionOption="true" itemLabel="--- Seleccionar Muestra ---" itemValue="#{null}" />
+                                <f:selectItems value="#{editarMuestreo.especificacionesMuestra}" var="muestra" itemLabel="#{muestra.denominacion} - #{muestra.identificacion==null?'':muestra.identificacion} (#{muestra.destino.denominacion})" 
+                                               itemValue="#{muestra.id}" />                            
+                                <f:ajax execute="@this" event="change" />
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Usuario" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:selectOneMenu id="select-usuario" value="#{editarMuestreo.idUsuarioSeleccionado}">
+                            <f:selectItem noSelectionOption="true" itemLabel="--- Seleccionar Monitor ---" itemValue="#{null}" />
+                            <f:selectItems value="#{editarMuestreo.usuarios}" var="usuario" itemLabel="#{usuario.id} - 
+                                           #{usuario.nombre} - #{usuario.tipo}" itemValue="#{usuario.id}" />                            
+                            <f:ajax execute="@this" />
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Fecha de Muestreo" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">                        
+                        <h:inputText id="fecha-muestreo" value="#{editarMuestreo.fechaMuestreo}" class="calendario" 
+                                     converterMessage="La fecha debe tener formato dd/mm/yyyy" >
+                            <f:convertDateTime pattern = "dd/MM/yyyy"  />
+                            <f:ajax execute="@this" onevent="valueChange" />
+                        </h:inputText>                        
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Observaciones" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">                        
+                        <h:inputTextarea value="#{editarMuestreo.observaciones}" >
+                            <f:ajax execute="@this" event="change"/>
+                        </h:inputTextarea>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Es Repeticion" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:selectBooleanCheckbox label="Es Repeticion" value="#{editarMuestreo.esRepeticion}" >
+                            <f:ajax execute="@this" event="change" />
+                        </h:selectBooleanCheckbox>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Almacenamiento" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:selectOneRadio value="#{editarMuestreo.almacenamientoSeleccionado}" >
+                            <f:selectItems value="#{editarMuestreo.almacenamientos}" />
+                            <f:ajax execute="@this" event="change" />
+                        </h:selectOneRadio>
+                    </div>
+                </div>
+            </div>
+            <h:panelGroup id="panelProducto">
+                <h:panelGroup rendered="#{editarMuestreo.tipoMuestraSeleccionado == 'Producto'}" >
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:outputLabel value="Fecha Faena" />
+                            </div>
+                        </div>            
+                        <div class="p-col">
+                            <div class="box">
+                                <h:inputText id="fecha-origen" value="#{editarMuestreo.fechaOrigen}" class="calendario" 
+                                             converterMessage="La fecha debe tener formato dd/mm/yyyy" >
+                                    <f:convertDateTime pattern = "dd/MM/yyyy"  />
+                                    <f:ajax execute="@this" onevent="valueChange" />
+                                </h:inputText>       
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:outputLabel value="Fecha de Produccion" />
+                            </div>
+                        </div>            
+                        <div class="p-col">
+                            <div class="box">
+                                <h:inputText id="fecha-produccion" value="#{editarMuestreo.fechaProduccion}" class="calendario" 
+                                             converterMessage="La fecha debe tener formato dd/mm/yyyy" >
+                                    <f:convertDateTime pattern = "dd/MM/yyyy"  />
+                                    <f:ajax execute="@this" onevent="valueChange" />
+                                </h:inputText>       
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:outputLabel value="Lote" />
+                            </div>
+                        </div>            
+                        <div class="p-col">
+                            <div class="box">
+                                <h:inputText value="#{editarMuestreo.lote}">
+                                    <f:ajax execute="@this" event="valueChange" />
+                                </h:inputText>
+                            </div>
+                        </div>
+                    </div>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup id="panelOperario" >
+                <h:panelGroup  rendered="#{editarMuestreo.tipoMuestraSeleccionado == 'Operario'}" >
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:outputLabel value="Nombre" />
+                            </div>
+                        </div>            
+                        <div class="p-col">
+                            <div class="box">
+                                <h:inputText id="input-nombre-operario" value="#{editarMuestreo.nombre}">
+                                    <f:ajax execute="@this" event="valueChange" />
+                                </h:inputText>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:outputLabel value="Padron" />
+                            </div>
+                        </div>            
+                        <div class="p-col">
+                            <div class="box">
+                                <h:inputText id="input-padron-operario" value="#{editarMuestreo.padron}">
+                                    <f:ajax execute="@this" event="valueChange" />
+                                </h:inputText>
+                            </div>
+                        </div>
+                    </div>
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:panelGroup id="panelAmbiente">
+                <h:panelGroup rendered="#{editarMuestreo.tipoMuestraSeleccionado == 'Ambiente'}" >
+                    <div class="p-grid">
+                        <div class="p-col">
+                            <div class="box">
+                                <h:outputLabel value="En Contacto con Producto"/>
+                            </div>
+                        </div>            
+                        <div class="p-col">
+                            <div class="box">
+                                <h:selectBooleanCheckbox value="#{editarMuestreo.enContactoProducto}" label="Contacta con Producto?" >
+                                    <f:ajax execute="@this" event="valueChange" />
+                                </h:selectBooleanCheckbox>
+                            </div>
+                        </div>
+                    </div>                   
+                </h:panelGroup>
+            </h:panelGroup>
+            <h:commandButton id="botonEditarMuestreo" action="#{editarMuestreo.guardar()}" value="Guardar" class="boton-generico boton-aceptar">
+                <f:ajax execute="@all" delay="100" render="panel-mensajes" onevent="indicador" />
+            </h:commandButton>
+        </h:form>
+    </ui:define>
+</ui:composition>

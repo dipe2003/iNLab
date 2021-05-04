@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../../index.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="page_content">         
+        <h:outputLabel value="Edicion de Laboratorio" />
+        <h:form id="form-editar-laboratorio">
+            <h:panelGrid id="panel-mensajes">
+                <h:message for="input-nombre-laboratorio" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="botonEditarLaboratorio" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </h:panelGrid>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Nombre" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:inputText id="input-nombre-laboratorio" value="#{editarLaboratorio.nombre}"/>                        
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Detalles" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:inputTextarea value="#{editarLaboratorio.detalles}">
+                            <f:ajax execute="@this" />
+                        </h:inputTextarea>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Es Externo" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:selectBooleanCheckbox value="#{editarLaboratorio.esExterno}"/>
+                    </div>
+                </div>
+            </div>     
+            <h:commandButton value="Cancelar" action="#{facesContext.externalContext.redirect('/inlab/microbiologia/laboratorios/listalaboratorios.xhtml')}"
+                             class="boton-generico boton-cancelar"/>
+            <h:commandButton id="botonEditarLaboratorio" value="Guardar" action="#{editarLaboratorio.guardar()}" class="boton-generico boton-aceptar">
+                <f:ajax execute="@all" delay="100" render="panel-mensajes" onevent="indicador" />
+            </h:commandButton>
+        </h:form>
+    </ui:define>
+</ui:composition>

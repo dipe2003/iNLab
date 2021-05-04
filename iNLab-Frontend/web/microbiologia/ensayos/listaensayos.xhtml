@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../../index.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="page_content">    
+        <h:outputText value="Lista de Ensayos" /> 
+        <hr/>
+        <h:form id="form-lista-ensayos">
+
+            <h:panelGrid id="panel-mensajes">
+                <h:message for="botonEliminar" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </h:panelGrid>
+
+            <fieldset class="panel-superior-botones">
+                <legend>Filtros: </legend>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Buscar:</th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span><h:inputText value="#{listaDeEnsayos.nombreBuscar}" id="nombre-ensayos-buscar"/></span>
+                                <span><h:commandButton value="Buscar" action="#{listaDeEnsayos.botonBuscarNombre(listaDeEnsayos.nombreBuscar)}" class="boton-generico" >
+                                        <f:ajax execute="@this nombre-ensayos-buscar" render="panel-lista-ensayos paginator" onevent="indicador"  />
+                                    </h:commandButton>
+                                </span>
+                            </td>
+
+                            <td>
+                                <span><h:commandButton value="Reset" action="#{listaDeEnsayos.botonResetTodo()}" class="boton-generico boton-cancelar">
+                                        <f:ajax execute="@this" render="paginator nombre-ensayos-buscar panel-lista-ensayos" />
+                                    </h:commandButton>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>                
+            </fieldset>
+
+            <h:panelGroup id="panel-lista-ensayos">
+                <h:outputLabel value="No hay registros." rendered="${listaDeEnsayos.dicPaginas.keySet().size()==0}"/>
+                <h:dataTable var="ensayo" value="${listaDeEnsayos.dicPaginas.get(listaDeEnsayos.paginaActual)}" border="1" rendered="${listaDeEnsayos.dicPaginas.keySet().size() > 0}"
+                             class="tabla-principal  encabezado-listados contenido-listados">
+
+                    <h:column>
+                        <f:facet name="header">Denominacion</f:facet>
+                        <h:outputText value="${ensayo.denominacion}" />
+                    </h:column>
+                    <h:column rendered="${sesionDeUsuario.usuarioLogueado!=null and sesionDeUsuario.tipoUsuario !='Monitor'}">
+                        <f:facet name="header">Acciones</f:facet>
+                        <div class="dropdown">
+                            <button class="dropdown-toggle boton-generico" data-toggle="dropdown" ><span>...</span>
+                                <span class="caret"></span></button>
+                            <ul class="dropdown-menu custom-menu">
+                                <li>
+                                    <h:link value="Editar" outcome="editarensayo.xhtml?idensayo=${ensayo.id}" />
+                                </li>
+                                <li>
+                                    <h:commandLink  onclick="if (!confirm('Esta seguro que quiere eliminar este Ensayo?'))
+                                                return false"
+                                                    action="${listaDeEnsayos.eliminarEnsayo(ensayo.id)}" 
+                                                    rendered="${ensayos.requisitos.size() == 0 and
+                                                                sesionDeUsuario.tipoUsuario == 'Administrador' || 
+                                                                sesionDeUsuario.tipoUsuario == 'Verificador'}"
+                                                    id="botonEliminar"
+                                                    value="Eliminar">
+                                        <f:ajax  delay="100" onevent="indicador" />
+                                    </h:commandLink> 
+                                </li>
+                            </ul>
+                        </div> 
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+            <h:panelGroup id="paginator">
+                <div class="panel-inferior-botones">
+                    <span>Pagina:</span>
+                    <span>
+                        <h:selectOneMenu value="#{listaDeEnsayos.paginaActual}" >
+                            <f:selectItems value="#{listaDeEnsayos.listaPaginas}" />
+                            <f:ajax execute="@this" render="panel-lista-ensayos" onevent="indicador" />
+                        </h:selectOneMenu>
+                    </span><span>/${listaDeEnsayos.totalPaginas}</span>
+                </div>
+            </h:panelGroup>
+            <div class="panel-inferior-botones">
+                <h:commandButton value="Imprimir Listado" action="#" onclick="indicador()"
+                                 class="boton-generico boton-aceptar"/>
+            </div>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

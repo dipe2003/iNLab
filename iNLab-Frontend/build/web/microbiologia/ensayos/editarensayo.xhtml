@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../../index.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="page_content">           
+        <h:outputLabel value="Edicion de Ensayo" />
+        <h:form id="form-editar-ensayo">
+            <c:if test="#{sesionDeUsuario.usuarioLogueado.tipo != 'Administrador' and sesionDeUsuario.usuarioLogueado.tipo != 'Verificador'}" >
+                <meta http-equiv="refresh" content="0;url=#{facesContext.externalContext.requestContextPath}/errores/error_500.xhtml"></meta>
+            </c:if>
+            <h:panelGrid id="panel-mensajes">
+                <h:message for="input-denominacion" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="botonEditarEnsayo" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </h:panelGrid>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Denominacion" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:inputText id="input-denominacion" value="#{editarEnsayo.denominacion}"/>
+                    </div>
+                </div>
+            </div>
+            <h:commandButton value="Cancelar" action="#{facesContext.externalContext.redirect('/inlab/microbiologia/ensayos/listaensayos.xhtml')}"
+                             class="boton-generico boton-cancelar"/>
+            <h:commandButton id="botonEditarEnsayo" value="Guardar" action="#{editarEnsayo.guardar()}"
+                             class="boton-generico boton-aceptar" >
+                <f:ajax execute="@all" render="panel-mensajes" onevent="indicador" />
+            </h:commandButton>
+        </h:form>
+    </ui:define>
+</ui:composition>

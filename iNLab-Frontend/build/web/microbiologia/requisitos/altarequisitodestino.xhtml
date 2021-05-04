@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../../index.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="page_content">           
+        <h:outputLabel value="Alta de Requisito" />
+        <h:form id="frm-main"> 
+            <c:if test="#{sesionDeUsuario.usuarioLogueado.tipo != 'Administrador' and sesionDeUsuario.usuarioLogueado.tipo != 'Verificador'}" >
+                <meta http-equiv="refresh" content="0;url=#{facesContext.externalContext.requestContextPath}/errores/error_500.xhtml"></meta>
+            </c:if>
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Destino" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="#{altaDeRequisitoDestino.destino.denominacion}"/> 
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-grid">
+                <div class="p-col">
+                    <div class="box">
+                        <h:outputLabel value="Ensayo" />
+                    </div>
+                </div>            
+                <div class="p-col">
+                    <div class="box">
+                        <h:selectOneMenu value="#{altaDeRequisitoDestino.ensayoSeleccionado}">
+                            <f:selectItems value="#{altaDeRequisitoDestino.ensayos}" var="ensayo" itemLabel="#{ensayo.denominacion}" itemValue="#{ensayo.id}" />                            
+                            <f:ajax execute="@this" />
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+            <h:commandButton action="#{altaDeRequisitoDestino.darAltaRequisito}" value="Dar Alta" class="boton-generico boton-aceptar">
+                <f:ajax  delay="100" />
+            </h:commandButton>
+        </h:form>
+    </ui:define>
+</ui:composition>

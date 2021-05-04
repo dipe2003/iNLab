@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../index.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="page_content">    
+        <h:form id="form-list-destinos">
+            <h:outputText value="Listado de Destinos" />
+            <hr/>
+
+            <h:panelGrid id="panel-mensajes">
+                <h:message for="botonEliminar" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:message for="botonEliminarRequisito" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </h:panelGrid>
+
+            <fieldset class="panel-superior-botones">
+                <legend>Filtros: </legend>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Buscar:</th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span><h:inputText value="#{listaDeDestinos.nombreBuscar}" id="nombre-destino-buscar"/></span>
+                                <span><h:commandButton value="Buscar" action="#{listaDeDestinos.botonBuscarNombre(listaDeDestinos.nombreBuscar)}" class="boton-generico" >
+                                        <f:ajax execute="@this nombre-destino-buscar" render="panel-lista-destinos paginator" onevent="indicador"  />
+                                    </h:commandButton>
+                                </span>
+                            </td>
+
+                            <td>
+                                <span><h:commandButton value="Reset" action="#{listaDeDestinos.botonResetTodo()}" class="boton-generico boton-cancelar">
+                                        <f:ajax execute="@this" render="paginator nombre-destino-buscar panel-lista-destinos" />
+                                    </h:commandButton>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>                
+            </fieldset>
+
+            <div class="contenedor-tabla">
+                <h:panelGroup id="panel-lista-destinos" >
+                    <h:outputLabel value="No hay registros." rendered="${listaDeDestinos.dicPaginas.keySet().size()==0}"/>
+                    <h:dataTable var="destino" value="${listaDeDestinos.dicPaginas.get(listaDeDestinos.paginaActual)}" border="1" 
+                                 class="tabla-principal encabezado-listados contenido-listados" rendered="${listaDeDestinos.dicPaginas.keySet().size() > 0}">
+                        <h:column >
+                            <f:facet name="header">Denominacion</f:facet>
+                            <h:outputText value="${destino.denominacion}" />
+                        </h:column>
+
+                        <h:column >
+                            <f:facet name="header">Requisitos</f:facet>
+                            <c:choose>
+                                <c:when test="${destino.requisitos.size() == 0}">
+                                    <h:outputText value="Sin Definir"/>
+                                </c:when>
+                                <c:otherwise test="${destino.requisitos.size() > 0}">   
+                                    <h:dataTable var="requisito" value="${destino.requisitos}" class="tabla-principal subtabla"
+                                                 rendered="${destino.requisitos.size() > 0}" >
+                                        <h:column >
+                                            <f:facet name="header">Ensayo</f:facet>
+                                            <c:choose>
+                                                <c:when test="${sesionDeUsuario.usuarioLogueado != null}">
+                                                    <div class="dropdown">
+                                                        <a class="dropdown-toggle" data-toggle="dropdown" ><span>${requisito.ensayo.denominacion}</span>
+                                                            <span class="caret"></span></a>
+                                                        <ul class="dropdown-menu custom-menu">
+                                                            <li>
+                                                                <h:link value="Editar" outcome="/microbiologia/requisitos/editarlimitedestino.xhtml?idens=${requisito.ensayo.id}&amp;idreq=${requisito.id}"
+                                                                        rendered="${sesionDeUsuario.tipoUsuario == 'Administrador' || 
+                                                                                    sesionDeUsuario.tipoUsuario == 'Verificador'}"   
+                                                                        />
+                                                            </li> 
+                                                            <li>
+                                                                <h:commandLink  value="Nuevo Limite" 
+                                                                                rendered="${sesionDeUsuario.tipoUsuario == 'Administrador' || sesionDeUsuario.tipoUsuario == 'Verificador'}">
+                                                                    <f:ajax event="click" delay="100" listener="#{listaDeEspecificacionesMuestras.AgregarLimite(requisito.id, requisito.ensayo.id)}"  />
+                                                                </h:commandLink>
+                                                            </li>
+                                                            <li>
+                                                                <h:commandLink  onclick="if (!confirm('Esta seguro que quiere eliminar este Requisito?'))
+                                                                            return false"
+                                                                                action="${listaDeDestinos.eliminarRequisito(requisito.id, requisito.ensayo.id)}" 
+                                                                                rendered="${requisito.limites.size() == 0 and requisito.analisisRequisito.size() == 0 and
+                                                                                            sesionDeUsuario.tipoUsuario == 'Administrador' || 
+                                                                                            sesionDeUsuario.tipoUsuario == 'Verificador'}"
+                                                                                id="botonEliminarRequisito"
+                                                                                value="Eliminar">
+                                                                    <f:ajax  delay="100" onevent="indicador" />
+                                                                </h:commandLink> 
+                                                            </li>
+
+                                                        </ul>
+                                                    </div> 
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <h:outputText value="${requisito.ensayo.denominacion}" />
+                                                </c:otherwise>
+                                            </c:choose>
+
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Marginal</f:facet>
+                                            <h:outputText value="${requisito.limiteVigente.valorRecuentoMarginal}" rendered="${requisito.limiteVigente != null and requisito.limiteVigente.tipoLimite == 'Recuento'}"/>
+                                        </h:column>
+                                        <h:column  >
+                                            <f:facet name="header">Inaceptable</f:facet>
+                                            <h:outputText value="${requisito.limiteVigente.valorRecuentoInaceptable}" rendered="${requisito.limiteVigente != null and  requisito.limiteVigente.tipoLimite == 'Recuento'}"/>
+                                        </h:column>
+                                        <h:column  >
+                                            <f:facet name="header">Inaceptable</f:facet>
+                                            <h:outputText value="${requisito.limiteVigente.valorBusquedaInaceptable}" rendered="${requisito.limiteVigente != null and  requisito.limiteVigente.tipoLimite == 'Busqueda'}"/>
+                                        </h:column>
+                                        <h:column  >
+                                            <f:facet name="header">Aceptable</f:facet>
+                                            <h:outputText value="${requisito.limiteVigente.valorBusquedaAceptable}" rendered="${requisito.limiteVigente != null and  requisito.limiteVigente.tipoLimite == 'Busqueda'}"/>
+                                        </h:column>
+
+                                    </h:dataTable>
+                                </c:otherwise>
+                            </c:choose>
+                        </h:column>
+                        <h:column rendered="${sesionDeUsuario.usuarioLogueado!=null and sesionDeUsuario.tipoUsuario !='Monitor'}">
+                            <f:facet name="header">Acciones</f:facet>
+                            <div class="dropdown">
+                                <button class="dropdown-toggle boton-generico" data-toggle="dropdown" ><span>...</span>
+                                    <span class="caret"></span></button>
+                                <ul class="dropdown-menu custom-menu">
+                                    <li>
+                                        <h:link value="Editar" outcome="editardestino.xhtml?iddestino=${destino.id}" />
+                                    </li>
+                                    <li>
+                                        <h:commandLink  value="Agregar Requisito" 
+                                                        rendered="${sesionDeUsuario.tipoUsuario == 'Administrador' || sesionDeUsuario.tipoUsuario == 'Verificador'}">
+                                            <f:ajax event="click" listener="#{listaDeDestinos.AgregarRequisito(destino.id)}" delay="100" />
+                                        </h:commandLink>
+                                    </li>
+                                    <li>
+                                        <h:commandLink  onclick="if (!confirm('Esta seguro que quiere eliminar este Destino?'))
+                                                    return false"
+                                                        action="${listaDeDestinos.eliminarDestino(destino.id)}" 
+                                                        rendered="${destino.requisitos.size() == 0 and destino.especificacionesMuestras.size() == 0 and
+                                                                    sesionDeUsuario.tipoUsuario == 'Administrador' || 
+                                                                    sesionDeUsuario.tipoUsuario == 'Verificador'}"
+                                                        id="botonEliminar"
+                                                        value="Eliminar">
+                                            <f:ajax  delay="100" onevent="indicador" />
+                                        </h:commandLink> 
+                                    </li>
+                                </ul>
+                            </div> 
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <h:panelGroup id="paginator">
+                    <div class="panel-inferior-botones">
+                        <span>Pagina:</span>
+                        <span>
+                            <h:selectOneMenu value="#{listaDeDestinos.paginaActual}" >
+                                <f:selectItems value="#{listaDeDestinos.listaPaginas}" />
+                                <f:ajax execute="@this" render="panel-lista-destinos" onevent="indicador" />
+                            </h:selectOneMenu>
+                        </span><span> / ${listaDeDestinos.totalPaginas}</span>
+                    </div>
+                </h:panelGroup>
+                <div class="panel-inferior-botones">
+                    <h:commandButton value="Imprimir Listado" action="#" onclick="indicador()"
+                                     class="boton-generico boton-aceptar"/>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>
