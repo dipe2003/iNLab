@@ -77,7 +77,7 @@ public class ListaDeDestinos implements Serializable {
                 MensajesWeb.MostrarError("form-lista-destinos:botonEliminarRequisito", "Erorr: ", "No se pudo eliminar el Requisito seleccionado.");
             }
         } else {
-            MensajesWeb.MostrarError("form-lista-destinos:botonEliminarRequisito", "Erorr: ", "No se pudo eliminar el Ensayo seleccionado");
+            MensajesWeb.MostrarError("form-lista-destinos:botonEliminarRequisito", "Erorr: ", "No se pudo eliminar el Requisito seleccionado");
         }
     }
 
