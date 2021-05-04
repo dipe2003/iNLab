@@ -106,6 +106,7 @@ public class ControladorMicrobiologia {
             ensayo.FindRequisito(idRequisito).AgregarRecuento(marginal, inaceptable);
             return repositorioEnsayos.Update(ensayo).getId();
         } catch (Exception ex) {
+            System.out.println("Error al agregar limite: " + ex.getMessage());
         }
         return -1L;
     }
@@ -116,6 +117,7 @@ public class ControladorMicrobiologia {
             ensayo.FindRequisito(idRequisito).AgregarBusqueda(valorInaceptable, valorAceptable);
             return repositorioEnsayos.Update(ensayo).getId();
         } catch (Exception ex) {
+            System.out.println("Error al agregar limite: " + ex.getMessage());
         }
         return -1L;
     }
@@ -128,6 +130,7 @@ public class ControladorMicrobiologia {
             limite.setValorBusquedaInaceptable(nuevoValorInaceptable);
             return repositorioEnsayos.Update(ensayo).getId();
         } catch (Exception ex) {
+            System.out.println("Error al actualizar limite: " + ex.getMessage());
         }
         return -1L;
     }
@@ -140,6 +143,7 @@ public class ControladorMicrobiologia {
             limite.setValorRecuentoInaceptable(nuevoInaceptable);
             return repositorioEnsayos.Update(ensayo).getId();
         } catch (Exception ex) {
+            System.out.println("Error al actualizar limite: " + ex.getMessage());
         }
         return -1L;
     }
@@ -152,6 +156,7 @@ public class ControladorMicrobiologia {
             muestreo.AgregarVerificacion(repositorioUsuarios.Find(idVerificador), estado, observaciones);
             return repositorioMuestreos.Update(muestreo).getId();
         } catch (Exception ex) {
+            System.out.println("Error al agregar verificacion: " + ex.getMessage());
         }
         return -1L;
     }
@@ -167,6 +172,7 @@ public class ControladorMicrobiologia {
             muestreo.getVerificacion().setResultado(estado);
             return repositorioMuestreos.Update(muestreo).getId();
         } catch (Exception ex) {
+            System.out.println("Error al actualizacion verificacion: " + ex.getMessage());
         }
         return -1L;
     }
