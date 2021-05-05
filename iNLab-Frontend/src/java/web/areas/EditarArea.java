@@ -63,13 +63,13 @@ public class EditarArea implements Serializable {
 
     public void guardar() throws IOException {
         if (nombre.isEmpty()) {
-            MensajesWeb.MostrarError("form-editar-area:nombreArea", "Faltan Datos Obligatorios:", "No se introdujo el nombre del area a registrar.");
+            MensajesWeb.MostrarError("form-editar-area:mensajes-vista", "Faltan Datos Obligatorios.", "No se introdujo el nombre del area a registrar.");
         } else {
             if (!area.isEsProductiva() != esProductiva || !area.getNombre().equalsIgnoreCase(nombre)) {
                 if (controladorAreas.ActualizarArea(area.getId(), nombre, esProductiva) > 0) {
                     redirigir();
                 } else {
-                    MensajesWeb.MostrarError("form-editar-area:botonEditarArea", "No se pudo guardar:", "Verifica los datos ingresados o contacta con el administrador.");
+                    MensajesWeb.MostrarError("form-editar-area:mensajes-vista", "No se pudo guardar.", "Verifica los datos ingresados o contacta con el administrador.");
                 }
             }
         }
@@ -79,7 +79,7 @@ public class EditarArea implements Serializable {
         if (controladorAreas.DarDeBajaArea(area.getId(), new Date()) > 0) {
             redirigir();
         } else {
-            MensajesWeb.MostrarError("form-editar-area:botonDarBajaArea", "No se dio Baja:", "Contacta con el administrador.");
+            MensajesWeb.MostrarError("form-editar-area:mensajes-vista", "No se dio Baja.", "Contacta con el administrador.");
         }
     }
 
@@ -87,7 +87,7 @@ public class EditarArea implements Serializable {
         if (controladorAreas.DarDeAltaArea(area.getId()) > 0) {
             redirigir();
         } else {
-            MensajesWeb.MostrarError("form-editar-area:botonDarAltaArea", "No se dio Alta:", "Contacta con el administrador.");
+            MensajesWeb.MostrarError("form-editar-area:mensajes-vista", "No se dio Alta.", "Contacta con el administrador.");
         }
     }
 

@@ -53,13 +53,13 @@ public class EditarEnsayo implements Serializable {
 //</editor-fold>
     public void guardar() throws IOException {
         if (denominacion.isEmpty()) {
-            MensajesWeb.MostrarError("form-editar-ensayo:input-denominacion", "Faltan datos: ", "No se introdujo Denominacion del Ensayo.");
+            MensajesWeb.MostrarError("form-editar-ensayo:mensajes-vista", "Faltan datos.", "No se introdujo Denominacion del Ensayo.");
         } else {
             if (!ensayo.getDenominacion().equalsIgnoreCase(denominacion)) {
                 if (controladorMicrobiologia.ActualizarEnsayo(ensayo.getId(), denominacion) > 0) {
                     context.redirect(context.getRequestContextPath() + "/microbiologia/ensayos/listaensayos.xhtml");
                 }else{
-                    MensajesWeb.MostrarError("form-editar-ensayo:botonEditarEnsayo", "No se pudo guardar: ", "Verifica los datos ingresados o contacta con el administrador.");
+                    MensajesWeb.MostrarError("form-editar-ensayo:mensajes-vista", "No se pudo guardar.", "Verifica los datos ingresados o contacta con el administrador.");
                 }
             }
             

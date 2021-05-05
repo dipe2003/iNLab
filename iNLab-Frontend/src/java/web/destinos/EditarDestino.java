@@ -53,13 +53,13 @@ public class EditarDestino implements Serializable {
 
     public void guardar() throws IOException {
         if (denominacion.isEmpty()) {
-            MensajesWeb.MostrarError("form-editar-destino:nombreDestino", "Faltan Datos Obligatorios:", "No se introdujo el nombre del Destino a registrar.");
+            MensajesWeb.MostrarError("form-editar-destino:mensajes-vista", "Faltan Datos Obligatorios.", "No se introdujo el nombre del Destino a registrar.");
         } else {
             if (!destino.getDenominacion().equalsIgnoreCase(denominacion)) {
                 if (controladorDestinos.ActualizarDestino(destino.getId(), denominacion) > 0) {
                     redirigir();
                 }else{
-                     MensajesWeb.MostrarError("form-editar-destino:botonEditarDestino", "No se pudo guardar:", "Verifica los datos ingresados o contacta con el administrador.");
+                     MensajesWeb.MostrarError("form-editar-destino:mensajes-vista", "No se pudo guardar.", "Verifica los datos ingresados o contacta con el administrador.");
                 }
             }
         }

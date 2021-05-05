@@ -74,10 +74,10 @@ public class ListaDeDestinos implements Serializable {
                 FacesContext.getCurrentInstance().renderResponse();
                 FacesContext.getCurrentInstance().responseComplete();
             } else {
-                MensajesWeb.MostrarError("form-lista-destinos:botonEliminarRequisito", "Erorr: ", "No se pudo eliminar el Requisito seleccionado.");
+                MensajesWeb.MostrarError("form-lista-destinos:mensajes-vista", "Erorr.", "No se pudo eliminar el Requisito seleccionado.");
             }
         } else {
-            MensajesWeb.MostrarError("form-lista-destinos:botonEliminarRequisito", "Erorr: ", "No se pudo eliminar el Requisito seleccionado");
+            MensajesWeb.MostrarError("form-lista-destinos:mensajes-vista", "Erorr.", "No se pudo eliminar el Requisito seleccionado");
         }
     }
 
@@ -89,10 +89,10 @@ public class ListaDeDestinos implements Serializable {
                 FacesContext.getCurrentInstance().renderResponse();
                 FacesContext.getCurrentInstance().responseComplete();
             } else {
-                MensajesWeb.MostrarError("form-lista-destinos:botonEliminar", "Erorr: ", "No se pudo eliminar el Destino seleccionado.");
+                MensajesWeb.MostrarError("form-lista-destinos:mensajes-vista", "Erorr.", "No se pudo eliminar el Destino seleccionado.");
             }
         } else {
-            MensajesWeb.MostrarError("form-lista-destinos:botonEliminar", "Erorr: ", "No se pudo eliminar el Destino seleccionado");
+            MensajesWeb.MostrarError("form-lista-destinos:mensajes-vista", "Erorr.", "No se pudo eliminar el Destino seleccionado");
         }
     }
 

@@ -9,10 +9,7 @@
         <h:outputLabel value="Editar Area" />
         <h:form id="form-editar-area">
             <h:panelGrid id="panel-mensajes">
-                <h:message for="nombreArea" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="botonEditarArea" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="botonDarBajaArea" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="botonDarAltaArea" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:messages id="mensajes-vista" showDetail="true" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
             </h:panelGrid>
             <div class="p-grid">
                 <div class="p-col">
@@ -22,8 +19,7 @@
                 </div>            
                 <div class="p-col">
                     <div class="box">
-                        <h:inputText id="nombreArea" value="#{editarArea.nombre}"/>                    </div>
-
+                        <h:inputText id="nombreArea" value="#{editarArea.nombre}"/>
                 </div>
             </div>
             <div class="p-grid">

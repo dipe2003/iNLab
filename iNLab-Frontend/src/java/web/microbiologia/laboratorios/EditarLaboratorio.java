@@ -70,14 +70,14 @@ public class EditarLaboratorio implements Serializable {
 
 //</editor-fold>
     public void guardar() throws IOException {
-        if (nombre.isEmpty()) {
-            MensajesWeb.MostrarError("form-editar-laboratorio:input-nombre-laboratorio", "Faltan Datos Obligatorios:", "No se introdujo el nombre del laboratorio a registrar.");
+        if (nombre.isEmpty() || nombre == null) {
+            MensajesWeb.MostrarError("form-editar-laboratorio:mensajes-vista", "Faltan Datos Obligatorios.", "No se introdujo el nombre del laboratorio a registrar.");
         } else {
             if (!laboratorio.isEsExterno() != esExterno || !laboratorio.getNombre().equalsIgnoreCase(nombre) || !laboratorio.getDetalles().equalsIgnoreCase(detalles)) {
                 if (controladorLaboratorios.ActualizarLaboratorio(laboratorio.getId(), nombre, detalles, esExterno) > 0) {
                     redirigir();
                 } else {
-                    MensajesWeb.MostrarError("form-editar-laboratorio:botonEditarLaboratorio", "No se pudo guardar:", "Verifica los datos ingresados o contacta con el administrador.");
+                    MensajesWeb.MostrarError("form-editar-laboratorio:mensajes-vista", "No se pudo guardar.", "Verifica los datos ingresados o contacta con el administrador.");
                 }
             }
         }

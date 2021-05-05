@@ -149,7 +149,7 @@ public class AltaDeAnalisisResultadoManual implements Serializable {
                     .findFirst()
                     .get());
         } else {
-            MensajesWeb.MostrarError("form-analisis-resultados:boton-buscar-muestreo", "No se ingreso busqueda: ", "Verifica los datos ingresados o contacta con el administrador.");
+            MensajesWeb.MostrarError("form-analisis-resultados:mensajes-vista", "No se ingreso busqueda.", "Verifica los datos ingresados o contacta con el administrador.");
         }
     }
 
@@ -161,10 +161,10 @@ public class AltaDeAnalisisResultadoManual implements Serializable {
                         .findFirst()
                         .get());
             } else {
-                MensajesWeb.MostrarAdvertencia("form-analisis-resultados:boton-buscar-muestreo", "No se encontro Muestreo o no tiene analisis pendientes: ", "Verifica los datos ingresados o contacta con el administrador.");
+                MensajesWeb.MostrarAdvertencia("form-analisis-resultados:mensajes-vista", "No se encontro Muestreo o no tiene analisis pendientes.", "Verifica los datos ingresados o contacta con el administrador.");
             }
         } else {
-            MensajesWeb.MostrarError("form-analisis-resultados:boton-buscar-muestreo", "No se ingreso busqueda: ", "Verifica los datos ingresados o contacta con el administrador.");
+            MensajesWeb.MostrarError("form-analisis-resultados:mensajes-vista", "No se ingreso busqueda.", "Verifica los datos ingresados o contacta con el administrador.");
         }
     }
 
@@ -258,7 +258,7 @@ public class AltaDeAnalisisResultadoManual implements Serializable {
 
     public void darAltaAnalisisResultado() throws IOException {
         if (requisito == null) {
-            MensajesWeb.MostrarError("form-analisis-resultados:botonAltaAnalisisResultado", "No se pudo guardar: ", "La muestra seleccionada no tiene requisitos asociados.");
+            MensajesWeb.MostrarError("form-analisis-resultados:mensajes-vista", "No se pudo guardar.", "La muestra seleccionada no tiene requisitos asociados.");
         } else {
             if (requisito.getLimiteVigente().getClass().getSimpleName().equals("Busqueda")) {
                 if (comprobarDatos(true)) {
@@ -266,7 +266,7 @@ public class AltaDeAnalisisResultadoManual implements Serializable {
                             valorResultadoBusqueda, laboratorioSeleccionado) > 0) {
                         redirigir();
                     } else {
-                        MensajesWeb.MostrarError("form-analisis-resultados:botonAltaAnalisisResultado", "No se pudo guardar: ", "Verifica los datos ingresados o contacta con el administrador.");
+                        MensajesWeb.MostrarError("form-analisis-resultados:mensajes-vista", "No se pudo guardar.", "Verifica los datos ingresados o contacta con el administrador.");
                     }
                 }
             } else {
@@ -275,7 +275,7 @@ public class AltaDeAnalisisResultadoManual implements Serializable {
                             valorResultadoRecuento, laboratorioSeleccionado) > 0) {
                         redirigir();
                     } else {
-                        MensajesWeb.MostrarError("form-analisis-resultados:botonAltaAnalisisResultado", "No se pudo guardar: ", "Verifica los datos ingresados o contacta con el administrador.");
+                        MensajesWeb.MostrarError("form-analisis-resultados:mensajes-vista", "No se pudo guardar.", "Verifica los datos ingresados o contacta con el administrador.");
                     }
                 }
             }
@@ -285,34 +285,34 @@ public class AltaDeAnalisisResultadoManual implements Serializable {
     private boolean comprobarDatos(boolean tipoBusqueda) {
         boolean res = true;
         if (fechaAnalisis == null) {
-            MensajesWeb.MostrarError("form-analisis-resultados:fecha-analisis", "Faltan Datos: ", "No se ingreso Fecha de Analisis.");
+            MensajesWeb.MostrarError("form-analisis-resultados:mensajes-vista", "Faltan Datos.", "No se ingreso Fecha de Analisis.");
             res = false;
         } else {
             if (fechaAnalisis.before(muestreo.getFechaMuestreo())) {
-                MensajesWeb.MostrarError("form-analisis-resultados:fecha-analisis", "Fecha de Analisis: ", "La fecha de Analisis no puede ser anterior al muestreo.");
+                MensajesWeb.MostrarError("form-analisis-resultados:mensajes-vista", "Fecha de Analisis.", "La fecha de Analisis no puede ser anterior al muestreo.");
                 res = false;
             }
         }
         if (idUsuarioSeleccionado == null || idUsuarioSeleccionado.equals(0)) {
-            MensajesWeb.MostrarError("form-analisis-resultados:usuario-analista", "Faltan Datos: ", "No se selecciono Analista.");
+            MensajesWeb.MostrarError("form-analisis-resultados:mensajes-vista", "Faltan Datos.", "No se selecciono Analista.");
             res = false;
         }
 
         if (laboratorioSeleccionado == null || laboratorioSeleccionado.equals(0)) {
-            MensajesWeb.MostrarError("form-analisis-resultados:select-laboratorio", "Faltan Datos: ", "No se selecciono Laboratorio.");
+            MensajesWeb.MostrarError("form-analisis-resultados:mensajes-vista", "Faltan Datos.", "No se selecciono Laboratorio.");
             res = false;
         }
 
         if (tipoBusqueda) {
             if (valorResultadoBusqueda == null) {
-                MensajesWeb.MostrarError("form-analisis-resultados:panel-valores-busqueda", "Faltan Datos: ", "No se ingreso Resultado.");
+                MensajesWeb.MostrarError("form-analisis-resultados:mensajes-vista", "Faltan Datos.", "No se ingreso Resultado.");
                 res = false;
             }
         }
 
         if (!tipoBusqueda) {
             if (valorResultadoRecuento < 0f) {
-                MensajesWeb.MostrarError("form-analisis-resultados:panel-valores-recuento", "Faltan Datos: ", "No se ingreso Resultado o no es correcto.");
+                MensajesWeb.MostrarError("form-analisis-resultados:mensajes-vista", "Faltan Datos.", "No se ingreso Resultado o no es correcto.");
                 res = false;
             }
         }

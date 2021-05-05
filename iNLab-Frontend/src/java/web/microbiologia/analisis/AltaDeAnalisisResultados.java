@@ -184,7 +184,7 @@ public class AltaDeAnalisisResultados implements Serializable {
 
     public void darAltaAnalisisResultado() throws IOException {
         if (requisito == null) {
-            MensajesWeb.MostrarError("form-alta-analisis-resultados:botonAltaAnalisis", "No se pudo guardar: ", "La muestra seleccionada no tiene requisitos asociados.");
+            MensajesWeb.MostrarError("form-alta-analisis-resultados:mensajes-vista", "No se pudo guardar.", "La muestra seleccionada no tiene requisitos asociados.");
         } else {
             if (requisito.getLimiteVigente().getClass().getSimpleName().equals("Busqueda")) {
                 if (comprobarDatos(true)) {
@@ -192,7 +192,7 @@ public class AltaDeAnalisisResultados implements Serializable {
                             valorResultadoBusqueda, laboratorioSeleccionado) > 0) {
                         redirigir();
                     } else {
-                        MensajesWeb.MostrarError("form-alta-analisis-resultados:botonAltaAnalisis", "No se pudo guardar: ", "Verifica los datos ingresados o contacta con el administrador.");
+                        MensajesWeb.MostrarError("form-alta-analisis-resultados:mensajes-vista", "No se pudo guardar.", "Verifica los datos ingresados o contacta con el administrador.");
                     }
                 }
             } else {
@@ -200,8 +200,8 @@ public class AltaDeAnalisisResultados implements Serializable {
                     if (controladorAnalisis.AgregarResultadoRecuento(requisito.getId(), muestreo.getId(), fechaAnalisis, observacionesAnalisis, idUsuarioSeleccionado,
                             valorResultadoRecuento, laboratorioSeleccionado) > 0) {
                         redirigir();
-                    }else {
-                        MensajesWeb.MostrarError("form-alta-analisis-resultados:botonAltaAnalisis", "No se pudo guardar: ", "Verifica los datos ingresados o contacta con el administrador.");
+                    } else {
+                        MensajesWeb.MostrarError("form-alta-analisis-resultados:mensajes-vista", "No se pudo guardar.", "Verifica los datos ingresados o contacta con el administrador.");
                     }
                 }
             }
@@ -211,34 +211,34 @@ public class AltaDeAnalisisResultados implements Serializable {
     private boolean comprobarDatos(boolean tipoBusqueda) {
         boolean res = true;
         if (fechaAnalisis == null) {
-            MensajesWeb.MostrarError("form-alta-analisis:fecha-analisis", "Faltan Datos: ", "No se ingreso Fecha de Analisis.");
+            MensajesWeb.MostrarError("form-alta-analisis:mensajes-vista", "Faltan Datos.", "No se ingreso Fecha de Analisis.");
             res = false;
         } else {
             if (fechaAnalisis.before(muestreo.getFechaMuestreo())) {
-                MensajesWeb.MostrarError("form-alta-analisis:fecha-analisis", "Fecha de Analisis: ", "La fecha de Analisis no puede ser anterior al muestreo.");
+                MensajesWeb.MostrarError("form-alta-analisis:mensajes-vista", "Fecha de Analisis.", "La fecha de Analisis no puede ser anterior al muestreo.");
                 res = false;
             }
         }
         if (idUsuarioSeleccionado == null || idUsuarioSeleccionado.equals(0)) {
-            MensajesWeb.MostrarError("form-alta-analisis:usuario-analista", "Faltan Datos: ", "No se selecciono Analista.");
+            MensajesWeb.MostrarError("form-alta-analisis:mensajes-vista", "Faltan Datos.", "No se selecciono Analista.");
             res = false;
         }
 
         if (laboratorioSeleccionado == null || laboratorioSeleccionado.equals(0)) {
-            MensajesWeb.MostrarError("form-alta-analisis:select-laboratorio", "Faltan Datos: ", "No se selecciono Laboratorio.");
+            MensajesWeb.MostrarError("form-alta-analisis:mensajes-vista", "Faltan Datos.", "No se selecciono Laboratorio.");
             res = false;
         }
 
         if (tipoBusqueda) {
             if (valorResultadoBusqueda == null) {
-                MensajesWeb.MostrarError("form-alta-analisis:panel-valores-busqueda", "Faltan Datos: ", "No se ingreso Resultado.");
+                MensajesWeb.MostrarError("form-alta-analisis:mensajes-vista", "Faltan Datos.", "No se ingreso Resultado.");
                 res = false;
             }
         }
 
         if (!tipoBusqueda) {
             if (valorResultadoRecuento < 0f) {
-                MensajesWeb.MostrarError("form-alta-analisis:panel-valores-recuento", "Faltan Datos: ", "No se ingreso Resultado o no es correcto.");
+                MensajesWeb.MostrarError("form-alta-analisis:mensajes-vista", "Faltan Datos.", "No se ingreso Resultado o no es correcto.");
                 res = false;
             }
         }

@@ -7,7 +7,12 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="page_content">        
         <h:outputLabel value="Alta de Laboratorio" />
-        <h:form>
+        <h:form id="form-alta-laboratorio">
+
+            <h:panelGrid id="panel-mensajes">
+                <h:messages id="mensajes-vista" showDetail="true" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </h:panelGrid>
+
             <div class="p-grid">
                 <div class="p-col">
                     <div class="box">

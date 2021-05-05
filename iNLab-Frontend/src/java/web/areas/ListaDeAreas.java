@@ -58,24 +58,24 @@ public class ListaDeAreas implements Serializable {
             System.out.println("Error al crear pdf: " + ex.getMessage());
         }
     }
-    
+
     public void eliminarArea(Long idArea) throws IOException {
         if (idArea > 0) {
             if (controladorAreas.EliminarArea(idArea) > 0) {
-              redirigir();
+                redirigir();
             } else {
-                MensajesWeb.MostrarError("form-lista-areas:botonEliminar", "Erorr: ", "No se pudo eliminar el area seleccionada");
+                MensajesWeb.MostrarError("form-lista-areas:mensajes-vista", "Erorr.", "No se pudo eliminar el area seleccionada");
             }
         } else {
-            MensajesWeb.MostrarError("form-lista-areas:botonEliminar", "Erorr: ", "No se pudo eliminar el area seleccionada");
+            MensajesWeb.MostrarError("form-lista-areas:mensajes-vista", "Erorr.", "No se pudo eliminar el area seleccionada");
         }
     }
-    
-     public void darBaja(Long idArea) throws IOException {
+
+    public void darBaja(Long idArea) throws IOException {
         if (controladorAreas.DarDeBajaArea(idArea, new Date()) > 0) {
             redirigir();
         } else {
-            MensajesWeb.MostrarError("form-listar-areas:botonDarBajaArea", "No se dio Baja:", "Contacta con el administrador.");
+            MensajesWeb.MostrarError("form-listar-areas:mensajes-vista", "No se dio Baja.", "Contacta con el administrador.");
         }
     }
 
@@ -83,7 +83,7 @@ public class ListaDeAreas implements Serializable {
         if (controladorAreas.DarDeAltaArea(idArea) > 0) {
             redirigir();
         } else {
-            MensajesWeb.MostrarError("form-listar-areas:botonDarAltaArea", "No se dio Alta:", "Contacta con el administrador.");
+            MensajesWeb.MostrarError("form-listar-areas:mensajes-vista", "No se dio Alta.", "Contacta con el administrador.");
         }
     }
 
@@ -293,7 +293,6 @@ public class ListaDeAreas implements Serializable {
     }
 
     //</editor-fold>
-    
     @PostConstruct
     public void init() {
         context = FacesContext.getCurrentInstance().getExternalContext();

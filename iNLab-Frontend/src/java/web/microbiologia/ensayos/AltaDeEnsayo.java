@@ -39,13 +39,13 @@ public class AltaDeEnsayo implements Serializable {
 
     public void darAltaEnsayo() throws IOException {
         if (denominacion.isEmpty()) {
-            MensajesWeb.MostrarError("form-alta-ensayo:input-denominacion", "Faltan datos: ", "No se introdujo Denominacion del Ensayo.");
+            MensajesWeb.MostrarError("form-alta-ensayo:mensajes-vista", "Faltan datos.", "No se introdujo Denominacion del Ensayo.");
         } else {
             ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
             if (controladorMicrobiologia.CrearEnsayo(denominacion) > 0) {
                 context.redirect(context.getRequestContextPath() + "/microbiologia/ensayos/listaensayos.xhtml");
             } else {
-                MensajesWeb.MostrarError("form-alta-ensayo:botonAltaEnsayo", "No se pudo guardar: ", "Verifica los datos ingresados o contacta con el administrador.");
+                MensajesWeb.MostrarError("form-alta-ensayo:mensajes-vista", "No se pudo guardar.", "Verifica los datos ingresados o contacta con el administrador.");
             }
         }
     }

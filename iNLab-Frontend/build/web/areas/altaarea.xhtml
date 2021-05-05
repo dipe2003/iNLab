@@ -9,6 +9,9 @@
     <ui:define name="page_content">      
         <h:outputLabel value="Alta de Area" />
         <h:form id="frm-alta-area" >
+            <h:panelGrid id="panel-mensajes">
+                 <h:messages id="mensajes-vista" showDetail="true" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </h:panelGrid>
             <div class="p-grid">
                 <div class="p-col">
                     <div class="box">
@@ -19,7 +22,6 @@
                     <div class="box">
                         <h:inputText id="nombreArea" value="#{altaDeArea.nombre}"/>                        
                     </div>
-                    <h:message for="nombreArea" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
                 </div>
 
             </div>
@@ -37,10 +39,7 @@
             </div>  
             <div>
                 <h:commandButton id="botonAltaArea" value="Dar de Alta" action="#{altaDeArea.darAltaArea()}" class="boton-generico boton-aceptar" />
-            </div>
-            <div>
-                <h:message for="botonAltaArea" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-            </div>            
+            </div>      
         </h:form>
     </ui:define>
 </ui:composition>

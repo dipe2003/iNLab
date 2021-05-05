@@ -8,10 +8,11 @@
     <ui:define name="page_content">         
         <h:outputLabel value="Edicion de Laboratorio" />
         <h:form id="form-editar-laboratorio">
+
             <h:panelGrid id="panel-mensajes">
-                <h:message for="input-nombre-laboratorio" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="botonEditarLaboratorio" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:messages id="mensajes-vista" showDetail="true" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
             </h:panelGrid>
+
             <div class="p-grid">
                 <div class="p-col">
                     <div class="box">

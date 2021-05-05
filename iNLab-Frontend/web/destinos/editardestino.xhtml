@@ -8,6 +8,9 @@
     <ui:define name="page_content">          
         <h:outputLabel value="Editar Destino" />
         <h:form id="form-editar-destino">
+             <h:panelGrid id="panel-mensajes">
+                 <h:messages id="mensajes-vista" showDetail="true" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </h:panelGrid>
             <div class="p-grid">
                 <div class="p-col">
                     <div class="box">
@@ -17,7 +20,6 @@
                 <div class="p-col">
                     <div class="box">
                         <h:inputText id="nombreDestino" value="#{editarDestino.denominacion}"/>
-                        <h:message for="nombreDestino" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
                     </div>
                 </div>
             </div>
@@ -26,9 +28,6 @@
                                  class="boton-generico boton-cancelar" />
                 <h:commandButton id="botonEditarDestino" value="Guardar" action="#{editarDestino.guardar()}" 
                                  class="boton-generico boton-aceptar"/>
-            </div>
-            <div>
-                <h:message for="botonEditarDestino" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
             </div>
         </h:form>
     </ui:define>

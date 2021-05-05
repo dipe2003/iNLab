@@ -89,7 +89,7 @@ public class AltaDeVerificacion implements Serializable {
             FacesContext.getCurrentInstance().renderResponse();
             FacesContext.getCurrentInstance().responseComplete();
         } else {
-             MensajesWeb.MostrarError("form-alta-verificacion:botonAltaVerificacion", "No se pudo guardar: ", "Verifica los datos ingresados o contacta con el administrador.");
+             MensajesWeb.MostrarError("form-alta-verificacion:mensajes-vista", "No se pudo guardar.", "Verifica los datos ingresados o contacta con el administrador.");
         }
     }
 

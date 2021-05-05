@@ -32,7 +32,7 @@ import web.sesion.SesionDeUsuario;
 public class ListaDeLaboratorios implements Serializable {
 
     private ControladorLaboratorios controladorLaboratorios;
-    
+
     private List<Laboratorio> laboratorios;
 
     public List<Laboratorio> getLaboratorios() {
@@ -42,19 +42,19 @@ public class ListaDeLaboratorios implements Serializable {
     public void setLaboratorios(List<Laboratorio> value) {
         this.laboratorios = value;
     }
-    
+
     public void eliminarLaboratorio(Long idLaboratorio) throws IOException {
-    if (idLaboratorio > 0) {
+        if (idLaboratorio > 0) {
             if (controladorLaboratorios.EliminarLaboratorio(idLaboratorio) > 0) {
                 ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
                 context.redirect(context.getRequestContextPath() + "/microbiologia/laboratorios/listalaboratorios.xhtml");
                 FacesContext.getCurrentInstance().renderResponse();
                 FacesContext.getCurrentInstance().responseComplete();
-            }else{
-                MensajesWeb.MostrarError("form-lista-laboratorios:botonEliminar", "Erorr: ", "No se pudo eliminar el Laboratorio seleccionado");
+            } else {
+                MensajesWeb.MostrarError("form-lista-laboratorios:mensjes-vista", "Erorr.", "No se pudo eliminar el Laboratorio seleccionado");
             }
-        }else{
-            MensajesWeb.MostrarError("form-lista-laboratorios:botonEliminar", "Erorr: ", "No se pudo eliminar el Laboratorio seleccionado");
+        } else {
+            MensajesWeb.MostrarError("form-lista-laboratorios:mensajes-vista", "Erorr.", "No se pudo eliminar el Laboratorio seleccionado");
         }
     }
 

@@ -178,15 +178,17 @@ public class EditarAnalisisResultado implements Serializable {
 
     public void guardarAnalisisResultado() throws IOException {
         if (requisito == null) {
-            MensajesWeb.MostrarError("form-editar-analisis-resultados:botonEditarAnalisis", "No se pudo guardar: ", "La muestra seleccionada no tiene requisitos asociados.");
+            MensajesWeb.MostrarError("form-editar-analisis-resultados:mensajes-vista", "No se pudo guarda.", "La muestra seleccionada no tiene requisitos asociados.");
         } else {
             if (requisito.getLimiteVigente().getClass().getSimpleName().equals("Busqueda")) {
                 if (comprobarDatos(true)) {
-                    if (controladorAnalisis.ActualizarAnalisisBusqueda(analisisSeleccionado.getId(), muestreo.getId(), valorResultadoBusqueda, idUsuarioSeleccionado,
-                            fechaAnalisis, observacionesAnalisis, idLaboratorioSeleccionado) > 0) {
-                        redirigir();
-                    } else {
-                        MensajesWeb.MostrarError("form-editar-analisis-resultados:botonEditarAnalisis", "No se pudo guardar: ", "Verifica los datos ingresados o contacta con el administrador.");
+                    if (comprobarSiHayCambios()) {
+                        if (controladorAnalisis.ActualizarAnalisisBusqueda(analisisSeleccionado.getId(), muestreo.getId(), valorResultadoBusqueda, idUsuarioSeleccionado,
+                                fechaAnalisis, observacionesAnalisis, idLaboratorioSeleccionado) > 0) {
+                            redirigir();
+                        } else {
+                            MensajesWeb.MostrarError("form-editar-analisis-resultados:mensajes-vista", "No se pudo guardar.", "Verifica los datos ingresados o contacta con el administrador.");
+                        }
                     }
                 }
             } else {
@@ -195,7 +197,7 @@ public class EditarAnalisisResultado implements Serializable {
                             observacionesAnalisis, idLaboratorioSeleccionado) > 0) {
                         redirigir();
                     } else {
-                        MensajesWeb.MostrarError("form-editar-analisis-resultados:botonEditarAnalisis", "No se pudo guardar: ", "Verifica los datos ingresados o contacta con el administrador.");
+                        MensajesWeb.MostrarError("form-editar-analisis-resultados:mensajes-vista", "No se pudo guardar.", "Verifica los datos ingresados o contacta con el administrador.");
                     }
                 }
             }
@@ -220,34 +222,34 @@ public class EditarAnalisisResultado implements Serializable {
     private boolean comprobarDatos(boolean tipoBusqueda) {
         boolean res = true;
         if (fechaAnalisis == null) {
-            MensajesWeb.MostrarError("form-editar-analisis:fecha-analisis", "Faltan Datos: ", "No se ingreso Fecha de Analisis.");
+            MensajesWeb.MostrarError("form-editar-analisis:mensajes-vista", "Faltan Datos.", "No se ingreso Fecha de Analisis.");
             res = false;
         } else {
             if (fechaAnalisis.before(muestreo.getFechaMuestreo())) {
-                MensajesWeb.MostrarError("form-editar-analisis:fecha-analisis", "Fecha de Analisis: ", "La fecha de Analisis no puede ser anterior al muestreo.");
+                MensajesWeb.MostrarError("form-editar-analisis:mensajes-vista", "Fecha de Analisis.", "La fecha de Analisis no puede ser anterior al muestreo.");
                 res = false;
             }
         }
         if (idUsuarioSeleccionado == null || idUsuarioSeleccionado.equals(0)) {
-            MensajesWeb.MostrarError("form-editar-analisis:usuario-analista", "Faltan Datos: ", "No se selecciono Analista.");
+            MensajesWeb.MostrarError("form-editar-analisis:mensajes-vista", "Faltan Datos.", "No se selecciono Analista.");
             res = false;
         }
 
         if (idLaboratorioSeleccionado == null || idLaboratorioSeleccionado.equals(0)) {
-            MensajesWeb.MostrarError("form-editar-analisis:select-laboratorio", "Faltan Datos: ", "No se selecciono Laboratorio.");
+            MensajesWeb.MostrarError("form-editar-analisis:mensajes-vista", "Faltan Datos.", "No se selecciono Laboratorio.");
             res = false;
         }
 
         if (tipoBusqueda) {
             if (valorResultadoBusqueda == null) {
-                MensajesWeb.MostrarError("form-editar-analisis:panel-valores-busqueda", "Faltan Datos: ", "No se ingreso Resultado.");
+                MensajesWeb.MostrarError("form-editar-analisis:mensajes-vista", "Faltan Datos.", "No se ingreso Resultado.");
                 res = false;
             }
         }
 
         if (!tipoBusqueda) {
             if (valorResultadoRecuento < 0f) {
-                MensajesWeb.MostrarError("form-editar-analisis:panel-valores-recuento", "Faltan Datos: ", "No se ingreso Resultado o no es correcto.");
+                MensajesWeb.MostrarError("form-editar-analisis:mensajes-vista", "Faltan Datos.", "No se ingreso Resultado o no es correcto.");
                 res = false;
             }
         }

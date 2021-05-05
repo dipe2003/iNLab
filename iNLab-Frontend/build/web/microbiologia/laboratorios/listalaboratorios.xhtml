@@ -10,10 +10,11 @@
         <h:outputText value="Lista de Laboratorios" /> 
         <hr/>
         <h:form id="form-lista-laboratorios">
-            
-             <h:panelGrid id="panel-mensajes">
-                <h:message for="botonEliminar" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-             </h:panelGrid>
+
+            <h:panelGrid id="panel-mensajes">
+                <h:messages id="mensajes-vista" showDetail="true" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </h:panelGrid>
+
             <fieldset class="panel-superior-botones">
                 <legend>Filtros: </legend>
                 <table>
@@ -54,9 +55,9 @@
                     </tbody>
                 </table>                
             </fieldset>
-            
+
             <h:panelGroup id="panel-lista-laboratorios">
-                 <h:outputLabel value="No hay registros." rendered="${listaDeLaboratorios.dicPaginas.keySet().size()==0}"/>
+                <h:outputLabel value="No hay registros." rendered="${listaDeLaboratorios.dicPaginas.keySet().size()==0}"/>
                 <h:dataTable var="laboratorio" value="${listaDeLaboratorios.dicPaginas.get(listaDeLaboratorios.paginaActual)}" border="1" rendered="${listaDeLaboratorios.dicPaginas.keySet().size()>0}"
                              class="tabla-principal encabezado-listados contenido-listados">
 
@@ -75,7 +76,7 @@
                         <h:outputText value="Externo" rendered="${laboratorio.esExterno == true}" />
                         <h:outputText value="Interno" rendered="${laboratorio.esExterno == false}" />
                     </h:column>
-                    
+
                     <h:column rendered="${sesionDeUsuario.usuarioLogueado!=null and sesionDeUsuario.tipoUsuario !='Monitor'}">
                         <f:facet name="header">Acciones</f:facet>
                         <div class="dropdown">
@@ -87,7 +88,7 @@
                                 </li>
                                 <li>
                                     <h:commandLink  onclick="if (!confirm('Esta seguro que quiere eliminar este Laboratorio?'))
-                                                 return false"
+                                                return false"
                                                     action="${listaDeLaboratorios.eliminarLaboratorio(laboratorio.id)}" 
                                                     rendered="${laboratorio.analisisLaboratorio.size() == 0 and
                                                                 sesionDeUsuario.tipoUsuario == 'Administrador' || 

@@ -52,7 +52,7 @@ public class AltaDeArea implements Serializable {
                 ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
                 context.redirect(context.getRequestContextPath() + "/areas/listaareas.xhtml");
             }else{
-                MensajesWeb.MostrarError("frm-alta-area:botonAltaArea", "No se Creo el Area:", "Verifica los datos ingresados o consulta con el adminitrador.");
+                MensajesWeb.MostrarError("frm-alta-area:mensajes-vista", "No se Creo el Area.", "Verifica los datos ingresados o consulta con el adminitrador.");
             }
         }
     }

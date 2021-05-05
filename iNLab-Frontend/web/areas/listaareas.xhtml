@@ -12,9 +12,7 @@
             <hr/>
 
             <h:panelGrid id="panel-mensajes">
-                <h:message for="botonEliminar" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="botonDarBajaArea" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="botonDarAltaArea" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:messages id="mensajes-vista" showDetail="true" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
             </h:panelGrid>
 
             <fieldset class="panel-superior-botones">
@@ -155,7 +153,6 @@
                 </div>
             </h:panelGroup>
             <div class="panel-inferior-botones">
-
                 <h:commandButton value="Imprimir Listado" action="${listaDeAreas.imprimirLista()}" onclick="indicador"
                                  class="boton-generico boton-aceptar"/>
             </div>

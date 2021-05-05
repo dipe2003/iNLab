@@ -13,16 +13,11 @@
                           sesionDeUsuario.usuarioLogueado.tipo != 'Analista'}" >
                 <meta http-equiv="refresh" content="0;url=#{facesContext.externalContext.requestContextPath}/errores/error_500.xhtml"></meta>
             </c:if>
+
             <h:panelGrid id="panel-mensajes">
-                <h:message for="boton-buscar-muestreo" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="select-requisito" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="select-laboratorio" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="botonAltaAnalisisResultado" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="panel-valores-recuento" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="fecha-analisis" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="panel-valores-busqueda" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="usuario-analista" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:messages id="mensajes-vista" showDetail="true" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
             </h:panelGrid>
+
             <div class="p-grid">
                 <div class="p-col">
                     <div class="box">

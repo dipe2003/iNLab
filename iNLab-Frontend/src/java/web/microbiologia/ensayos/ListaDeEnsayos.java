@@ -49,10 +49,10 @@ public class ListaDeEnsayos implements Serializable {
                 FacesContext.getCurrentInstance().renderResponse();
                 FacesContext.getCurrentInstance().responseComplete();
             } else {
-                MensajesWeb.MostrarError("form-lista-ensayos:botonEliminar", "Erorr: ", "No se pudo eliminar el Ensayo seleccionado.");
+                MensajesWeb.MostrarError("form-lista-ensayos:mensajes-vista", "Erorr.", "No se pudo eliminar el Ensayo seleccionado.");
             }
         } else {
-            MensajesWeb.MostrarError("form-lista-ensayos:botonEliminar", "Erorr: ", "No se pudo eliminar el Ensayo seleccionado");
+            MensajesWeb.MostrarError("form-lista-ensayos:mensajes-vista", "Erorr.", "No se pudo eliminar el Ensayo seleccionado");
         }
     }
 

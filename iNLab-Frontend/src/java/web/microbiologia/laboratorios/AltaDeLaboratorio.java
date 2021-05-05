@@ -13,6 +13,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import web.helpers.MensajesWeb;
 
 /**
  *
@@ -51,12 +52,17 @@ public class AltaDeLaboratorio implements Serializable {
     public void setEsExterno(boolean esExterno) {
         this.esExterno = esExterno;
     }
-  
 
     public void darAltaLaboarorio() throws IOException {
-        if (controladorLaboratorios.CrearLaboratorio(nombre, detalles, esExterno) > 0) {
-            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-            context.redirect(context.getRequestContextPath() +"/microbiologia/laboratorios/listalaboratorios.xhtml");
+        if (nombre.isEmpty() || nombre == null) {
+            MensajesWeb.MostrarError("form-alta-laboratorio:mensajes-vista", "No se pudo guardar.", "El nombre no puede estar vacio.");
+        } else {
+            if (controladorLaboratorios.CrearLaboratorio(nombre, detalles, esExterno) > 0) {
+                ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+                context.redirect(context.getRequestContextPath() + "/microbiologia/laboratorios/listalaboratorios.xhtml");
+            }else{
+                 MensajesWeb.MostrarError("form-alta-laboratorio:mensajes-vista", "No se pudo guardar.", "Verifica los datos ingresados o contacta con el administrador.");
+            }
         }
     }
 
