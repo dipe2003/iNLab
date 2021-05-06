@@ -10,6 +10,11 @@
         <h:form>
             <h:outputText value="Lista de Revisiones" /> 
             <hr/>
+
+            <h:panelGrid id="panel-mensajes">
+                <h:messages id="mensajes-vista" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </h:panelGrid>
+
             <c:choose>
                 <c:when test="${listaDeRevisionesMuestreo.dicPaginas.keySet().size() == 0}">
                     <h:outputText value="No hay registros para mostrar." />
@@ -17,124 +22,124 @@
                 <c:otherwise>
                     <h:panelGroup id="panel-lista-revisiones">
                         <h:dataTable var="muestreo" value="${listaDeRevisionesMuestreo.dicPaginas.get(listaDeRevisionesMuestreo.paginaActual)}" border="1" rendered="${listaDeRevisionesMuestreo.dicPaginas.keySet().size() > 0}" 
-                                 class="tabla-principal encabezado-listados contenido-listados">
-                        <h:column>
-                            <f:facet name="header">Id</f:facet>
-                            <h:outputText value="${muestreo.id}" />
-                        </h:column>
+                                     class="tabla-principal encabezado-listados contenido-listados">
+                            <h:column>
+                                <f:facet name="header">Id</f:facet>
+                                <h:outputText value="${muestreo.id}" />
+                            </h:column>
 
-                        <h:column>
-                            <f:facet name="header">Fecha Muestreo</f:facet>
-                            <h:outputText value="${muestreo.fechaMuestreo}" >
-                                <f:convertDateTime pattern="dd/MM/yy" />
-                            </h:outputText>
-                        </h:column>
+                            <h:column>
+                                <f:facet name="header">Fecha Muestreo</f:facet>
+                                <h:outputText value="${muestreo.fechaMuestreo}" >
+                                    <f:convertDateTime pattern="dd/MM/yy" />
+                                </h:outputText>
+                            </h:column>
 
-                        <h:column rendered="${listaDeRevisionesMuestreo.tipoMuestra == 'Producto'}">
-                            <f:facet name="header">Fecha Origen</f:facet>
-                            <h:outputText value="${muestreo.fechaOrigen}" >
-                                <f:convertDateTime pattern="dd/MM/yy" />
-                            </h:outputText>
-                        </h:column>
+                            <h:column rendered="${listaDeRevisionesMuestreo.tipoMuestra == 'Producto'}">
+                                <f:facet name="header">Fecha Origen</f:facet>
+                                <h:outputText value="${muestreo.fechaOrigen}" >
+                                    <f:convertDateTime pattern="dd/MM/yy" />
+                                </h:outputText>
+                            </h:column>
 
-                        <h:column rendered="${listaDeRevisionesMuestreo.tipoMuestra == 'Producto'}">
-                            <f:facet name="header">Fecha Produccion</f:facet>
-                            <h:outputText value="${muestreo.fechaProduccion}" >
-                                <f:convertDateTime pattern="dd/MM/yy" />
-                            </h:outputText>
-                        </h:column>  
+                            <h:column rendered="${listaDeRevisionesMuestreo.tipoMuestra == 'Producto'}">
+                                <f:facet name="header">Fecha Produccion</f:facet>
+                                <h:outputText value="${muestreo.fechaProduccion}" >
+                                    <f:convertDateTime pattern="dd/MM/yy" />
+                                </h:outputText>
+                            </h:column>  
 
-                        <h:column>
-                            <f:facet name="header">Area</f:facet>
-                            <h:outputText value="${muestreo.area}" />
-                        </h:column>
+                            <h:column>
+                                <f:facet name="header">Area</f:facet>
+                                <h:outputText value="${muestreo.area}" />
+                            </h:column>
 
-                        <h:column>
-                            <f:facet name="header">Id</f:facet>
-                            <h:outputText value="${muestreo.denominacion}" />
-                        </h:column>
+                            <h:column>
+                                <f:facet name="header">Id</f:facet>
+                                <h:outputText value="${muestreo.denominacion}" />
+                            </h:column>
 
-                        <h:column>
-                            <f:facet name="header">Observaciones</f:facet>
-                            <h:outputText value="${muestreo.observaciones}" />
-                        </h:column>
+                            <h:column>
+                                <f:facet name="header">Observaciones</f:facet>
+                                <h:outputText value="${muestreo.observaciones}" />
+                            </h:column>
 
-                        <h:column>
-                            <f:facet name="header">Monitor</f:facet>
-                            <h:outputText value="${muestreo.monitor}" />
-                        </h:column>
+                            <h:column>
+                                <f:facet name="header">Monitor</f:facet>
+                                <h:outputText value="${muestreo.monitor}" />
+                            </h:column>
 
-                        <h:column>
-                            <f:facet name="header">Repeticion</f:facet>
-                            <h:outputText value="Si" rendered="${muestreo.esRepeticion == true}" />
-                            <h:outputText value="No" rendered="${muestreo.esRepeticion == false}" />
-                        </h:column>
+                            <h:column>
+                                <f:facet name="header">Repeticion</f:facet>
+                                <h:outputText value="Si" rendered="${muestreo.esRepeticion == true}" />
+                                <h:outputText value="No" rendered="${muestreo.esRepeticion == false}" />
+                            </h:column>
 
-                        <h:column>
-                            <f:facet name="header">Analisis y Resultados</f:facet>
-                            <c:choose>
-                                <c:when test="${muestreo.revResultados.size()==0}">
-                                    <h:outputText value="No Hay Analisis/Resultados"/>
-                                </c:when>
-                                <c:otherwise>
-                                    <h:dataTable var="ensayo" value="${muestreo.revResultados}" border="1" rendered="${muestreo.revResultados.size() > 0}">
-                                        <h:column>
-                                            <f:facet name="header">Fecha</f:facet>
-                                            <h:outputText value="${ensayo.fechaResultado}">
-                                                <f:convertDateTime pattern="dd/mm/yy" />
-                                            </h:outputText>
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">Ensayo</f:facet>
-                                            <h:outputText value="${ensayo.requisito}"/>
-                                        </h:column>
-                                        <h:column rendered="${ensayo.tipoResultado == 'Recuento'}">
-                                            <f:facet name="header">Id</f:facet>
-                                            <h:outputText value="${ensayo.resultadoRecuento}"/>
-                                        </h:column>
-                                        <h:column rendered="${ensayo.tipoResultado == 'Busqueda'}">
-                                            <f:facet name="header">Resultado</f:facet>
-                                            <h:outputText value="${ensayo.resultadoDeteccion}"/>
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">Aceptable</f:facet>
-                                            <h:outputText value="${ensayo.EsAceptable()}"/>
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header"></f:facet>
-                                            <c:choose>
-                                                <c:when test="${sesionDeUsuario.usuarioLogueado != null}">
-                                                    <h:commandButton  action="${listaDeRevisionesMuestreo.quitarEnsayo(muestreo.id, ensayo.id)}"
-                                                                      rendered="${sesionDeUsuario.tipoUsuario == 'Administrador' || 
-                                                                                  sesionDeUsuario.tipoUsuario == 'Verificador'}"
-                                                                      class="boton-generico boton-eliminar"
-                                                                      value="Quitar">
-                                                        <f:ajax  delay="100" />
-                                                    </h:commandButton>   
-                                                </c:when>
-                                            </c:choose>
-                                        </h:column>
-                                    </h:dataTable>
-                                </c:otherwise>
-                            </c:choose>
-                        </h:column>
+                            <h:column>
+                                <f:facet name="header">Analisis y Resultados</f:facet>
+                                <c:choose>
+                                    <c:when test="${muestreo.revResultados.size()==0}">
+                                        <h:outputText value="No Hay Analisis/Resultados"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <h:dataTable var="ensayo" value="${muestreo.revResultados}" border="1" rendered="${muestreo.revResultados.size() > 0}">
+                                            <h:column>
+                                                <f:facet name="header">Fecha</f:facet>
+                                                <h:outputText value="${ensayo.fechaResultado}">
+                                                    <f:convertDateTime pattern="dd/mm/yy" />
+                                                </h:outputText>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">Ensayo</f:facet>
+                                                <h:outputText value="${ensayo.requisito}"/>
+                                            </h:column>
+                                            <h:column rendered="${ensayo.tipoResultado == 'Recuento'}">
+                                                <f:facet name="header">Id</f:facet>
+                                                <h:outputText value="${ensayo.resultadoRecuento}"/>
+                                            </h:column>
+                                            <h:column rendered="${ensayo.tipoResultado == 'Busqueda'}">
+                                                <f:facet name="header">Resultado</f:facet>
+                                                <h:outputText value="${ensayo.resultadoDeteccion}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">Aceptable</f:facet>
+                                                <h:outputText value="${ensayo.EsAceptable()}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header"></f:facet>
+                                                <c:choose>
+                                                    <c:when test="${sesionDeUsuario.usuarioLogueado != null}">
+                                                        <h:commandButton  action="${listaDeRevisionesMuestreo.quitarEnsayo(muestreo.id, ensayo.id)}"
+                                                                          rendered="${sesionDeUsuario.tipoUsuario == 'Administrador' || 
+                                                                                      sesionDeUsuario.tipoUsuario == 'Verificador'}"
+                                                                          class="boton-generico boton-eliminar"
+                                                                          value="Quitar">
+                                                            <f:ajax  delay="100" />
+                                                        </h:commandButton>   
+                                                    </c:when>
+                                                </c:choose>
+                                            </h:column>
+                                        </h:dataTable>
+                                    </c:otherwise>
+                                </c:choose>
+                            </h:column>
 
-                        <h:column>
-                            <c:choose>
-                                <c:when test="${sesionDeUsuario.usuarioLogueado != null}">
-                                    <h:commandButton  action="${listaDeRevisionesMuestreo.eliminarMuestreo(muestreo.id)}"
-                                                      rendered="${sesionDeUsuario.tipoUsuario == 'Administrador' || 
-                                                                  sesionDeUsuario.tipoUsuario == 'Verificador'}"
-                                                      class="boton-generico boton-eliminar"
-                                                      value="Eliminar">
-                                        <f:ajax  delay="100" />
-                                    </h:commandButton>
-                                </c:when>
-                            </c:choose>
+                            <h:column>
+                                <c:choose>
+                                    <c:when test="${sesionDeUsuario.usuarioLogueado != null}">
+                                        <h:commandButton  action="${listaDeRevisionesMuestreo.eliminarMuestreo(muestreo.id)}"
+                                                          rendered="${sesionDeUsuario.tipoUsuario == 'Administrador' || 
+                                                                      sesionDeUsuario.tipoUsuario == 'Verificador'}"
+                                                          class="boton-generico boton-eliminar"
+                                                          value="Eliminar">
+                                            <f:ajax  delay="100" />
+                                        </h:commandButton>
+                                    </c:when>
+                                </c:choose>
 
-                        </h:column>
-                    </h:dataTable>
-                </h:panelGroup>
+                            </h:column>
+                        </h:dataTable>
+                    </h:panelGroup>
                     <div class="panel-inferior-botones">
                         <span>Pagina:</span>
                         <span>

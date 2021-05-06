@@ -77,20 +77,20 @@ public class AltaDeUsuario implements Serializable {
     private boolean comprobarDatos(String nombre, String password, String repPassword, Permiso permisoSeleccionado) {
         boolean ok = true;
         if (nombre == null || nombre.isEmpty()) {
-            MensajesWeb.MostrarError("form-alta-usuario:nombre-usuario", "Error: ", "El nombre es obligatorio.");
+            MensajesWeb.MostrarError("form-alta-usuario:mensajes-vista", "Error: ", "El nombre es obligatorio.");
             ok = false;
         }
         if (password == null || repPassword == null) {
-            MensajesWeb.MostrarError("form-alta-usuario:input-password", "Error: ", "Debe ingresar password y confirmarlo.");
+            MensajesWeb.MostrarError("form-alta-usuario:mensajes-vista", "Error: ", "Debe ingresar password y confirmarlo.");
             ok = false;
         } else {
             if (!password.equals(repPassword)) {
-                MensajesWeb.MostrarError("form-alta-usuario:input-repeticion-password", "Error: ", "El password y su confirmacion no coinciden.");
+                MensajesWeb.MostrarError("form-alta-usuario:mensajes-vista", "Error: ", "El password y su confirmacion no coinciden.");
                 ok = false;
             }
         }
         if (permisoSeleccionado == null) {
-            MensajesWeb.MostrarError("form-alta-usuario:select-tipo", "Error: ", "No se selecciono Tipo de Usuario");
+            MensajesWeb.MostrarError("form-alta-usuario:mensajes-vista", "Error: ", "No se selecciono Tipo de Usuario");
             ok = false;
         }
         return ok;
@@ -103,7 +103,7 @@ public class AltaDeUsuario implements Serializable {
                 context.redirect(context.getRequestContextPath() + "/usuarios/listausuarios.xhtml");
             }
         }
-        MensajesWeb.MostrarError("form-alta-usuario:botonAltaUsuario", "Error: ", "No se pudo crear, verifica los datos ingresados o contacta con el Administrrador");
+        MensajesWeb.MostrarError("form-alta-usuario:mensajes-vista", "Error: ", "No se pudo crear, verifica los datos ingresados o contacta con el Administrrador");
     }
 
     @PostConstruct

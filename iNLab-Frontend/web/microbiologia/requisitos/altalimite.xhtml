@@ -8,10 +8,15 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="page_content">        
         <h:outputLabel value="Alta de Limite" />
-        <h:form id="frm-main">            
+        <h:form id="form-alta-limite">            
             <c:if test="#{sesionDeUsuario.usuarioLogueado.tipo != 'Administrador' and sesionDeUsuario.usuarioLogueado.tipo != 'Verificador'}" >
                 <meta http-equiv="refresh" content="0;url=#{facesContext.externalContext.requestContextPath}/errores/error_500.xhtml"></meta>
-            </c:if>
+            </c:if
+            
+            <h:panelGrid id="panel-mensajes">
+                <h:messages id="mensajes-vista" showDetail="true" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </h:panelGrid>
+            
             <div class="p-grid">
                 <div class="p-col">
                     <div class="box">
@@ -34,7 +39,7 @@
                     <div class="box">
                         <h:selectOneRadio id="select-tipoLimite" value="#{altaDeLimite.tipoSeleccionado}" >
                             <f:selectItems value="#{altaDeLimite.tiposRequisito}" var="tipo"  itemValue="#{tipo}"  />
-                            <f:ajax event="click" execute="@this" render="frm-main :panel-valores-recuento :panel-valores-busqueda" /> 
+                            <f:ajax event="click" execute="@this" render="form-alta-limite :panel-valores-recuento :panel-valores-busqueda" /> 
                         </h:selectOneRadio>
                     </div>
                 </div>

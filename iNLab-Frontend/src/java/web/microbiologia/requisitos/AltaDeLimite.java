@@ -18,6 +18,7 @@ import javax.inject.Named;
 import modelo.microbiologia.Ensayo;
 import modelo.microbiologia.Requisito;
 import modelo.microbiologia.ValorDeteccion;
+import web.helpers.MensajesWeb;
 
 /**
  *
@@ -137,14 +138,43 @@ public class AltaDeLimite implements Serializable {
     //</editor-fold>    
     public void darAltaLimite() throws IOException {
         if ("Recuento".equals(tipoSeleccionado)) {
-            if (controladorMicrobiologia.AgregarLimiteRecuento(ensayo.getId(), requisito.getId(), valorMarginal, valorInaceptable) > 0) {
-                redirigir();
+            if (comprobarValoresRecuento()) {
+                if (controladorMicrobiologia.AgregarLimiteRecuento(ensayo.getId(), requisito.getId(), valorMarginal, valorInaceptable) > 0) {
+                    redirigir();
+                } else {
+                    MensajesWeb.MostrarError("form-alta-limite:mensajes-vista", "No se pudo guardar.",
+                            "Verifica los datos ingresados o contacta con el administrador.");
+                }
             }
         } else {
-            if (controladorMicrobiologia.AgregarLimiteBusqueda(ensayo.getId(), requisito.getId(), valorBusquedaInaceptableSeleccionado, valorBusquedaAceptableSeleccionado) > 0) {
-                redirigir();
+            if (comprobarValoresBusqueda()) {
+                if (controladorMicrobiologia.AgregarLimiteBusqueda(ensayo.getId(), requisito.getId(),
+                        valorBusquedaInaceptableSeleccionado, valorBusquedaAceptableSeleccionado) > 0) {
+                    redirigir();
+                } else {
+                    MensajesWeb.MostrarError("form-alta-limite:mensajes-vista", "No se pudo guardar.",
+                            "Verifica los datos ingresados o contacta con el administrador.");
+                }
             }
         }
+    }
+
+    private boolean comprobarValoresRecuento() {
+        if (valorInaceptable <= valorMarginal) {
+            MensajesWeb.MostrarError("form-alta-limite:mensajes-vista", "Datos incorrectos.",
+                    "El Valor Inaceptable debe ser mayor que el Marginal");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean comprobarValoresBusqueda() {
+        if (valorBusquedaAceptableSeleccionado == valorBusquedaInaceptableSeleccionado) {
+            MensajesWeb.MostrarError("form-alta-limite:mensajes-vista", "Datos incorrectos.",
+                    "El Valor Inaceptable debe ser diferente del Aceptable.");
+            return false;
+        }
+        return true;
     }
 
     private void redirigir() throws IOException {

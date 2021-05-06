@@ -10,11 +10,11 @@
         <h:form id="form-lista-especificaciones">
             <h:outputText value="Lista de Muestras" />
             <hr/>
+
             <h:panelGrid id="panel-mensajes">
-                <h:message for="botonEliminar" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="botonDarBajaMuestra" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="botonDarAltaMuestra" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:messages id="mensajes-vista" showDetail="true" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
             </h:panelGrid>
+
             <fieldset class="panel-superior-botones">
                 <legend>Filtros: </legend>
                 <table>

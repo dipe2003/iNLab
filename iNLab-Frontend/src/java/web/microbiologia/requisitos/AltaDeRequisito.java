@@ -22,6 +22,7 @@ import modelo.microbiologia.Ensayo;
 import modelo.microbiologia.Requisito;
 import modelo.muestreo.Destino;
 import modelo.muestreo.TipoMuestra;
+import web.helpers.MensajesWeb;
 
 /**
  *
@@ -70,13 +71,14 @@ public class AltaDeRequisito implements Serializable {
 
     //</editor-fold>
 
-    private TipoMuestra tipoMuestra;
-
     public void darAltaRequisito() throws IOException {
         if (controladorMicrobiologia.CrearRequisito(ensayoSeleccionado, destinoEspec.getId()) > 0) {
             context.redirect(context.getRequestContextPath() + "/muestras/listaespecificacionesmuestras.xhtml?tipomuestra=Todas");
             FacesContext.getCurrentInstance().renderResponse();
             FacesContext.getCurrentInstance().responseComplete();
+        }else{
+            MensajesWeb.MostrarError("form-alta-laboratorio:mensajes-vista", "No se pudo guardar.",
+                        "Verifica los datos ingresados o contacta con el administrador.");
         }
     }
 

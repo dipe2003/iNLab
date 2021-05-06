@@ -9,13 +9,11 @@
     <ui:define name="page_content">          
         <h:outputLabel value="Edicion de Usuario" />
         <h:form id="form-editar-usuario">
-             <h:panelGrid id="panel-mensajes">
-                <h:message for="inputNombreUsuario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="botonEditarUsuario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                 <h:message for="botonCambiarPassword" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="botonDarBajaUsuario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="botonDarAltaUsuario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+
+            <h:panelGrid id="panel-mensajes">
+                <h:messages id="mensajes-vista" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
             </h:panelGrid>
+
             <div class="p-grid">
                 <div class="p-col">
                     <div class="box">
@@ -85,7 +83,7 @@
                         <div class="p-col">
                             <div class="box">
                                 <h:commandButton value="Cambiar Password" action="#{editarUsuario.cambiarPassword()}" 
-                                                id="botonCambiarPassword" class="boton-generico"/>
+                                                 id="botonCambiarPassword" class="boton-generico"/>
                             </div>
                         </div>
                     </div>

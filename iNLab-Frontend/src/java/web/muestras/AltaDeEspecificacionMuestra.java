@@ -21,6 +21,7 @@ import javax.inject.Named;
 import modelo.muestreo.Area;
 import modelo.muestreo.Destino;
 import modelo.muestreo.TipoMuestra;
+import web.helpers.MensajesWeb;
 
 /**
  *
@@ -114,10 +115,19 @@ public class AltaDeEspecificacionMuestra implements Serializable {
 
     //</editor-fold>    
     public void darAltaMuestra() throws IOException {
-        if (controladorEspecificacionMuestras.CrearEspecificacionMuestra(denominacion, identificacion, areaSeleccionada, tipoMuestraSeleccionada, destinoSeleccionado) > 0) {
-            context.redirect("listaespecificacionesmuestras.xhtml?tipomuestra="+tipoMuestraSeleccionada);
-            FacesContext.getCurrentInstance().renderResponse();
-            FacesContext.getCurrentInstance().responseComplete();
+        if (denominacion == null || denominacion.isEmpty()) {
+            MensajesWeb.MostrarError("form-alta-especificacion-muestra:mensajes-vista", "Datos incorrectos.",
+                    "No se ingreso denominacion.");
+        } else {
+            if (controladorEspecificacionMuestras.CrearEspecificacionMuestra(denominacion, identificacion, areaSeleccionada,
+                    tipoMuestraSeleccionada, destinoSeleccionado) > 0) {
+                context.redirect("listaespecificacionesmuestras.xhtml?tipomuestra=" + tipoMuestraSeleccionada);
+                FacesContext.getCurrentInstance().renderResponse();
+                FacesContext.getCurrentInstance().responseComplete();
+            } else {
+                MensajesWeb.MostrarError("form-alta-especificacion-muestra:mensajes-vista", "No se pudo guardar.",
+                        "Verifica los datos ingresados o contacta con el administrador.");
+            }
         }
     }
 
@@ -129,10 +139,10 @@ public class AltaDeEspecificacionMuestra implements Serializable {
         controladorEspecificacionMuestras = new ControladorEspecificacionMuestras();
         areas = controladorAreas.ListarAreas(true);
         areaSeleccionada = areas.get(0).getId();
-        
+
         destinos = controladorDestinos.ListarDestinos();
         destinoSeleccionado = destinos.get(0).getId();
-        
+
         tipoMuestraSeleccionada = tiposMuestra[0];
     }
 

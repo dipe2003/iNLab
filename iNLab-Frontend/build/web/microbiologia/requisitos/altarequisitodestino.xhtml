@@ -8,10 +8,15 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="page_content">           
         <h:outputLabel value="Alta de Requisito" />
-        <h:form id="frm-main"> 
+        <h:form id="form-alta-requisitodestino"> 
             <c:if test="#{sesionDeUsuario.usuarioLogueado.tipo != 'Administrador' and sesionDeUsuario.usuarioLogueado.tipo != 'Verificador'}" >
                 <meta http-equiv="refresh" content="0;url=#{facesContext.externalContext.requestContextPath}/errores/error_500.xhtml"></meta>
             </c:if>
+
+            <h:panelGrid id="panel-mensajes">
+                <h:messages id="mensajes-vista" showDetail="true" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </h:panelGrid>
+
             <div class="p-grid">
                 <div class="p-col">
                     <div class="box">

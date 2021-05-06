@@ -127,7 +127,7 @@ public class EditarEspecificacionMuestra implements Serializable {
             if (controladorEspecificacionMuestras.ActualizarEspecificacionMuestra(especificacionEditando.getId(), denominacion, identificacion, areaSeleccionada, destinoSeleccionado) > 0) {
                 redirigir();           
             }else{
-                MensajesWeb.MostrarError("form-editar-especificacion-muestra:botonEditarEspecificacion", "No se dio guardaron los cambios:", "Contacta con el administrador.");
+                MensajesWeb.MostrarError("form-editar-especificacion-muestra:mensajes-vista", "No se dio guardaron los cambios:", "Contacta con el administrador.");
             }
         }       
     }
@@ -160,7 +160,7 @@ public class EditarEspecificacionMuestra implements Serializable {
         if (controladorEspecificacionMuestras.DarDeBajaEspecificacionMuestra(especificacionEditando.getId(), new Date()) > 0) {
            redirigir();
         }else {
-            MensajesWeb.MostrarError("form-editar-especificacion-muestra:botonDarBajaMuestra", "No se dio Baja:", "Contacta con el administrador.");
+            MensajesWeb.MostrarError("form-editar-especificacion-muestra:mensajes-vista", "No se dio Baja:", "Contacta con el administrador.");
         }
     }
 
@@ -168,7 +168,7 @@ public class EditarEspecificacionMuestra implements Serializable {
         if (controladorEspecificacionMuestras.DarDeAltaEspecificacionMuestra(especificacionEditando.getId()) > 0) {
             redirigir();
         }else {
-            MensajesWeb.MostrarError("form-editar-especificacion-muestra:botonDarAltaMuestra", "No se dio Alta:", "Contacta con el administrador.");
+            MensajesWeb.MostrarError("form-editar-especificacion-muestra:mensajes-vista", "No se dio Alta:", "Contacta con el administrador.");
         }
     }
     

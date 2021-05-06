@@ -10,9 +10,11 @@
         <h:form id="form-lista-muestreos">
             <h:outputText value="Lista de Muestreos con Resultados" /> 
             <hr/>
+            
             <h:panelGrid id="panel-mensajes">
-                <h:message for="botonEliminar" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+                <h:messages id="mensajes-vista" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
             </h:panelGrid>
+            
             <fieldset class="panel-superior-botones">
                 <legend>Filtros: </legend>
                 <table>

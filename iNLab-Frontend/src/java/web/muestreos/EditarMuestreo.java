@@ -350,7 +350,7 @@ public class EditarMuestreo implements Serializable {
             }
         } catch (Exception e) {
             System.out.println("Error al guaradar ensayo y resultado en revision: " + e.getMessage());
-            MensajesWeb.MostrarError("form-editar-muestreo:botonEditarMuestreo", "Error: ", "El muestreo no se pudo crear, verifica los datos ingresados o contacta con el administrador.");
+            MensajesWeb.MostrarError("form-editar-muestreo:mensajes-vista", "Error: ", "El muestreo no se pudo crear, verifica los datos ingresados o contacta con el administrador.");
         }
     }
 
@@ -473,17 +473,17 @@ public class EditarMuestreo implements Serializable {
     private boolean comprobarDatosMuestreo() {
         boolean ok = true;
         if (fechaMuestreo == null) {
-            MensajesWeb.MostrarError("form-editar-muestreo:fecha-muestreo", "Error: ", "La fecha de muestreo es un dato obligatorio.");
+            MensajesWeb.MostrarError("form-editar-muestreo:mensajes-vista", "Error: ", "La fecha de muestreo es un dato obligatorio.");
             ok = false;
         }
 
         if (idUsuarioSeleccionado == null || idUsuarioSeleccionado.equals(0)) {
-            MensajesWeb.MostrarError("form-editar-muestreo:select-usuario", "Error: ", "No se selecciono Monitor.");
+            MensajesWeb.MostrarError("form-editar-muestreo:mensajes-vista", "Error: ", "No se selecciono Monitor.");
             ok = false;
         }
 
         if (idEspecificacionMuestraSeleccionada == null || idEspecificacionMuestraSeleccionada.equals(0)) {
-            MensajesWeb.MostrarError("form-editar-muestreo:select-especificacion", "Error: ", "No se selecciono Muestra.");
+            MensajesWeb.MostrarError("form-editar-muestreo:mensajes-vista", "Error: ", "No se selecciono Muestra.");
             ok = false;
         }
         return ok;
@@ -493,18 +493,18 @@ public class EditarMuestreo implements Serializable {
         boolean ok = true;
 
         if (fechaOrigen == null) {
-            MensajesWeb.MostrarError("form-editar-muestreo:fecha-origen", "Error: ", "La fecha de Faena es un dato obligatorio.");
+            MensajesWeb.MostrarError("form-editar-muestreo:mensajes-vista", "Error: ", "La fecha de Faena es un dato obligatorio.");
             ok = false;
         }
 
         if (fechaProduccion == null) {
-            MensajesWeb.MostrarError("form-editar-muestreo:fecha-produccion", "Error: ", "La fecha de Produccion es un dato obligatorio.");
+            MensajesWeb.MostrarError("form-editar-muestreo:mensajes-vista", "Error: ", "La fecha de Produccion es un dato obligatorio.");
             ok = false;
         }
 
         if (fechaMuestreo != null && fechaOrigen != null && fechaProduccion != null) {
             if (fechaMuestreo.before(fechaOrigen) || fechaMuestreo.before(fechaProduccion)) {
-                MensajesWeb.MostrarError("form-editar-muestreo:fecha-muestreo", "Error: ", "La fecha de muestreo no puede ser posterior a la fecha del producto.");
+                MensajesWeb.MostrarError("form-editar-muestreo:mensajes-vista", "Error: ", "La fecha de muestreo no puede ser posterior a la fecha del producto.");
                 ok = false;
             }
         }
@@ -515,12 +515,12 @@ public class EditarMuestreo implements Serializable {
     private boolean comprobarDatosMuestreoOperario() {
         boolean ok = true;
         if (nombre.isEmpty() || nombre == null) {
-            MensajesWeb.MostrarError("form-editar-muestreo:input-nombre-operario", "Error: ", "El nombre del operario muestreado es un dato obligatorio.");
+            MensajesWeb.MostrarError("form-editar-muestreo:mensajes-vista", "Error: ", "El nombre del operario muestreado es un dato obligatorio.");
             ok = false;
         }
 
         if (padron < 1) {
-            MensajesWeb.MostrarError("form-editar-muestreo:input-padron-operario", "Error: ", "El paron o identificacion del operario muestreado es un dato obligatorio.");
+            MensajesWeb.MostrarError("form-editar-muestreo:mensajes-vista", "Error: ", "El paron o identificacion del operario muestreado es un dato obligatorio.");
             ok = false;
         }
         return ok;

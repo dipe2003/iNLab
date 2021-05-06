@@ -8,11 +8,11 @@
     <ui:define name="page_content">        
         <h:outputLabel value="Alta de Especificacion de Muestra" />
         <h:form id="form-editar-especificacion-muestra">
-               <h:panelGrid id="panel-mensajes">
-                <h:message for="botonEditarEspecificacion" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="botonDarBajaMuestra" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="botonDarAltaMuestra" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+
+            <h:panelGrid id="panel-mensajes">
+                <h:messages id="mensajes-vista" showDetail="true" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
             </h:panelGrid>
+
             <div class="p-grid">
                 <div class="p-col">
                     <div class="box">
@@ -68,8 +68,8 @@
                     </div>
                 </div>
             </div>
-            
-             <div class="p-grid">
+
+            <div class="p-grid">
                 <div class="p-col">
                     <div class="box">
                         <h:outputLabel value="Destino" />
@@ -84,10 +84,10 @@
                     </div>
                 </div>
             </div>
-            
+
             <h:outputLabel><b>NOTA 1: </b> No es posible cambiar el destino de una muestra con resultados.</h:outputLabel> <br/>
             <h:outputLabel><b>NOTA 2: </b> Si se cambia el destino los requisitos cambiaran por el nuevo destino seleccionado.</h:outputLabel> 
-            
+
             <div class="p-grid">
                 <div class="p-col">
                     <div class="box">
@@ -98,7 +98,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="p-grid">
                 <div class="p-col">
                     <h:commandButton value="Cancelar" action="#{facesContext.externalContext.redirect('/inlab/muestras/listaespecificacionesmuestras.xhtml?tipomuestra=Todas')}"
@@ -109,7 +109,7 @@
                     </h:commandButton> 
                 </div>                
             </div>
-            
+
         </h:form>
     </ui:define>
 </ui:composition>

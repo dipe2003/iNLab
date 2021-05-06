@@ -9,11 +9,11 @@
         <div class="panel-centrado">
             <h:form id="form-login-usuario">
                 <h:outputLabel value="Ingresar al Sistema" />
-                <h:panelGrid id="panel-mensajes" class="tabla-login">
-                    <h:message for="select-usuario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                    <h:message for="input-password" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                    <h:message for="boton-ingresar" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+
+                <h:panelGrid id="panel-mensajes">
+                    <h:messages id="mensajes-vista" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
                 </h:panelGrid>
+
                 <table class="tabla-login">
                     <tr>
                         <td>

@@ -8,13 +8,11 @@
     <ui:define name="page_content">       
         <h:outputLabel value="Alta de Usuario" />
         <h:form id="form-alta-usuario">
+
             <h:panelGrid id="panel-mensajes">
-                <h:message for="select-tipo" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="nombre-usuario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="input-password" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="input-repeticion-password" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="botonAltaUsuario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-             </h:panelGrid>
+                <h:messages id="mensajes-vista" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </h:panelGrid>
+
             <div class="p-grid">
                 <div class="p-col">
                     <div class="box">

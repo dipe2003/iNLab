@@ -106,7 +106,7 @@ public class EditarUsuario implements Serializable {
         if (controladorUsuarios.ActualizarUsuario(usuario.getId(), nombre, permisoSeleccionado) > 0) {
             redirigir();
         }else{
-           MensajesWeb.MostrarError("form-editar-usuario:botonEditarUsuario", "No se dio guardaron los cambios:", "Contacta con el administrador."); 
+           MensajesWeb.MostrarError("form-editar-usuario:mensajes-vista", "No se dio guardaron los cambios:", "Contacta con el administrador."); 
         }
     }
 
@@ -114,7 +114,7 @@ public class EditarUsuario implements Serializable {
         if (controladorUsuarios.DarDeBajaUsuario(usuario.getId(), new Date()) > 0) {
             redirigir();
         }else {
-            MensajesWeb.MostrarError("form-editar-usuario:botonDarDeBajaUsuario", "No se dio Baja:", "Contacta con el administrador.");
+            MensajesWeb.MostrarError("form-editar-usuario:mensajes-vista", "No se dio Baja:", "Contacta con el administrador.");
         }
     }
 
@@ -122,7 +122,7 @@ public class EditarUsuario implements Serializable {
         if (controladorUsuarios.DarDeAltaUsuario(usuario.getId()) > 0) {
             redirigir();
         }else {
-            MensajesWeb.MostrarError("form-editar-usuario:botonDarAltaUsuario", "No se dio Alta:", "Contacta con el administrador.");
+            MensajesWeb.MostrarError("form-editar-usuario:mensajes-vista", "No se dio Alta:", "Contacta con el administrador.");
         }
     }
 
@@ -132,7 +132,7 @@ public class EditarUsuario implements Serializable {
                 redirigir();
             }
         } else {
-            MensajesWeb.MostrarError("form-editar-usuario:botonCambiarPassword", "No se dio pudo actualizar Password:", "Contacta con el administrador.");
+            MensajesWeb.MostrarError("form-editar-usuario:mensajes-vista", "No se dio pudo actualizar Password:", "Contacta con el administrador.");
         }
     }
 

@@ -18,7 +18,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import modelo.usuarios.ControladorSeguridad;
 import modelo.usuarios.Permiso;
 import modelo.usuarios.Usuario;
 import web.helpers.MensajesWeb;
@@ -93,7 +92,7 @@ public class ListaDeUsuarios implements Serializable {
         if (controladorUsuarios.DarDeBajaUsuario(idUsuario, new Date()) > 0) {
             redirigir();
         }else {
-            MensajesWeb.MostrarError("form-listar-usuarios:botonDarDeBajaUsuario", "No se dio Baja:", "Contacta con el administrador.");
+            MensajesWeb.MostrarError("form-listar-usuarios:mensajes-vista", "No se dio Baja:", "Contacta con el administrador.");
         }
     }
 
@@ -101,7 +100,7 @@ public class ListaDeUsuarios implements Serializable {
         if (controladorUsuarios.DarDeAltaUsuario(idUsuario) > 0) {
             redirigir();
         }else {
-            MensajesWeb.MostrarError("form-listar-usuarios:botonDarAltaUsuario", "No se dio Alta:", "Contacta con el administrador.");
+            MensajesWeb.MostrarError("form-listar-usuarios:mensajes-vista", "No se dio Alta:", "Contacta con el administrador.");
         }
     }
 

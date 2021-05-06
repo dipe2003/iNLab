@@ -92,10 +92,10 @@ public class ListaDeMuestreoConResultados implements Serializable {
                 FacesContext.getCurrentInstance().renderResponse();
                 FacesContext.getCurrentInstance().responseComplete();
             }else{
-                MensajesWeb.MostrarError("form-lista-muestreos:botonEliminar", "Erorr: ", "No se pudo eliminar el ensayo seleccionado");
+                MensajesWeb.MostrarError("form-lista-muestreos:mensajes-vista", "Erorr: ", "No se pudo eliminar el ensayo seleccionado");
             }
         }else{
-            MensajesWeb.MostrarError("form-lista-muestreos:botonEliminar", "Erorr: ", "No se pudo eliminar el ensayo seleccionado");
+            MensajesWeb.MostrarError("form-lista-muestreos:mensajes-vista", "Erorr: ", "No se pudo eliminar el ensayo seleccionado");
         }        
     }
 

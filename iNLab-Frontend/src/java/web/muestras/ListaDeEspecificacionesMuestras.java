@@ -83,10 +83,10 @@ public class ListaDeEspecificacionesMuestras implements Serializable {
                 FacesContext.getCurrentInstance().renderResponse();
                 FacesContext.getCurrentInstance().responseComplete();
             } else {
-                MensajesWeb.MostrarError("form-lista-especificaciones:botonEliminar", "Erorr: ", "No se pudo eliminar el ensayo seleccionado");
+                MensajesWeb.MostrarError("form-lista-especificaciones:mensajes-vista", "Erorr: ", "No se pudo eliminar el ensayo seleccionado");
             }
         } else {
-            MensajesWeb.MostrarError("form-lista-especificaciones:botonEliminar", "Erorr: ", "No se pudo eliminar el ensayo seleccionado");
+            MensajesWeb.MostrarError("form-lista-especificaciones:mensajes-vista", "Erorr: ", "No se pudo eliminar el ensayo seleccionado");
         }
     }
 
@@ -94,7 +94,7 @@ public class ListaDeEspecificacionesMuestras implements Serializable {
         if (controladorEspecificacionMuestras.DarDeBajaEspecificacionMuestra(idEspecificacion, new Date()) > 0) {
             redirigir();
         } else {
-            MensajesWeb.MostrarError("form-lista-especificacion:botonDarBajaMuestra", "No se dio Baja:", "Contacta con el administrador.");
+            MensajesWeb.MostrarError("form-lista-especificacion:mensajes-vista", "No se dio Baja:", "Contacta con el administrador.");
         }
     }
 
@@ -102,7 +102,7 @@ public class ListaDeEspecificacionesMuestras implements Serializable {
         if (controladorEspecificacionMuestras.DarDeAltaEspecificacionMuestra(idEspecificacion) > 0) {
             redirigir();
         } else {
-            MensajesWeb.MostrarError("form-lista-especificacion:botonDarAltaMuestra", "No se dio Alta:", "Contacta con el administrador.");
+            MensajesWeb.MostrarError("form-lista-especificacion:mensajes-vista", "No se dio Alta:", "Contacta con el administrador.");
         }
     }
 

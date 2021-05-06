@@ -69,7 +69,7 @@ public class LoginDeUsuario implements Serializable {
                 ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
                 context.redirect(context.getRequestContextPath() + "/index.xhtml");
             } else {
-               MensajesWeb.MostrarError("form-login-usuario:boton-ingresar", "Error de autenticacion: ", "Los datos ingresados no son validos.");
+               MensajesWeb.MostrarError("form-login-usuario:mensajes-vista", "Error de autenticacion: ", "Los datos ingresados no son validos.");
             }
         }
 
@@ -78,12 +78,12 @@ public class LoginDeUsuario implements Serializable {
     private boolean comprobarDatos() {
         boolean ok = true;
         if (password == null || password.isEmpty()) {
-            MensajesWeb.MostrarError("form-login-usuario:input-password", "Faltan datos: ", "No se introdujo password.");
+            MensajesWeb.MostrarError("form-login-usuario:mensajes-vista", "Faltan datos: ", "No se introdujo password.");
             ok = false;
         }
 
         if (usuarioSeleccionado == null || usuarioSeleccionado.equals(0L)) {
-            MensajesWeb.MostrarError("form-login-usuario:select-usuario", "Faltan datos: ", "No se selecciono Usuario.");
+            MensajesWeb.MostrarError("form-login-usuario:mensajes-vistaz", "Faltan datos: ", "No se selecciono Usuario.");
             ok = false;
         }
         return ok;

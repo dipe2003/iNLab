@@ -7,17 +7,12 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="page_content">         
         <h:outputLabel value="Alta de Muestreo" />
-        <h:form id="form-alta-muestreo">            
-             <h:panelGrid id="panel-mensajes">
-                <h:message for="select-especificacion" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="select-usuario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="fecha-muestreo" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="fecha-origen" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="fecha-produccion" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="input-nombre-operario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="input-padron-operario" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-                <h:message for="botonAltaMuestreo" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
-             </h:panelGrid>
+        <h:form id="form-alta-muestreo">
+
+            <h:panelGrid id="panel-mensajes">
+                <h:messages id="mensajes-vista" showDetail="true" showSummary="true" errorClass="error" infoClass="info" warnClass="advertencia" />
+            </h:panelGrid>            
+
             <div class="p-grid">
                 <div class="p-col">
                     <div class="box">

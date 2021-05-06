@@ -21,6 +21,7 @@ import javax.inject.Named;
 import modelo.microbiologia.Ensayo;
 import modelo.microbiologia.Requisito;
 import modelo.muestreo.Destino;
+import web.helpers.MensajesWeb;
 
 /**
  *
@@ -74,6 +75,9 @@ public class AltaDeRequisitoDestino implements Serializable {
             context.redirect(context.getRequestContextPath() + "/destinos/listadestinos.xhtml");
             FacesContext.getCurrentInstance().renderResponse();
             FacesContext.getCurrentInstance().responseComplete();
+        } else {
+            MensajesWeb.MostrarError("form-alta-requisitodestino:mensajes-vista", "No se pudo guardar.",
+                    "Verifica los datos ingresados o contacta con el administrador.");
         }
     }
 
