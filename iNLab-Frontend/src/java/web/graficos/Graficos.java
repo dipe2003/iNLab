@@ -9,13 +9,12 @@ import controladores.microbiologia.ControladorMicrobiologia;
 import controladores.muestreos.ControladorMuestreos;
 import java.io.Serializable;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+
 import javax.inject.Named;
 import modelo.microbiologia.Ensayo;
-import modelo.microbiologia.Recuento;
 import modelo.microbiologia.ResultadoRecuento;
 import modelo.microbiologia.TipoLimite;
 import modelo.muestreo.Muestreo;
@@ -111,18 +110,25 @@ public class Graficos implements Serializable {
     }
 
     public Long getTotalMarginales() {
-        calcularTotalMarginales(tipoMuestraSeleccionado, idEnsayoSeleccionado);
+        
         return this.totalMarginales;
     }
 
     public Long getTotalInaceptables() {
-        calcularTotalInaceptables(tipoMuestraSeleccionado, idEnsayoSeleccionado);
+        
         return totalInaceptables;
     }
 
     public Long getTotalAceptables() {
-        calcularTotalAceptables(tipoMuestraSeleccionado, idEnsayoSeleccionado);
+        
         return totalAceptables;
+    }
+    
+    public void realizarCalculos(){
+        calcularTotalMarginales(tipoMuestraSeleccionado, idEnsayoSeleccionado);
+        calcularTotalInaceptables(tipoMuestraSeleccionado, idEnsayoSeleccionado);
+        calcularTotalAceptables(tipoMuestraSeleccionado, idEnsayoSeleccionado);
+        FacesContext.getCurrentInstance().renderResponse();
     }
 
     private void calcularTotalMarginales(TipoMuestra tipo, Long idEnsayo) {

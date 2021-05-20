@@ -360,3 +360,9 @@ InlabBE-REV/build/classes/META-INF/persistence.xml
 InlabBE-REV/build/classes/META-INF/MANIFEST.MF
 InlabBE-REV/build/classes/META-INF/jboss.xml
 InlabBE-REV/build/classes/META-INF/ejb-jar.xml
+/InlabBE/build/
+/InlabBE/dist/
+/InlabBE-REV/build/
+/InlabBE-REV/dist/
+/InlabPDF/build/
+iNLab-Frontend/build/InlabBE.jar
