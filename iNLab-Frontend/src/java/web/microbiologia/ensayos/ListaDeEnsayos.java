@@ -8,6 +8,7 @@ package web.microbiologia.ensayos;
 import controladores.microbiologia.ControladorMicrobiologia;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -89,8 +90,7 @@ public class ListaDeEnsayos implements Serializable {
     }
 
     private List resetTodo() {
-        ensayos = ensayosSinFiltro.stream()
-                .collect(Collectors.toList());
+        ensayos = new ArrayList<>(ensayosSinFiltro);
         nombreBuscar = "";
         return ensayos;
     }
@@ -149,7 +149,7 @@ public class ListaDeEnsayos implements Serializable {
     public void init() {
         controladorMicrobiologia = new ControladorMicrobiologia();
         ensayos = controladorMicrobiologia.ListarEnsayos();
-        ensayosSinFiltro = controladorMicrobiologia.ListarEnsayos();
+        ensayosSinFiltro = new ArrayList<>(ensayos);
 
         prepararPagina();
     }

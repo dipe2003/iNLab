@@ -134,32 +134,21 @@ public class ListaDeLaboratorios implements Serializable {
     }
 
     private List resetTodo() {
-        laboratorios = laboratoriosSinFiltros.stream()
-                .collect(Collectors.toList());
+        laboratorios = new ArrayList<>(laboratoriosSinFiltros);
         nombreBuscar = "";
         tipoLaboratorioSeleccionado = TipoLaboratorio.Todos;
         return laboratorios;
     }
 
     private List filtrarTipo(List<Laboratorio> list, TipoLaboratorio tipo) {
-        List<Laboratorio> labsFiltrados = new ArrayList<>();
-        list.stream().forEach(l -> {
-            switch (tipo) {
-                case Externos:
-                    if (l.isEsExterno()) {
-                        labsFiltrados.add(l);
-                    }
-                    break;
-
-                default:
-                    if (!l.isEsExterno()) {
-                        labsFiltrados.add(l);
-                    }
-                    break;
-            }
+        if(tipo == TipoLaboratorio.Externos){
+            return list.stream()
+                    .filter(l->l.isEsExterno())
+                    .toList();
         }
-        );
-        return labsFiltrados;
+        return list.stream()
+                .filter(l->!l.isEsExterno())
+                .toList();
     }
 
     //</editor-fold>
@@ -214,7 +203,7 @@ public class ListaDeLaboratorios implements Serializable {
     public void init() {
         controladorLaboratorios = new ControladorLaboratorios();
         laboratorios = controladorLaboratorios.ListarLaboratorios();
-        laboratoriosSinFiltros = controladorLaboratorios.ListarLaboratorios();
+        laboratoriosSinFiltros = new ArrayList<>(laboratorios);
 
         prepararPagina();
     }

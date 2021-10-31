@@ -136,19 +136,13 @@ public class ListaDeRevisionesMuestreo implements Serializable {
             muestreos = new ArrayList<>();
 
             if (tipoMuestra.toString().equalsIgnoreCase("Producto")) {
-                controladorRevMuestreos.ListarRevMuestreos().stream()
-                        .forEach(m -> {
-                            if (m.getClass().getSimpleName().equalsIgnoreCase("RevMuestreoProducto")) {
-                                muestreos.add(m);
-                            }
-                        });
+                muestreos = controladorRevMuestreos.ListarRevMuestreos().stream()
+                        .filter(m->m.getClass().getSimpleName().equalsIgnoreCase("RevMuestreoProducto"))
+                        .toList();
             } else {
-                controladorRevMuestreos.ListarRevMuestreos().stream()
-                        .forEach(m -> {
-                            if (!m.getClass().getSimpleName().equalsIgnoreCase("RevMuestreoProducto")) {
-                                muestreos.add(m);
-                            }
-                        });
+                muestreos = controladorRevMuestreos.ListarRevMuestreos().stream()
+                        .filter(m->!m.getClass().getSimpleName().equalsIgnoreCase("RevMuestreoProducto"))
+                        .toList();
             }
 
             prepararPagina();

@@ -9,6 +9,7 @@ import controladores.microbiologia.ControladorDestinos;
 import controladores.microbiologia.ControladorMicrobiologia;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -130,8 +131,7 @@ public class ListaDeDestinos implements Serializable {
     }
 
     private List resetTodo() {
-        destinos = destinosSinFiltro.stream()
-                .collect(Collectors.toList());
+        destinos = new ArrayList<>(destinosSinFiltro);
         nombreBuscar = "";
         return destinos;
     }
@@ -188,7 +188,7 @@ public class ListaDeDestinos implements Serializable {
     public void init() {
         controladorDestinos = new ControladorDestinos();
         destinos = controladorDestinos.ListarDestinos();
-        destinosSinFiltro = controladorDestinos.ListarDestinos();
+        destinosSinFiltro = new ArrayList<>(destinos);
         prepararPagina();
     }
 }

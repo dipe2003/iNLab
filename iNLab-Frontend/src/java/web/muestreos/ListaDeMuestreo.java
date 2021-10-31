@@ -576,32 +576,21 @@ public class ListaDeMuestreo implements Serializable {
     }
 
     private List resetTodo() {
-        muestreos = muestreosSinFiltro.stream()
-                .collect(Collectors.toList());
+        muestreos = new ArrayList<>(muestreosSinFiltro);
         nombreBuscar = "";
         repeticionSeleccionada = Repeticion.Todas;
         return muestreos;
     }
 
     private List filtrarRepeticion(List<Muestreo> list, Repeticion repeticion) {
-        List<Muestreo> muestreosFiltrados = new ArrayList<>();
-        list.stream().forEach(m -> {
-            switch (repeticion) {
-                case Si:
-                    if (m.isEsRepeticion()) {
-                        muestreosFiltrados.add(m);
-                    }
-                    break;
-
-                default:
-                    if (!m.isEsRepeticion()) {
-                        muestreosFiltrados.add(m);
-                    }
-                    break;
-            }
+        if(repeticion == Repeticion.Si){
+            return list.stream()
+                    .filter(m->m.isEsRepeticion())
+                    .toList();
         }
-        );
-        return muestreosFiltrados;
+        return list.stream()
+                .filter(m->!m.isEsRepeticion())
+                .toList();
     }
 
     private List filtrarDestinos(List<Muestreo> list, List destinos) {
